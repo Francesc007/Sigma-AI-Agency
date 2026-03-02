@@ -4,33 +4,46 @@ import { cn } from "@/lib/utils";
 
 /**
  * Logo Sigma AI Agency.
- * En modo normal: img con logo-azul.png.
- * En modo invert/light: la misma imagen se usa como máscara y se rellena de blanco,
- * así se ve la forma real del logo sin convertirse en un círculo blanco.
+ * - variant="blue": img /logo-azul.png (fondo claro).
+ * - variant="white": máscara CSS sobre logo-azul.png rellena de blanco (fondo oscuro).
+ *   Así se ve la forma correcta del logo al recargar, sin depender de logo-blanco.png ni de filter.
  */
 export function Logo({
   size = 56,
   showText = true,
   className,
-  invert,
-  light,
+  variant = "blue",
+  /** Más espacio entre ícono y texto (ej. en navbar) */
+  textSpacing = "normal",
+  /** Aplicar fuente Zantiqa solo al texto "Sigma AI Agency" */
+  useZantiqa = false,
 }: {
   size?: number;
   showText?: boolean;
   className?: string;
-  invert?: boolean;
-  light?: boolean;
+  variant?: "blue" | "white";
+  textSpacing?: "normal" | "wide";
+  useZantiqa?: boolean;
 }) {
-  const isLight = invert || light;
+  const isWhite = variant === "white";
 
   return (
-    <span className={cn("inline-flex items-center gap-2", className)}>
+    <span
+      className={cn(
+        "inline-flex items-center",
+        textSpacing === "wide" ? "gap-4" : "gap-2",
+        className
+      )}
+    >
       <span
-        className="relative flex shrink-0 items-center justify-center overflow-hidden rounded-lg"
+        className="relative flex shrink-0 items-center justify-center"
         style={{ width: size, height: size }}
       >
-        {isLight ? (
-          <span className="logo-mask-light h-full w-full" aria-hidden />
+        {isWhite ? (
+          <span
+            className="logo-mask-light h-full w-full"
+            aria-hidden
+          />
         ) : (
           <img
             src="/logo-azul.png"
@@ -47,7 +60,8 @@ export function Logo({
         <span
           className={cn(
             "text-lg font-bold sm:text-xl md:text-2xl",
-            isLight ? "text-white" : "text-[#003594]"
+            isWhite ? "text-white" : "text-[#003594]",
+            useZantiqa && "font-zantiqa"
           )}
         >
           Sigma AI Agency

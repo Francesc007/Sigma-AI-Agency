@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Instagram } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 
@@ -30,32 +29,12 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-const FOOTER_LINKS = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Soluciones", href: "#servicios" },
-];
-
 export function Footer() {
   return (
     <footer className="bg-[#003594] text-white" role="contentinfo">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <Logo size={48} showText invert />
-          <nav aria-label="Enlaces del pie">
-            <ul className="flex flex-wrap justify-center gap-6">
-              {FOOTER_LINKS.map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="text-white/90 hover:text-white hover:underline"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <Logo size={56} showText variant="white" />
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
             <a
               href="mailto:contacto@sigmaaiagency.com"
@@ -94,7 +73,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <p className="mt-8 text-center text-sm text-white/70">
+        <p className="mt-8 text-center text-xs text-white/70">
           © 2026 Sigma AI Agency. Todos los derechos reservados.
         </p>
       </div>

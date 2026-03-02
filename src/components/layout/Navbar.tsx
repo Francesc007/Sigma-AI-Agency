@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, Calendar } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,16 +48,20 @@ export function Navbar() {
       role="banner"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo: blanco cuando navbar transparente */}
         <Link
           href="/"
           className="relative z-10 flex shrink-0"
           aria-label="Sigma AI Agency - Inicio"
         >
-          <Logo size={56} showText light={!scrolled} />
+          <Logo
+            size={56}
+            showText
+            variant={scrolled ? "blue" : "white"}
+            textSpacing="wide"
+            useZantiqa
+          />
         </Link>
 
-        {/* Desktop nav: texto blanco cuando navbar transparente */}
         <nav
           className="hidden items-center gap-8 lg:flex"
           aria-label="Navegación principal"
@@ -79,22 +82,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* CTA: blanco outline cuando transparente */}
         <div className="hidden items-center gap-3 sm:flex">
-          <Button
-            variant="secondary"
-            size="sm"
-            className={cn(
-              !scrolled &&
-                "border-white text-white hover:bg-white/15 hover:text-white"
-            )}
-            asChild
-          >
-            <a href="https://wa.me/525554590883" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
-              <Phone className="size-4" aria-hidden />
-              +52 55 5459 0883
-            </a>
-          </Button>
           <Dialog>
             <DialogTrigger asChild>
               <Button
@@ -105,7 +93,6 @@ export function Navbar() {
                     "bg-white text-[#003594] hover:bg-white/90"
                 )}
               >
-                <Calendar className="size-4" aria-hidden />
                 Cotizar proyecto
               </Button>
             </DialogTrigger>
@@ -118,7 +105,6 @@ export function Navbar() {
           </Dialog>
         </div>
 
-        {/* Mobile menu button: blanco cuando transparente */}
         <button
           type="button"
           className={cn(
@@ -175,14 +161,6 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <a
-                href="https://wa.me/525554590883"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-lg font-medium text-[#003594]"
-              >
-                +52 55 5459 0883
-              </a>
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="primary" className="w-full">

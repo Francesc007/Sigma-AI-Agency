@@ -10,29 +10,32 @@ const SERVICES = [
   {
     id: "landings",
     title: "Landing Pages de Alta Conversión",
-    description: "Interfaces de aterrizaje rápidas y optimizadas para transformar visitantes en prospectos calificados. Ideal para concesionarias de gama alta, desarrollos inmobiliarios en preventa y servicios B2B.",
+    description:
+      "Interfaces de aterrizaje rápidas y optimizadas para transformar visitantes en prospectos calificados. Ideal para concesionarias de gama alta, desarrollos inmobiliarios en preventa y servicios B2B.",
     href: "#ready-to-talk",
     accent: "Conversión",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-    imageAlt: "Dashboard y métricas de conversión",
+    image: "/Naga 3.png",
+    imageAlt: "Landing page con catálogo y productos Naga",
   },
   {
     id: "plataformas",
     title: "Plataformas Web Corporativas",
-    description: "Ecosistemas digitales que centralizan la identidad de tu marca, organizan tu catálogo y proyectan solidez. Arquitectura escalable, panel de autogestión e infraestructura lista para CRMs.",
+    description:
+      "Ecosistemas digitales que centralizan la identidad de tu marca, organizan tu catálogo y proyectan solidez. Arquitectura escalable, panel de autogestión e infraestructura lista para CRMs.",
     href: "#ready-to-talk",
     accent: "Marca",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
-    imageAlt: "Equipo y presencia corporativa",
+    image: "/Frimac1.png",
+    imageAlt: "Vista de plataforma corporativa Grupo Frimac",
   },
   {
     id: "sistemas",
     title: "Desarrollo de Sistemas y Dashboards Personalizados",
-    description: "Gestión de inventarios en tiempo real, dashboards (Sanity), automatización de flujos de datos y arquitectura independiente. Tú tienes el dominio total de tu información.",
+    description:
+      "Gestión de inventarios en tiempo real, dashboards (Sanity), automatización de flujos de datos y arquitectura independiente. Tú tienes el dominio total de tu información.",
     href: "#ready-to-talk",
     accent: "Control",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-    imageAlt: "Datos y análisis",
+    image: "/Sanity1.png",
+    imageAlt: "Dashboard y sistema de datos construido con Sanity",
   },
 ];
 
@@ -106,27 +109,27 @@ export function ServicesSection() {
           {SERVICES.map((s) => (
             <motion.div key={s.id} id={s.id} className="scroll-mt-28" variants={cardItem}>
               <Link href={s.href} className="group block h-full">
-                <div className="relative h-full overflow-hidden rounded-2xl border border-[#869397]/20 bg-white shadow-xl shadow-[#003594]/5 transition-all duration-300 hover:border-[#003594]/40 hover:shadow-2xl hover:shadow-[#003594]/10">
-                  {/* Imagen de fondo en la mitad superior */}
-                  <div className="relative h-48 w-full overflow-hidden sm:h-52">
+                <div className="card-soluciones relative h-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.08)] transition-all duration-300 hover:border-[#003594]/35 hover:shadow-[0_8px_32px_rgba(0,53,148,0.12),0_0_0_1px_rgba(0,53,148,0.1)]">
+                  {/* Imagen más grande, se ve completa */}
+                  <div className="relative flex h-56 w-full items-center justify-center overflow-hidden bg-[#F0F2F5] sm:h-64">
                     <Image
                       src={s.image}
                       alt={s.imageAlt}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
+                    {/* Niebla muy sutil solo en el borde inferior */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70"
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/30 to-transparent"
                       aria-hidden
                     />
-                    <span className="service-accent absolute left-4 top-4 flex items-center gap-2 rounded-lg border border-white/30 bg-white/15 px-3.5 py-2 text-sm font-bold uppercase tracking-wider text-white shadow-lg backdrop-blur-md">
-                      <span className="size-1.5 rounded-full bg-white/90" aria-hidden />
-                      {s.accent}
-                    </span>
                   </div>
                   <div className="relative p-6">
-                    <h3 className="text-xl font-semibold text-[#003594] group-hover:text-[#003594]">
+                    <span className="inline-block border-l-4 border-[#003594] bg-[#003594]/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#003594]">
+                      {s.accent}
+                    </span>
+                    <h3 className="mt-3 text-xl font-semibold text-[#003594] group-hover:text-[#003594]">
                       {s.title}
                     </h3>
                     <p className="mt-3 leading-relaxed text-[#8695A3]">

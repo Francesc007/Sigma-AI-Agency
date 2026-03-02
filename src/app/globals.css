@@ -114,7 +114,13 @@ button:focus-visible,
   animation: hero-float 6s ease-in-out infinite;
 }
 
-/* Logo en modo claro/invert: forma en blanco usando la imagen como máscara */
+@keyframes hero-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4px, -6px) scale(1.02); }
+  66% { transform: translate(-3px, 4px) scale(0.98); }
+}
+
+/* Logo versión blanca: forma con máscara (estable al recargar) */
 .logo-mask-light {
   background-color: white;
   mask-image: url(/logo-azul.png);
@@ -127,10 +133,15 @@ button:focus-visible,
   -webkit-mask-position: center;
 }
 
-@keyframes hero-float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(4px, -6px) scale(1.02); }
-  66% { transform: translate(-3px, 4px) scale(0.98); }
+/* Fuente Zantiqa para el texto del logo en navbar.
+   Añade public/fonts/Zantiqa.woff2 (o .woff/.ttf) para que se cargue. */
+@font-face {
+  font-family: "Zantiqa";
+  src: url("/fonts/Zantiqa.woff2") format("woff2");
+  font-display: swap;
+}
+.font-zantiqa {
+  font-family: "Zantiqa", var(--font-montserrat), sans-serif;
 }
 
 /* Soluciones: badges Conversión, Marca, Control sobre la imagen */
