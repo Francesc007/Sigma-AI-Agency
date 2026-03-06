@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 const HERO_CAROUSEL_IMAGES = [
   // 1) Sigma AI (más cerca ~15%)
-  { src: "/Sigma Ai.png", alt: "", scale: "scale-100" },
+  { src: "/sigma-ai.png", alt: "", scale: "scale-100" },
   // 2) Vibe Coding
   { src: "/Vibe Coding.jpg", alt: "", scale: "" },
   // 3) Tech
@@ -88,7 +88,9 @@ export function Hero() {
                     alt={img.alt || "Sigma AI Agency"}
                     fill
                     className="object-contain object-center opacity-100"
-                    priority={idx < 2}
+                    priority={idx === 0}
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    quality={90}
                     sizes="(max-width: 768px) 100vw, 55vw"
                   />
                 </div>
