@@ -40,7 +40,7 @@ export function Footer() {
               variant="white"
               textSpacing="wide"
               useZantiqa
-              textClassName="text-[#869397]"
+              textClassName="text-[#b8c2c6]"
             />
           </div>
 
@@ -58,7 +58,7 @@ export function Footer() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg p-2 text-white/90 transition hover:bg-white/10 hover:text-white"
+                className="rounded-lg p-2 text-[#b8c2c6] transition hover:bg-white/10 hover:text-white"
                 aria-label="LinkedIn"
               >
                 <LinkedInIcon className="size-5" />
@@ -67,7 +67,7 @@ export function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg p-2 text-white/90 transition hover:bg-white/10 hover:text-white"
+                className="rounded-lg p-2 text-[#b8c2c6] transition hover:bg-white/10 hover:text-white"
                 aria-label="Instagram"
               >
                 <Instagram className="size-5" />
@@ -76,7 +76,7 @@ export function Footer() {
                 href="https://x.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg p-2 text-white/90 transition hover:bg-white/10 hover:text-white"
+                className="rounded-lg p-2 text-[#b8c2c6] transition hover:bg-white/10 hover:text-white"
                 aria-label="X"
               >
                 <XIcon className="size-5" />

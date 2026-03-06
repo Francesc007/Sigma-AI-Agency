@@ -99,7 +99,7 @@ export function Hero() {
         </div>
       </div>
       <div
-        className="absolute inset-0 bg-gradient-to-b from-[#003594]/55 via-[#041E42]/45 to-[#003594]/65"
+        className="absolute inset-0 bg-gradient-to-b from-[#003594]/35 via-[#041E42]/25 to-[#003594]/40"
         aria-hidden
       />
 

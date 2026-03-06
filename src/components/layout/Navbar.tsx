@@ -59,7 +59,7 @@ export function Navbar() {
             variant={scrolled ? "blue" : "white"}
             textSpacing="wide"
             useZantiqa
-            textClassName={!scrolled ? "text-[#869397]" : undefined}
+            textClassName={!scrolled ? "text-[#b8c2c6]" : undefined}
           />
         </Link>
 
@@ -75,7 +75,7 @@ export function Navbar() {
                 "relative text-[0.95rem] font-medium sm:text-base after:absolute after:bottom-[-2px] after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
                 scrolled
                   ? "text-[#003594] after:bg-[#869397]"
-                  : "text-[#869397] after:bg-[#869397]"
+                  : "text-[#b8c2c6] after:bg-[#b8c2c6]"
               )}
             >
               {link.label}
@@ -90,7 +90,7 @@ export function Navbar() {
             className={cn(
               scrolled
                 ? "" // usa el azul por defecto del variant primary
-                : "bg-[#869397] text-white hover:bg-[#6b787a]"
+                : "bg-[#b8c2c6] text-[#003594] hover:bg-[#9ca8ac] hover:text-[#003594]"
             )}
             asChild
           >

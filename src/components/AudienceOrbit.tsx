@@ -48,7 +48,9 @@ export const audienceData = [
   },
 ] as const;
 
-const TRANSITION = { duration: 0.45, ease: "easeInOut" as const };
+const ROTATION_TRANSITION = { duration: 0.5, ease: [0.4, 0, 0.2, 1] as const };
+const ACTIVE_TRANSITION = { duration: 0.4, ease: "easeOut" as const };
+const CARD_TRANSITION = { duration: 0.3, ease: "easeOut" as const };
 
 /** Orbit layout: radius, center. 4 positions: top(0), right(1), bottom(2), left(3) */
 const ORBIT = {
@@ -67,17 +69,18 @@ function getOrbitPosition(slotIndex: number) {
   };
 }
 
-/** Each icon: center if selected, else its fixed orbit slot (0=top, 1=right, 2=bottom, 3=left). */
+/**
+ * When user clicks icon at activeIndex, it rotates to RIGHT (slot 1).
+ * Others shift clockwise: Top→Right, Right→Bottom, Bottom→Left, Left→Top.
+ * positionSlot[iconIndex] = where icon j appears on the circle.
+ */
 function useOrbitLayout(activeIndex: number) {
   return useMemo(() => {
-    const positions: { x: number; y: number; isCenter: boolean }[] = [];
-    for (let i = 0; i < 4; i++) {
-      if (i === activeIndex) {
-        positions.push({ x: ORBIT.center, y: ORBIT.center, isCenter: true });
-      } else {
-        const pos = getOrbitPosition(i);
-        positions.push({ ...pos, isCenter: false });
-      }
+    const positions: { x: number; y: number; slotIndex: number }[] = [];
+    for (let j = 0; j < 4; j++) {
+      const slotIndex = (j - activeIndex + 1 + 4) % 4;
+      const pos = getOrbitPosition(slotIndex);
+      positions.push({ ...pos, slotIndex });
     }
     return positions;
   }, [activeIndex]);
@@ -103,26 +106,27 @@ export function AudienceOrbit() {
         >
           {audienceData.map((item, i) => {
             const Icon = ICON_MAP[item.icon];
-            const isActive = activeId === item.id;
             const pos = positions[i];
+            const isActive = pos.slotIndex === 1;
 
             return (
               <motion.div
                 key={item.id}
-                className="absolute left-0 top-0 z-10"
+                className="absolute left-0 top-0 z-10 cursor-pointer"
                 initial={false}
                 animate={{
                   x: pos.x - ORBIT.iconSize / 2 - ORBIT.center,
                   y: pos.y - ORBIT.iconSize / 2 - ORBIT.center,
-                  scale: isActive ? 1.3 : 0.8,
+                  scale: isActive ? 1.1 : 1,
                   opacity: isActive ? 1 : 0.6,
                   zIndex: isActive ? 20 : 10,
                 }}
+                whileHover={{ scale: 1.08, transition: { duration: 0.25, ease: "easeInOut" } }}
                 transition={{
-                  x: TRANSITION,
-                  y: TRANSITION,
-                  scale: TRANSITION,
-                  opacity: TRANSITION,
+                  x: ROTATION_TRANSITION,
+                  y: ROTATION_TRANSITION,
+                  scale: ACTIVE_TRANSITION,
+                  opacity: ACTIVE_TRANSITION,
                 }}
                 style={{
                   left: ORBIT.center,
@@ -131,13 +135,21 @@ export function AudienceOrbit() {
               >
                 <motion.div
                   className="relative flex items-center justify-center"
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.2,
-                  }}
+                  animate={
+                    isActive
+                      ? { y: 0 }
+                      : { y: [-4, 4, -4] }
+                  }
+                  transition={
+                    isActive
+                      ? { duration: 0 }
+                      : {
+                          duration: 4.5,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: i * 0.2,
+                        }
+                  }
                 >
                   {isActive && (
                     <motion.div
@@ -158,11 +170,14 @@ export function AudienceOrbit() {
                   <motion.button
                     type="button"
                     onClick={() => setActiveId(item.id)}
-                    className="relative flex size-[52px] items-center justify-center rounded-2xl border-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1d4ed8] focus-visible:ring-offset-2"
-                    whileHover={{ scale: (isActive ? 1.3 : 0.8) * 1.05 }}
+                    className="relative flex size-[52px] items-center justify-center rounded-2xl border-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1d4ed8] focus-visible:ring-offset-2 transition-[box-shadow] duration-[250ms] ease-out cursor-pointer"
+                    whileHover={{
+                      backgroundColor: isActive ? "#1d4ed8" : "rgba(255,255,255,1)",
+                      transition: { duration: 0.25, ease: "easeInOut" },
+                    }}
                     style={{
                       boxShadow: isActive
-                        ? "0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1), 0 0 0 2px white"
+                        ? "0 0 0 2px white, 0 0 24px rgba(29,78,216,0.35), 0 10px 30px rgba(0,0,0,0.15), 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)"
                         : "0 1px 3px rgba(0,0,0,0.08)",
                       backgroundColor: isActive ? "#1d4ed8" : "rgba(255,255,255,0.95)",
                       borderColor: isActive ? "#1d4ed8" : "rgba(134,147,151,0.2)",
@@ -189,14 +204,14 @@ export function AudienceOrbit() {
                 key={item.id}
                 type="button"
                 onClick={() => setActiveId(item.id)}
-                className="flex shrink-0 items-center justify-center rounded-2xl border-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1d4ed8] focus-visible:ring-offset-2"
+                className="flex shrink-0 cursor-pointer items-center justify-center rounded-2xl border-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1d4ed8] focus-visible:ring-offset-2"
                 initial={false}
                 animate={{
                   scale: isActive ? 1.3 : 0.8,
                   opacity: isActive ? 1 : 0.6,
                 }}
-                transition={TRANSITION}
-                whileHover={{ scale: (isActive ? 1.3 : 0.8) * 1.05 }}
+                transition={ACTIVE_TRANSITION}
+                whileHover={{ scale: 1.08, transition: { duration: 0.25, ease: "easeInOut" } }}
                 style={{
                   width: ORBIT.iconSize,
                   height: ORBIT.iconSize,
@@ -222,10 +237,10 @@ export function AudienceOrbit() {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeId}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={TRANSITION}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={CARD_TRANSITION}
             className="w-full rounded-2xl bg-white/90 p-5 shadow-lg backdrop-blur-sm"
           >
             <h3 className="text-lg font-bold tracking-tight text-[#003594] md:text-xl">
@@ -234,7 +249,7 @@ export function AudienceOrbit() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ ...TRANSITION, delay: 0.06 }}
+              transition={{ ...CARD_TRANSITION, delay: 0.06 }}
               className="mt-3 text-sm leading-relaxed text-[#8695A3] md:text-base"
             >
               {activeItem.description}

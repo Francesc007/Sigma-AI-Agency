@@ -29,7 +29,7 @@
 }
 
 .gradient-hero-overlay {
-  background: linear-gradient(135deg, rgba(0, 53, 148, 0.5) 0%, rgba(4, 30, 66, 0.4) 50%, rgba(134, 147, 151, 0.25) 100%);
+  background: linear-gradient(135deg, rgba(0, 53, 148, 0.28) 0%, rgba(4, 30, 66, 0.2) 50%, rgba(134, 147, 151, 0.12) 100%);
 }
 
 input:focus-visible,
