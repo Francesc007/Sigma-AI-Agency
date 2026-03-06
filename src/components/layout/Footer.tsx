@@ -30,14 +30,13 @@ function XIcon({ className }: { className?: string }) {
 
 export function Footer() {
   return (
-    <footer className="bg-[#003594] text-white" role="contentinfo">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <footer className="relative bg-[#003594] text-white" role="contentinfo">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-3 md:items-center">
-          <div className="flex flex-col gap-4">
+          <div className="relative z-10 flex flex-col gap-4">
             <Logo
               size={56}
               showText
-              variant="white"
               textSpacing="wide"
               useZantiqa
               textClassName="text-[#b8c2c6]"

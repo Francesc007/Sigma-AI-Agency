@@ -56,7 +56,6 @@ export function Navbar() {
           <Logo
             size={56}
             showText
-            variant={scrolled ? "blue" : "white"}
             textSpacing="wide"
             useZantiqa
             textClassName={!scrolled ? "text-[#b8c2c6]" : undefined}
@@ -86,8 +85,9 @@ export function Navbar() {
         <div className="hidden items-center gap-3 sm:flex">
           <Button
             variant="primary"
-            size="sm"
+            size="default"
             className={cn(
+              "text-base",
               scrolled
                 ? "" // usa el azul por defecto del variant primary
                 : "bg-[#b8c2c6] text-[#003594] hover:bg-[#9ca8ac] hover:text-[#003594]"

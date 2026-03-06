@@ -95,7 +95,6 @@ export function Hero() {
               </div>
             ))}
           </motion.div>
-          <div className="hero-image-shine absolute inset-0 pointer-events-none" aria-hidden />
         </div>
       </div>
       <div
@@ -105,6 +104,9 @@ export function Hero() {
 
       {/* Capa de brillo animado (profundidad) */}
       <div className="hero-glow absolute inset-0" aria-hidden />
+
+      {/* Resplandor que recorre todo el hero (incluyendo texto izquierdo) */}
+      <div className="hero-image-shine pointer-events-none absolute inset-0 z-[5]" aria-hidden />
 
       {/* Formas flotantes sutiles */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
@@ -125,7 +127,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-20 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl text-left">
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
@@ -134,7 +136,7 @@ export function Hero() {
             className="text-4xl font-bold tracking-tight drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl"
           >
             Sistemas Web y Automatización
-            <span className="mt-2 block text-[#869397]">para Sectores de Alto Valor</span>
+            <span className="mt-2 block text-[#b8c2c6]">para Sectores de Alto Valor</span>
           </motion.h1>
 
           <motion.p
@@ -155,7 +157,7 @@ export function Hero() {
           <Button
             variant="primary"
             size="lg"
-            className="bg-[#869397] text-white shadow-lg hover:bg-[#6b787a] hover:shadow-xl transition-all"
+            className="bg-[#b8c2c6] text-[#003594] shadow-lg hover:bg-[#9ca8ac] hover:text-[#003594] hover:shadow-xl transition-all"
             asChild
           >
             <a href="#proyectos">Ver Proyectos</a>
