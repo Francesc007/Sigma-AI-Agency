@@ -85,11 +85,11 @@ export function Hero() {
                 <div className={`relative h-full w-full ${img.scale}`}>
                   <Image
                     src={img.src}
-                    alt={img.alt}
+                    alt={img.alt || "Sigma AI Agency"}
                     fill
                     className="object-contain object-center opacity-100"
-                    priority={idx === 0}
-                    sizes="55vw"
+                    priority={idx < 2}
+                    sizes="(max-width: 768px) 100vw, 55vw"
                   />
                 </div>
               </div>

@@ -120,6 +120,7 @@ export function ServicesSection() {
                           fill
                           className="object-contain object-center"
                           sizes="(max-width: 768px) 100vw, 33vw"
+                          priority={s.image.includes("Naga")}
                         />
                       </div>
                     </div>

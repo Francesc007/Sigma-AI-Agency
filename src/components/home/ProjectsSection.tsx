@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 
 type Project = {
@@ -82,10 +83,12 @@ function ProjectImage({ image, imageFallback, alt, gallery, carouselTick }: Proj
 
   const [pos, setPos] = useState(0);
   const [skipTransition, setSkipTransition] = useState(false);
+  const [failedSrcs, setFailedSrcs] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     setPos(0);
     setSkipTransition(false);
+    setFailedSrcs(new Set());
   }, [image, imageFallback, alt, gallery?.join("|")]);
 
   useEffect(() => {
@@ -126,42 +129,38 @@ function ProjectImage({ image, imageFallback, alt, gallery, carouselTick }: Proj
             ease: [0.25, 0.1, 0.25, 1],
           }}
         >
-          {slides.map((src, i) => (
-            <div
-              key={`${src}-${i}`}
-              className="flex shrink-0 items-center justify-center"
-              style={{ width: `${100 / slideCount}%` }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt={alt}
-                className="h-full w-full object-contain"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  if (!target.dataset.fallback) {
-                    target.dataset.fallback = "1";
-                    target.src = imageFallback;
-                  }
-                }}
-              />
-            </div>
-          ))}
+          {slides.map((src, i) => {
+            const displaySrc = failedSrcs.has(src) ? imageFallback : src;
+            const isNaga1 = src.includes("naga1");
+            return (
+              <div
+                key={`${src}-${i}`}
+                className="relative flex shrink-0 items-center justify-center"
+                style={{ width: `${100 / slideCount}%` }}
+              >
+                <Image
+                  src={displaySrc}
+                  alt={alt}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority={isNaga1 && i === 0}
+                  onError={() => setFailedSrcs((prev) => new Set(prev).add(src))}
+                />
+              </div>
+            );
+          })}
         </motion.div>
       ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={image}
+        <div className="relative flex h-full w-full items-center justify-center">
+          <Image
+            src={failedSrcs.has(image) ? imageFallback : image}
             alt={alt}
-            className="h-full w-full object-contain"
-            onError={(e) => {
-              const target = e.currentTarget;
-              if (!target.dataset.fallback) {
-                target.dataset.fallback = "1";
-                target.src = imageFallback;
-              }
-            }}
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={image.includes("naga1")}
+            onError={() => setFailedSrcs((prev) => new Set(prev).add(image))}
           />
         </div>
       )}
