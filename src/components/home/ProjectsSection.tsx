@@ -46,9 +46,9 @@ const PROJECTS: Project[] = [
   {
     title: "Grupo Nagasapi: Plataforma de Merchandising y Promocionales Corporativos",
     description: "Sitio optimizado para la exhibición de catálogos promocionales industriales. Estructura diseñada para facilitar la solicitud de cotizaciones por volumen.",
-    image: "/naga1.png",
+    image: "/Naga1.png",
     imageFallback: "/Mock nagasapi.png",
-    gallery: ["/naga1.png", "/Naga2.png", "/Naga3.png", "/Naga4.png"],
+    gallery: ["/Naga1.png", "/Naga2.png", "/Naga3.png", "/Naga4.png"],
   },
 ];
 
@@ -114,7 +114,13 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 quality={85}
                 loading="lazy"
-                onError={() => setFailedSrcs((prev) => new Set(prev).add(src))}
+                onError={() =>
+                  setFailedSrcs((prev) => {
+                    const next = new Set(prev);
+                    next.add(src);
+                    return next;
+                  })
+                }
               />
             </motion.div>
           );
