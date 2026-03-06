@@ -48,7 +48,7 @@ export function SubscribeSection() {
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1 }}
-          className="mt-2 text-white/90"
+          className="mt-2 text-sm text-white/90 sm:text-base"
         >
           Recibe insights de IA y automatización para tu negocio.
         </motion.p>
@@ -67,7 +67,7 @@ export function SubscribeSection() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
             onSubmit={handleSubmit}
-            className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center"
+            className="mt-6 flex w-full flex-col gap-3 sm:flex-row sm:justify-center"
           >
             <Input
               type="email"
@@ -75,7 +75,7 @@ export function SubscribeSection() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="min-w-[240px] border-[#869397] bg-white text-[#003594]"
+              className="w-full border-[#869397] bg-white text-[#003594] sm:min-w-[240px] sm:w-auto"
               aria-label="Email para suscripción"
             />
             <Button

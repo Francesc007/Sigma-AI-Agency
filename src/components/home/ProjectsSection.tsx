@@ -19,16 +19,16 @@ const PROJECTS: Project[] = [
   {
     title: "Mercedes Benz – Concesionaria: Sistema de Gestión de unidades y Leads",
     description: "Landing de alto impacto integrada a un dashboard dinámico. Actualización de stock en tiempo real y gestión de reseñas de clientes para prueba social y conversión de ventas.",
-    image: "/Meche.png",
+    image: "/Meche3.png",
     imageFallback: "/Mercedes Benz.png",
-    gallery: ["/Meche.png", "/Meche1.png", "/Meche2.png", "/Meche3.png"],
+    gallery: ["/Meche3.png", "/Meche2.png", "/Meche1.png", "/Meche.png"],
   },
   {
     title: "Módulo de Gestión Inmobiliaria (Concept Demo)",
     description: "Prototipo funcional de catálogo dinámico para desarrollos residenciales y comerciales.",
-    image: "/RE1.png",
+    image: "/Real Estate.png",
     imageFallback: "/R E 1.png",
-    gallery: ["/RE1.png", "/R E.png", "/R E 1.png", "/Real Estate.png"],
+    gallery: ["/Real Estate.png", "/R E 1.png", "/R E.png", "/RE1.png"],
   },
   {
     title: "Grupo Frimac: Infraestructura Digital Corporativa",
@@ -38,7 +38,6 @@ const PROJECTS: Project[] = [
     gallery: [
       "/Frimac 11.png",
       "/Frimac1.png",
-      "/Frimac2.png",
       "/Frimac3.png",
       "/Frimac4.png",
     ],
@@ -71,8 +70,6 @@ type ProjectImageProps = {
   alt: string;
 };
 
-const IMAGE_BOX_HEIGHT = 280;
-
 function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [failedSrcs, setFailedSrcs] = useState<Set<string>>(new Set());
@@ -90,8 +87,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
 
   return (
     <div
-      className="relative w-full overflow-hidden bg-[#F5F5F5]"
-      style={{ height: IMAGE_BOX_HEIGHT }}
+      className="relative w-full overflow-hidden bg-[#F5F5F5] h-[200px] sm:h-[240px] md:h-[280px]"
     >
       <div className="relative h-full w-full overflow-hidden">
         {images.map((src, idx) => {
@@ -138,7 +134,7 @@ export function ProjectsSection() {
     <section
       ref={ref}
       id="proyectos"
-      className="scroll-mt-20 bg-[#F5F5F5] py-20 md:py-28"
+      className="scroll-mt-20 bg-[#F5F5F5] py-16 sm:py-20 md:py-28"
       aria-labelledby="projects-heading"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -146,7 +142,7 @@ export function ProjectsSection() {
           id="projects-heading"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center text-3xl font-bold text-[#003594] md:text-4xl"
+          className="text-center text-2xl font-bold text-[#003594] sm:text-3xl md:text-4xl"
         >
           Proyectos reales, resultados concretos
         </motion.h2>
@@ -154,7 +150,7 @@ export function ProjectsSection() {
           variants={container}
           initial="hidden"
           animate={inView ? "show" : "hidden"}
-          className="mt-12 grid gap-10 md:grid-cols-2"
+          className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 md:mt-12 md:grid-cols-2 md:gap-10"
         >
           {PROJECTS.map((p) => (
             <motion.article
@@ -167,9 +163,9 @@ export function ProjectsSection() {
                 imageFallback={p.imageFallback}
                 alt={p.title}
               />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#003594]">{p.title}</h3>
-                <p className="mt-2 text-[#8695A3]">{p.description}</p>
+              <div className="p-4 sm:p-6">
+                <h3 className="text-base font-semibold text-[#003594] sm:text-lg md:text-xl">{p.title}</h3>
+                <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{p.description}</p>
                 <a
                   href="#ready-to-talk"
                   className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
