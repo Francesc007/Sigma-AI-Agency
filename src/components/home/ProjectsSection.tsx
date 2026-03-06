@@ -100,6 +100,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
             <motion.div
               key={`${src}-${idx}`}
               className="absolute inset-0 flex items-center justify-center"
+              style={{ zIndex: idx === activeIndex ? 1 : 0 }}
               initial={false}
               animate={{ opacity: idx === activeIndex ? 1 : 0 }}
               transition={{ duration: FADE_DURATION, ease: "easeInOut" }}
