@@ -16,40 +16,17 @@ const HERO_CAROUSEL_IMAGES = [
   { src: "/Logo Azul.png", alt: "", scale: "scale-[0.50]" },
 ];
 const HERO_CAROUSEL_INTERVAL_MS = 4000;
-const HERO_TRANSITION_DURATION_MS = 500;
-
-/** Carrusel infinito: [1, 2, 3, clon de 1]. Al llegar al clon se resetea a 0 sin animación. */
-const SLIDES = [...HERO_CAROUSEL_IMAGES, HERO_CAROUSEL_IMAGES[0]];
-const SLIDE_COUNT = SLIDES.length;
+const HERO_FADE_DURATION = 0.8;
 
 export function Hero() {
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [skipTransition, setSkipTransition] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setCarouselIndex((i) => i + 1);
+      setActiveIndex((i) => (i + 1) % HERO_CAROUSEL_IMAGES.length);
     }, HERO_CAROUSEL_INTERVAL_MS);
     return () => clearInterval(id);
   }, []);
-
-  useEffect(() => {
-    // Al llegar al slide duplicado, esperamos a que termine la transición,
-    // y reseteamos a 0 sin animación para que el loop sea continuo.
-    if (carouselIndex === SLIDE_COUNT - 1) {
-      const t = setTimeout(() => {
-        setSkipTransition(true);
-        setCarouselIndex(0);
-      }, HERO_TRANSITION_DURATION_MS);
-      return () => clearTimeout(t);
-    }
-  }, [carouselIndex]);
-
-  useEffect(() => {
-    if (!skipTransition) return;
-    const t = setTimeout(() => setSkipTransition(false), 50);
-    return () => clearTimeout(t);
-  }, [skipTransition]);
 
   return (
     <section
@@ -61,42 +38,33 @@ export function Hero() {
       <div className="absolute inset-0 gradient-hero" aria-hidden />
       <div className="absolute inset-0 gradient-hero-overlay" aria-hidden />
 
-      {/* Carrusel: 1.ª Sigma AI (zoom), 2.ª Vibe Coding, 3.ª Logo Azul (alejada); transición seguida sin volver atrás */}
+      {/* Carrusel cross-fade: imágenes apiladas, solo opacity animada */}
       <div
         className="absolute right-0 top-0 flex h-full min-w-[50%] max-w-[65%] items-center justify-center overflow-hidden md:max-w-[55%]"
         aria-hidden
       >
         <div className="relative h-full w-full overflow-hidden">
-          <motion.div
-            className="flex h-full w-full"
-            style={{ width: `${SLIDE_COUNT * 100}%` }}
-            animate={{ x: `-${carouselIndex * (100 / SLIDE_COUNT)}%` }}
-            transition={{
-              duration: skipTransition ? 0 : HERO_TRANSITION_DURATION_MS / 1000,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-          >
-            {SLIDES.map((img, idx) => (
-              <div
-                key={`${img.src}-${idx}`}
-                className="flex shrink-0 items-center justify-center"
-                style={{ width: `${100 / SLIDE_COUNT}%` }}
-              >
-                <div className={`relative h-full w-full ${img.scale}`}>
-                  <Image
-                    src={img.src}
-                    alt={img.alt || "Sigma AI Agency"}
-                    fill
-                    className="object-contain object-center opacity-100"
-                    priority={idx === 0}
-                    loading={idx === 0 ? "eager" : "lazy"}
-                    quality={90}
-                    sizes="(max-width: 768px) 100vw, 55vw"
-                  />
-                </div>
-              </div>
-            ))}
-          </motion.div>
+          {HERO_CAROUSEL_IMAGES.map((img, idx) => (
+            <motion.div
+              key={`${img.src}-${idx}`}
+              className={`absolute inset-0 flex items-center justify-center ${img.scale}`}
+              initial={false}
+              animate={{ opacity: idx === activeIndex ? 1 : 0 }}
+              transition={{ duration: HERO_FADE_DURATION, ease: "easeInOut" }}
+              aria-hidden={idx !== activeIndex}
+            >
+              <Image
+                src={img.src}
+                alt={img.alt || "sigma-ai.png"}
+                fill
+                className="object-contain object-center"
+                priority={idx === 0}
+                loading={idx === 0 ? "eager" : "lazy"}
+                quality={90}
+                sizes="(max-width: 768px) 100vw, 55vw"
+              />
+            </motion.div>
+          ))}
         </div>
       </div>
       <div

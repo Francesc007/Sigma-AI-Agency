@@ -4,6 +4,9 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 
+const FADE_DURATION = 0.8;
+const CAROUSEL_INTERVAL_MS = 4000;
+
 type Project = {
   title: string;
   description: string;
@@ -62,108 +65,60 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-const CAROUSEL_INTERVAL_MS = 4500;
-const CAROUSEL_TRANSITION_MS = 400;
-const CAROUSEL_RESET_GAP_MS = 50;
-
 type ProjectImageProps = {
-  image: string;
+  gallery: string[];
   imageFallback: string;
   alt: string;
-  gallery?: string[];
-  carouselTick: number;
 };
 
 const IMAGE_BOX_HEIGHT = 280;
 
-function ProjectImage({ image, imageFallback, alt, gallery, carouselTick }: ProjectImageProps) {
-  const hasGallery = !!gallery && gallery.length > 1;
-  const slides = hasGallery ? [...gallery!, gallery![0]] : [image];
-  const slideCount = slides.length;
-
-  const [pos, setPos] = useState(0);
-  const [skipTransition, setSkipTransition] = useState(false);
+function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
   const [failedSrcs, setFailedSrcs] = useState<Set<string>>(new Set());
+  const images = gallery.length > 0 ? gallery : [];
 
   useEffect(() => {
-    setPos(0);
-    setSkipTransition(false);
-    setFailedSrcs(new Set());
-  }, [image, imageFallback, alt, gallery?.join("|")]);
+    if (images.length <= 1) return;
+    const id = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % images.length);
+    }, CAROUSEL_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, [images.length]);
 
-  useEffect(() => {
-    if (!hasGallery) return;
-    setPos((p) => p + 1);
-  }, [carouselTick, hasGallery]);
-
-  useEffect(() => {
-    if (!hasGallery) return;
-    // Al llegar al slide duplicado, dejamos que termine la transición y reseteamos sin animación.
-    if (pos === slideCount - 1) {
-      const t = setTimeout(() => {
-        setSkipTransition(true);
-        setPos(0);
-      }, CAROUSEL_TRANSITION_MS);
-      return () => clearTimeout(t);
-    }
-  }, [pos, hasGallery, slideCount]);
-
-  useEffect(() => {
-    if (!skipTransition) return;
-    const t = setTimeout(() => setSkipTransition(false), CAROUSEL_RESET_GAP_MS);
-    return () => clearTimeout(t);
-  }, [skipTransition]);
+  if (images.length === 0) return null;
 
   return (
     <div
       className="relative w-full overflow-hidden bg-[#F5F5F5]"
       style={{ height: IMAGE_BOX_HEIGHT }}
     >
-      {hasGallery ? (
-        <motion.div
-          className="flex h-full"
-          style={{ width: `${slideCount * 100}%` }}
-          animate={{ x: `-${pos * (100 / slideCount)}%` }}
-          transition={{
-            duration: skipTransition ? 0 : CAROUSEL_TRANSITION_MS / 1000,
-            ease: [0.25, 0.1, 0.25, 1],
-          }}
-        >
-          {slides.map((src, i) => {
-            const displaySrc = failedSrcs.has(src) ? imageFallback : src;
-            const isNaga1 = src.includes("naga1");
-            return (
-              <div
-                key={`${src}-${i}`}
-                className="relative flex shrink-0 items-center justify-center"
-                style={{ width: `${100 / slideCount}%` }}
-              >
-                <Image
-                  src={displaySrc}
-                  alt={alt}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority={isNaga1 && i === 0}
-                  onError={() => setFailedSrcs((prev) => new Set(prev).add(src))}
-                />
-              </div>
-            );
-          })}
-        </motion.div>
-      ) : (
-        <div className="relative flex h-full w-full items-center justify-center">
-          <Image
-            src={failedSrcs.has(image) ? imageFallback : image}
-            alt={alt}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority={image.includes("naga1")}
-            onError={() => setFailedSrcs((prev) => new Set(prev).add(image))}
-          />
-        </div>
-      )}
+      <div className="relative h-full w-full overflow-hidden">
+        {images.map((src, idx) => {
+          const displaySrc = failedSrcs.has(src) ? imageFallback : src;
+          return (
+            <motion.div
+              key={`${src}-${idx}`}
+              className="absolute inset-0 flex items-center justify-center"
+              initial={false}
+              animate={{ opacity: idx === activeIndex ? 1 : 0 }}
+              transition={{ duration: FADE_DURATION, ease: "easeInOut" }}
+              aria-hidden={idx !== activeIndex}
+            >
+              <Image
+                src={displaySrc}
+                alt={`${alt} - imagen ${idx + 1}`}
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={85}
+                loading="lazy"
+                onError={() => setFailedSrcs((prev) => new Set(prev).add(src))}
+              />
+            </motion.div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -171,15 +126,6 @@ function ProjectImage({ image, imageFallback, alt, gallery, carouselTick }: Proj
 export function ProjectsSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [carouselTick, setCarouselTick] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(
-      () => setCarouselTick((t) => t + 1),
-      CAROUSEL_INTERVAL_MS
-    );
-    return () => clearInterval(id);
-  }, []);
 
   return (
     <section
@@ -210,11 +156,9 @@ export function ProjectsSection() {
               className="card-proyectos overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_10px_32px_rgba(0,53,148,0.16),0_0_0_1px_rgba(0,53,148,0.14)]"
             >
               <ProjectImage
-                image={p.image}
+                gallery={p.gallery ?? [p.image]}
                 imageFallback={p.imageFallback}
                 alt={p.title}
-                gallery={p.gallery}
-                carouselTick={carouselTick}
               />
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-[#003594]">{p.title}</h3>
