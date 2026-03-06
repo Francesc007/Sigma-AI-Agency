@@ -1,6 +1,5 @@
-"use client";
-
-import { Instagram } from "lucide-react";
+import Link from "next/link";
+import { Instagram, Lock } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 
 function LinkedInIcon({ className }: { className?: string }) {
@@ -33,16 +32,28 @@ export function Footer() {
   return (
     <footer className="bg-[#003594] text-white" role="contentinfo">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <Logo size={56} showText variant="white" />
-          <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
+        <div className="grid gap-10 md:grid-cols-3 md:items-center">
+          <div className="flex flex-col gap-4">
+            <Logo
+              size={56}
+              showText
+              variant="white"
+              textSpacing="wide"
+              useZantiqa
+              textClassName="text-[#869397]"
+            />
+          </div>
+
+          <div className="flex md:justify-center">
             <a
               href="mailto:contacto@sigmaaiagency.com"
-              className="text-white/90 hover:text-white hover:underline"
+              className="text-sm text-white/90 hover:text-white hover:underline"
             >
               contacto@sigmaaiagency.com
             </a>
-            <div className="flex gap-3">
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 md:justify-end">
               <a
                 href="https://linkedin.com"
                 target="_blank"
@@ -70,12 +81,31 @@ export function Footer() {
               >
                 <XIcon className="size-5" />
               </a>
-            </div>
           </div>
         </div>
-        <p className="mt-8 text-center text-xs text-white/70">
-          © 2026 Sigma AI Agency. Todos los derechos reservados.
-        </p>
+
+        <div className="mt-10 grid gap-4 border-t border-white/15 pt-6 md:grid-cols-3 md:items-center">
+          <div className="flex md:justify-start">
+            <div className="flex w-fit items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm">
+              <Lock className="size-5 text-white/90" aria-hidden />
+              <div className="leading-tight">
+                <div className="text-xs font-bold tracking-widest">SECURE</div>
+                <div className="text-xs text-white/80">SSL ENCRYPTION</div>
+              </div>
+            </div>
+          </div>
+          <p className="text-center text-xs text-white/70">
+            © 2026 Sigma AI Agency. Todos los derechos reservados.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm md:justify-end">
+            <Link href="/terminos" className="text-white/85 hover:text-white hover:underline">
+              Términos y Condiciones
+            </Link>
+            <Link href="/privacidad" className="text-white/85 hover:text-white hover:underline">
+              Aviso de Privacidad
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

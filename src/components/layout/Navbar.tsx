@@ -2,34 +2,34 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { DemoForm } from "@/components/forms/DemoForm";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { href: "#inicio", label: "Inicio" },
-  { href: "#proyectos", label: "Proyectos" },
   { href: "#servicios", label: "Soluciones" },
+  { href: "#proyectos", label: "Proyectos" },
 ];
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const forceSolid = pathname !== "/";
+  const [scrolled, setScrolled] = useState(forceSolid);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
+    // En páginas internas (Términos/Privacidad), el navbar debe ser sólido desde arriba
+    if (forceSolid) {
+      setScrolled(true);
+      return;
+    }
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [forceSolid]);
 
   return (
     <motion.header
@@ -59,6 +59,7 @@ export function Navbar() {
             variant={scrolled ? "blue" : "white"}
             textSpacing="wide"
             useZantiqa
+            textClassName={!scrolled ? "text-[#869397]" : undefined}
           />
         </Link>
 
@@ -71,10 +72,10 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "relative text-sm font-medium after:absolute after:bottom-[-2px] after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
+                "relative text-[0.95rem] font-medium sm:text-base after:absolute after:bottom-[-2px] after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
                 scrolled
                   ? "text-[#003594] after:bg-[#869397]"
-                  : "text-white after:bg-white hover:text-white/90"
+                  : "text-[#869397] after:bg-[#869397]"
               )}
             >
               {link.label}
@@ -83,26 +84,24 @@ export function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-3 sm:flex">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="primary"
-                size="sm"
-                className={cn(
-                  !scrolled &&
-                    "bg-white text-[#003594] hover:bg-white/90"
-                )}
-              >
-                Cotizar proyecto
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Agendar consultoría gratuita</DialogTitle>
-              </DialogHeader>
-              <DemoForm onSuccess={() => {}} />
-            </DialogContent>
-          </Dialog>
+          <Button
+            variant="primary"
+            size="sm"
+            className={cn(
+              scrolled
+                ? "" // usa el azul por defecto del variant primary
+                : "bg-[#869397] text-white hover:bg-[#6b787a]"
+            )}
+            asChild
+          >
+            <a
+              href="https://wa.me/525554590883"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Cotizar proyecto
+            </a>
+          </Button>
         </div>
 
         <button
@@ -114,7 +113,6 @@ export function Navbar() {
               : "border border-white/80 bg-white/10"
           )}
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-expanded={mobileOpen ? "true" : "false"}
           aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
         >
           <span
@@ -161,19 +159,16 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="primary" className="w-full">
-                    Cotizar proyecto
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Agendar demo</DialogTitle>
-                  </DialogHeader>
-                  <DemoForm onSuccess={() => setMobileOpen(false)} />
-                </DialogContent>
-              </Dialog>
+              <Button variant="primary" className="w-full" asChild>
+                <a
+                  href="https://wa.me/525554590883"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Cotizar proyecto
+                </a>
+              </Button>
             </nav>
           </motion.div>
         )}

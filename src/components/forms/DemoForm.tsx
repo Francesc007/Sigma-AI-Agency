@@ -63,6 +63,7 @@ export function DemoForm({ onSuccess }: { onSuccess?: () => void }) {
         <Input
           id="demo-name"
           placeholder="Tu nombre"
+          className="transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
           {...register("name")}
           aria-invalid={!!errors.name}
         />
@@ -80,6 +81,7 @@ export function DemoForm({ onSuccess }: { onSuccess?: () => void }) {
           id="demo-email"
           type="email"
           placeholder="tu@email.com"
+          className="transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
           {...register("email")}
           aria-invalid={!!errors.email}
         />
@@ -96,7 +98,8 @@ export function DemoForm({ onSuccess }: { onSuccess?: () => void }) {
         <Input
           id="demo-phone"
           type="tel"
-          placeholder="1234567890"
+          placeholder="+52 55 5459 0883"
+          className="transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
           {...register("phone")}
           aria-invalid={!!errors.phone}
         />

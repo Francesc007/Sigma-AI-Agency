@@ -17,6 +17,8 @@ export function Logo({
   textSpacing = "normal",
   /** Aplicar fuente Zantiqa solo al texto "Sigma AI Agency" */
   useZantiqa = false,
+  /** Clase extra para el texto (por ejemplo, color personalizado) */
+  textClassName,
 }: {
   size?: number;
   showText?: boolean;
@@ -24,6 +26,7 @@ export function Logo({
   variant?: "blue" | "white";
   textSpacing?: "normal" | "wide";
   useZantiqa?: boolean;
+  textClassName?: string;
 }) {
   const isWhite = variant === "white";
 
@@ -59,12 +62,13 @@ export function Logo({
       {showText && (
         <span
           className={cn(
-            "text-lg font-bold sm:text-xl md:text-2xl",
+            "text-lg font-bold sm:text-xl md:text-2xl tracking-wide",
             isWhite ? "text-white" : "text-[#003594]",
-            useZantiqa && "font-zantiqa"
+            useZantiqa && "font-zantiqa",
+            textClassName
           )}
         >
-          Sigma AI Agency
+          SIGMA AI AGENCY
         </span>
       )}
     </span>

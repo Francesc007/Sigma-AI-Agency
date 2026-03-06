@@ -109,16 +109,20 @@ export function ServicesSection() {
           {SERVICES.map((s) => (
             <motion.div key={s.id} id={s.id} className="scroll-mt-28" variants={cardItem}>
               <Link href={s.href} className="group block h-full">
-                <div className="card-soluciones relative h-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.08)] transition-all duration-300 hover:border-[#003594]/35 hover:shadow-[0_8px_32px_rgba(0,53,148,0.12),0_0_0_1px_rgba(0,53,148,0.1)]">
+                <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_10px_36px_rgba(0,53,148,0.18),0_0_0_1px_rgba(0,53,148,0.14)]">
                   {/* Imagen más grande, se ve completa */}
-                  <div className="relative flex h-56 w-full items-center justify-center overflow-hidden bg-[#F0F2F5] sm:h-64">
-                    <Image
-                      src={s.image}
-                      alt={s.imageAlt}
-                      fill
-                      className="object-contain transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
+                  <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] sm:h-64">
+                    <div className="absolute inset-4 sm:inset-5">
+                      <div className="service-image-frame relative h-full w-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-[1.25]">
+                        <Image
+                          src={s.image}
+                          alt={s.imageAlt}
+                          fill
+                          className="object-contain object-center"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                      </div>
+                    </div>
                     {/* Niebla muy sutil solo en el borde inferior */}
                     <div
                       className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/30 to-transparent"

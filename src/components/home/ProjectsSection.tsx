@@ -33,6 +33,7 @@ const PROJECTS: Project[] = [
     imageFallback: "/Frimac.png",
     gallery: [
       "/Frimac 11.png",
+      "/Frimac1.png",
       "/Frimac2.png",
       "/Frimac3.png",
       "/Frimac4.png",
@@ -61,6 +62,8 @@ const item = {
 };
 
 const CAROUSEL_INTERVAL_MS = 4500;
+const CAROUSEL_TRANSITION_MS = 400;
+const CAROUSEL_RESET_GAP_MS = 50;
 
 type ProjectImageProps = {
   image: string;
@@ -73,9 +76,40 @@ type ProjectImageProps = {
 const IMAGE_BOX_HEIGHT = 280;
 
 function ProjectImage({ image, imageFallback, alt, gallery, carouselTick }: ProjectImageProps) {
-  const index =
-    gallery && gallery.length > 0 ? carouselTick % gallery.length : 0;
-  const hasGallery = gallery && gallery.length > 0;
+  const hasGallery = !!gallery && gallery.length > 1;
+  const slides = hasGallery ? [...gallery!, gallery![0]] : [image];
+  const slideCount = slides.length;
+
+  const [pos, setPos] = useState(0);
+  const [skipTransition, setSkipTransition] = useState(false);
+
+  useEffect(() => {
+    setPos(0);
+    setSkipTransition(false);
+  }, [image, imageFallback, alt, gallery?.join("|")]);
+
+  useEffect(() => {
+    if (!hasGallery) return;
+    setPos((p) => p + 1);
+  }, [carouselTick, hasGallery]);
+
+  useEffect(() => {
+    if (!hasGallery) return;
+    // Al llegar al slide duplicado, dejamos que termine la transición y reseteamos sin animación.
+    if (pos === slideCount - 1) {
+      const t = setTimeout(() => {
+        setSkipTransition(true);
+        setPos(0);
+      }, CAROUSEL_TRANSITION_MS);
+      return () => clearTimeout(t);
+    }
+  }, [pos, hasGallery, slideCount]);
+
+  useEffect(() => {
+    if (!skipTransition) return;
+    const t = setTimeout(() => setSkipTransition(false), CAROUSEL_RESET_GAP_MS);
+    return () => clearTimeout(t);
+  }, [skipTransition]);
 
   return (
     <div
@@ -85,15 +119,18 @@ function ProjectImage({ image, imageFallback, alt, gallery, carouselTick }: Proj
       {hasGallery ? (
         <motion.div
           className="flex h-full"
-          style={{ width: `${gallery!.length * 100}%` }}
-          animate={{ x: `-${index * (100 / gallery!.length)}%` }}
-          transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+          style={{ width: `${slideCount * 100}%` }}
+          animate={{ x: `-${pos * (100 / slideCount)}%` }}
+          transition={{
+            duration: skipTransition ? 0 : CAROUSEL_TRANSITION_MS / 1000,
+            ease: [0.25, 0.1, 0.25, 1],
+          }}
         >
-          {gallery!.map((src) => (
+          {slides.map((src, i) => (
             <div
-              key={src}
+              key={`${src}-${i}`}
               className="flex shrink-0 items-center justify-center"
-              style={{ width: `${100 / gallery!.length}%` }}
+              style={{ width: `${100 / slideCount}%` }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -171,7 +208,7 @@ export function ProjectsSection() {
             <motion.article
               key={p.title}
               variants={item}
-              className="card-proyectos overflow-hidden rounded-xl border border-[#869397]/20 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.06),0_0_0_1px_rgba(134,147,151,0.06)] transition-all duration-300 hover:border-[#003594]/25 hover:shadow-[0_8px_28px_rgba(0,53,148,0.1),0_0_0_1px_rgba(0,53,148,0.08)]"
+              className="card-proyectos overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_10px_32px_rgba(0,53,148,0.16),0_0_0_1px_rgba(0,53,148,0.14)]"
             >
               <ProjectImage
                 image={p.image}

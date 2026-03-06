@@ -58,17 +58,24 @@ export function ReadyToTalkSection() {
       className="relative scroll-mt-20 overflow-hidden py-16 md:py-24"
       aria-labelledby="ready-heading"
     >
-      {/* Fondo: tecnología / beneficios - dashboard o automatización */}
+      {/* Fondo: imagen más visible, degradado suave */}
       <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        <motion.div
+          className="absolute inset-0"
+          animate={{ scale: [1, 1.06, 1] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          aria-hidden
+        >
+          <Image
+            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
+            alt=""
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        </motion.div>
         <div
-          className="absolute inset-0 bg-gradient-to-br from-[#003594]/92 via-[#003594]/88 to-[#041E42]/90"
+          className="absolute inset-0 bg-gradient-to-br from-[#003594]/65 via-[#003594]/55 to-[#041E42]/60"
           aria-hidden
         />
         <div
@@ -84,7 +91,7 @@ export function ReadyToTalkSection() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="mx-auto max-w-sm rounded-xl border border-white/15 bg-white/90 p-5 shadow-xl backdrop-blur-sm sm:max-w-md sm:p-6"
+          className="mx-auto max-w-sm rounded-xl border border-white/15 bg-white/90 p-5 shadow-xl shadow-[#003594]/15 backdrop-blur-sm transition-transform transition-shadow duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#003594]/30 sm:max-w-md sm:p-6"
         >
           <h2 id="ready-heading" className="text-lg font-bold text-[#003594] sm:text-xl">
             Hablemos de tu proyecto
@@ -106,7 +113,7 @@ export function ReadyToTalkSection() {
                 <Input
                   id="rt-name"
                   placeholder="Tu nombre"
-                  className="h-9 text-sm"
+                  className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
                   {...register("name")}
                   aria-invalid={!!errors.name}
                 />
@@ -124,7 +131,7 @@ export function ReadyToTalkSection() {
                   id="rt-email"
                   type="email"
                   placeholder="tu@email.com"
-                  className="h-9 text-sm"
+                  className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
                   {...register("email")}
                   aria-invalid={!!errors.email}
                 />
@@ -141,8 +148,8 @@ export function ReadyToTalkSection() {
                 <Input
                   id="rt-phone"
                   type="tel"
-                  placeholder="1234567890"
-                  className="h-9 text-sm"
+                  placeholder="+52 55 5459 0883"
+                  className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
                   {...register("phone")}
                   aria-invalid={!!errors.phone}
                 />
@@ -159,7 +166,7 @@ export function ReadyToTalkSection() {
                 <Textarea
                   id="rt-message"
                   placeholder="Breve descripción..."
-                  className="min-h-[72px] text-sm"
+                  className="min-h-[72px] text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
                   {...register("message")}
                   aria-invalid={!!errors.message}
                 />
