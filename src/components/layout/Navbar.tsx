@@ -14,6 +14,10 @@ const NAV_LINKS = [
   { href: "#proyectos", label: "Proyectos" },
 ];
 
+const WHATSAPP_NUMBER = "525554590883";
+const WHATSAPP_MESSAGE = "Hola, Sigma AI Agency. Me gustaría cotizar un proyecto.";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+
 export function Navbar() {
   const pathname = usePathname();
   const forceSolid = pathname !== "/";
@@ -95,7 +99,7 @@ export function Navbar() {
             asChild
           >
             <a
-              href="https://wa.me/525554590883"
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -161,7 +165,7 @@ export function Navbar() {
               ))}
               <Button variant="primary" className="w-full" asChild>
                 <a
-                  href="https://wa.me/525554590883"
+                  href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
