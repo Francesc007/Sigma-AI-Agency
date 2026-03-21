@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloating } from "@/components/layout/WhatsAppFloating";
 import { Analytics } from "@vercel/analytics/react";
+
+const GA_MEASUREMENT_ID = "G-D5W4G0C5DC";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -65,6 +68,18 @@ export default function RootLayout({
   return (
     <html lang="es" className={montserrat.variable} suppressHydrationWarning>
       <body className="min-h-screen bg-[#FFFFFF] font-sans text-[#003594] antialiased" suppressHydrationWarning>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         <Navbar />
         <main id="main-content">{children}</main>
         <Footer />
