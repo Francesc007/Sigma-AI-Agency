@@ -5,6 +5,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloating } from "@/components/layout/WhatsAppFloating";
+import { CursorGlow } from "@/components/layout/CursorGlow";
 import { Analytics } from "@vercel/analytics/react";
 
 const GA_MEASUREMENT_ID = "G-D5W4G0C5DC";
@@ -80,6 +81,7 @@ export default function RootLayout({
             gtag('config', '${GA_MEASUREMENT_ID}');
           `}
         </Script>
+        <CursorGlow />
         <Navbar />
         <main id="main-content">{children}</main>
         <Footer />

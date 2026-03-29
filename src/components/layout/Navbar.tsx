@@ -4,15 +4,20 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Logo } from "@/components/ui/Logo";
+import { NavbarBrand } from "@/components/layout/NavbarBrand";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: "#inicio", label: "Inicio" },
   { href: "#servicios", label: "Soluciones" },
   { href: "#proyectos", label: "Proyectos" },
+  { href: "#contacto", label: "Contacto" },
 ];
+
+function navHref(href: string, pathname: string) {
+  if (href === "#contacto" && pathname !== "/") return "/#contacto";
+  return href;
+}
 
 const WHATSAPP_NUMBER = "525554590883";
 const WHATSAPP_MESSAGE = "Hola, Sigma AI Agency. Me gustaría cotizar un proyecto.";
@@ -50,48 +55,36 @@ export function Navbar() {
         scrolled ? "py-2" : "py-4"
       )}
       role="banner"
+      data-cursor-zone={!scrolled && pathname === "/" ? "dark" : undefined}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="relative z-10 flex shrink-0"
-          aria-label="Sigma AI Agency - Inicio"
-        >
-          <Logo
-            size={56}
-            showText
-            textSpacing="wide"
-            useZantiqa
-            textClassName={!scrolled ? "text-[#b8c2c6]" : undefined}
-          />
-        </Link>
+        <NavbarBrand scrolled={scrolled} />
 
-        <nav
-          className="hidden items-center gap-8 lg:flex"
-          aria-label="Navegación principal"
-        >
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "relative text-[0.95rem] font-medium sm:text-base after:absolute after:bottom-[-2px] after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
-                scrolled
-                  ? "text-[#003594] after:bg-[#869397]"
-                  : "text-[#b8c2c6] after:bg-[#b8c2c6]"
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="hidden items-center gap-3 sm:flex">
+        <div className="hidden items-center gap-6 sm:flex lg:gap-8">
+          <nav
+            className="hidden items-center gap-6 lg:flex lg:gap-8"
+            aria-label="Navegación principal"
+          >
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={navHref(link.href, pathname)}
+                className={cn(
+                  "relative text-[0.95rem] font-medium sm:text-base after:absolute after:bottom-[-2px] after:left-0 after:h-0.5 after:w-0 after:transition-all after:duration-300 hover:after:w-full",
+                  scrolled
+                    ? "text-[#003594] after:bg-[#869397]"
+                    : "text-[#b8c2c6] after:bg-[#b8c2c6]"
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
           <Button
             variant="primary"
             size="default"
             className={cn(
-              "text-base",
+              "shrink-0 text-base",
               scrolled
                 ? "" // usa el azul por defecto del variant primary
                 : "bg-[#b8c2c6] text-[#003594] hover:bg-[#9ca8ac] hover:text-[#003594]"
@@ -103,7 +96,7 @@ export function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Cotizar proyecto
+              Cotizar Proyecto
             </a>
           </Button>
         </div>
@@ -156,7 +149,7 @@ export function Navbar() {
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={navHref(link.href, pathname)}
                   onClick={() => setMobileOpen(false)}
                   className="text-lg font-medium text-[#003594]"
                 >
@@ -170,7 +163,7 @@ export function Navbar() {
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
                 >
-                  Cotizar proyecto
+                  Cotizar Proyecto
                 </a>
               </Button>
             </nav>

@@ -109,7 +109,7 @@ export function ServicesSection() {
           {SERVICES.map((s) => (
             <motion.div key={s.id} id={s.id} className="scroll-mt-28" variants={cardItem}>
               <Link href={s.href} className="group block h-full">
-                <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_10px_36px_rgba(0,53,148,0.18),0_0_0_1px_rgba(0,53,148,0.14)]">
+                <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_12px_42px_rgba(0,53,148,0.22),0_0_0_1px_rgba(0,53,148,0.16),0_0_36px_rgba(0,53,148,0.1)]">
                   {/* Imagen más grande, se ve completa */}
                   <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] sm:h-64">
                     <div className="absolute inset-4 sm:inset-5">

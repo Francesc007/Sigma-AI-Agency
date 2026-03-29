@@ -55,6 +55,7 @@ export function ReadyToTalkSection() {
     <section
       ref={ref}
       id="ready-to-talk"
+      data-cursor-zone="dark"
       className="relative scroll-mt-20 overflow-hidden py-16 md:py-24"
       aria-labelledby="ready-heading"
     >
@@ -91,7 +92,7 @@ export function ReadyToTalkSection() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="mx-auto max-w-sm rounded-xl border border-white/15 bg-white/90 p-5 shadow-xl shadow-[#003594]/15 backdrop-blur-sm transition-transform transition-shadow duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#003594]/30 sm:max-w-md sm:p-6"
+          className="mx-auto max-w-sm rounded-xl border border-white/15 bg-white/90 p-5 shadow-xl shadow-[#003594]/15 backdrop-blur-sm transition-transform transition-shadow duration-300 hover:-translate-y-1 hover:shadow-[0_14px_48px_-8px_rgba(255,255,255,0.35),0_0_0_1px_rgba(255,255,255,0.25),0_0_44px_rgba(200,214,230,0.45)] sm:max-w-md sm:p-6"
         >
           <h2 id="ready-heading" className="text-lg font-bold text-[#003594] sm:text-xl">
             Hablemos de tu proyecto

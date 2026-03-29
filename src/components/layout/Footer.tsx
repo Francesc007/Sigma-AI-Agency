@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Lock } from "lucide-react";
+import { Instagram, Lock, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 
 function LinkedInIcon({ className }: { className?: string }) {
@@ -30,7 +30,12 @@ function XIcon({ className }: { className?: string }) {
 
 export function Footer() {
   return (
-    <footer className="relative bg-[#003594] text-white" role="contentinfo">
+    <footer
+      id="contacto"
+      className="relative scroll-mt-24 bg-[#003594] text-white"
+      role="contentinfo"
+      data-cursor-zone="dark"
+    >
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-3 md:items-center">
           <div className="relative z-10 flex flex-col gap-4">
@@ -43,10 +48,32 @@ export function Footer() {
             />
           </div>
 
-          <div className="flex md:justify-center">
+          <div className="flex flex-col items-center justify-center gap-2 text-center">
+            <p className="inline-flex flex-wrap items-center justify-center gap-x-2 text-sm text-white/90">
+              <a
+                href="tel:+525554590883"
+                className="inline-flex transition hover:text-white"
+                aria-label="Llamar: +52 55 5459 0883"
+              >
+                <Phone className="size-4" aria-hidden />
+              </a>
+              <span className="text-white/45" aria-hidden>
+                /
+              </span>
+              <a
+                href="https://wa.me/525554590883"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex transition hover:text-white"
+                aria-label="WhatsApp: +52 55 5459 0883"
+              >
+                <MessageCircle className="size-4" aria-hidden />
+              </a>
+              <span className="ml-0.5 font-bold tabular-nums">+52 55 5459 0883</span>
+            </p>
             <a
               href="mailto:contacto@sigmaaiagency.com"
-              className="text-sm text-white/90 hover:text-white hover:underline"
+              className="text-sm text-white/90 transition hover:text-white hover:underline"
             >
               contacto@sigmaaiagency.com
             </a>

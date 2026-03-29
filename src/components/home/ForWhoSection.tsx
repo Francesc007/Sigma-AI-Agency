@@ -12,11 +12,11 @@ export function ForWhoSection() {
   return (
     <section
       ref={ref}
-      className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
+      className="relative scroll-mt-20 py-20 md:py-28"
       aria-labelledby="forwho-heading"
     >
-      {/* Imagen de fondo: servicios */}
-      <div className="absolute inset-0" aria-hidden>
+      {/* Imagen de fondo: servicios (overflow aquí para no recortar íconos en móvil) */}
+      <div className="absolute inset-0 overflow-hidden" aria-hidden>
         <Image
           src="/servicios.jpg"
           alt=""
@@ -58,7 +58,7 @@ export function ForWhoSection() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.4 }}
-          className="mt-14"
+          className="mt-14 overflow-visible"
         >
           <AudienceOrbit />
         </motion.div>

@@ -156,7 +156,7 @@ export function ProjectsSection() {
             <motion.article
               key={p.title}
               variants={item}
-              className="card-proyectos overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_10px_32px_rgba(0,53,148,0.16),0_0_0_1px_rgba(0,53,148,0.14)]"
+              className="card-proyectos overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_12px_38px_rgba(0,53,148,0.2),0_0_0_1px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]"
             >
               <ProjectImage
                 gallery={p.gallery ?? [p.image]}

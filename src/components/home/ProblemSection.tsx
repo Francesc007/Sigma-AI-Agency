@@ -46,7 +46,11 @@ export function ProblemSection() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          whileHover={{ y: -4, boxShadow: "0 20px 40px -12px rgba(0,53,148,0.15), 0 0 0 1px rgba(135,147,151,0.1)" }}
+          whileHover={{
+            y: -4,
+            boxShadow:
+              "0 24px 48px -10px rgba(0,53,148,0.2), 0 0 0 1px rgba(0,53,148,0.1), 0 0 40px rgba(0,53,148,0.1)",
+          }}
           className="problem-card relative rounded-2xl border border-[#869397]/25 bg-white/90 p-6 shadow-lg shadow-[#003594]/5 backdrop-blur-sm transition-shadow duration-300 md:p-8 md:shadow-xl"
         >
           <motion.div

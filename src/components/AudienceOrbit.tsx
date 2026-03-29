@@ -96,7 +96,7 @@ export function AudienceOrbit() {
   return (
     <div className="flex w-full flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-center lg:gap-12">
       {/* Left: circular orbit selector (desktop) */}
-      <div className="relative flex shrink-0 items-center justify-center lg:w-[280px]">
+      <div className="relative flex w-full min-w-0 shrink-0 items-center justify-center overflow-visible lg:w-[280px]">
         <div
           className="relative hidden lg:block"
           style={{
@@ -174,6 +174,9 @@ export function AudienceOrbit() {
                     whileHover={{
                       backgroundColor: isActive ? "#1d4ed8" : "rgba(255,255,255,1)",
                       transition: { duration: 0.25, ease: "easeInOut" },
+                      boxShadow: isActive
+                        ? "0 0 0 2px white, 0 0 30px rgba(29,78,216,0.42), 0 12px 34px rgba(0,0,0,0.16), 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)"
+                        : "0 8px 28px rgba(0,53,148,0.12), 0 0 22px rgba(0,53,148,0.08)",
                     }}
                     style={{
                       boxShadow: isActive
@@ -194,8 +197,8 @@ export function AudienceOrbit() {
           })}
         </div>
 
-        {/* Mobile: horizontal scroll */}
-        <div className="flex w-full gap-4 overflow-x-auto pb-2 lg:hidden">
+        {/* Mobile: más padding y altura para que el scale activo no se corte arriba ni a los lados */}
+        <div className="flex w-full min-w-0 gap-3 overflow-x-auto overflow-y-visible px-6 py-3 pb-2 [-webkit-overflow-scrolling:touch] scroll-pl-6 scroll-pr-6 sm:gap-4 sm:px-8 sm:scroll-pl-8 sm:scroll-pr-8 lg:hidden">
           {audienceData.map((item) => {
             const Icon = ICON_MAP[item.icon];
             const isActive = activeId === item.id;
@@ -211,7 +214,13 @@ export function AudienceOrbit() {
                   opacity: isActive ? 1 : 0.6,
                 }}
                 transition={ACTIVE_TRANSITION}
-                whileHover={{ scale: 1.08, transition: { duration: 0.25, ease: "easeInOut" } }}
+                whileHover={{
+                  scale: 1.08,
+                  transition: { duration: 0.25, ease: "easeInOut" },
+                  boxShadow: isActive
+                    ? "0 22px 30px -5px rgba(0,0,0,0.12), 0 0 28px rgba(0,53,148,0.15)"
+                    : "0 8px 28px rgba(0,53,148,0.12), 0 0 22px rgba(0,53,148,0.08)",
+                }}
                 style={{
                   width: ORBIT.iconSize,
                   height: ORBIT.iconSize,
@@ -241,7 +250,7 @@ export function AudienceOrbit() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={CARD_TRANSITION}
-            className="w-full rounded-2xl bg-white/90 p-5 shadow-lg backdrop-blur-sm"
+            className="w-full rounded-2xl bg-white/90 p-5 shadow-lg backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_12px_40px_-8px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]"
           >
             <h3 className="text-lg font-bold tracking-tight text-[#003594] md:text-xl">
               {activeItem.title}

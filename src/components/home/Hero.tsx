@@ -31,6 +31,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
+      data-cursor-zone="dark"
       className="relative flex min-h-[100vh] flex-col items-start justify-center overflow-hidden px-4 pt-24 pb-16 text-white scroll-mt-0"
       aria-label="Presentación principal"
     >
@@ -40,10 +41,10 @@ export function Hero() {
 
       {/* Carrusel cross-fade: imágenes apiladas, solo opacity animada */}
       <div
-        className="absolute right-0 top-0 flex h-full min-w-[50%] max-w-[65%] items-center justify-center overflow-hidden md:max-w-[55%]"
+        className="absolute right-0 top-0 flex h-full min-w-[58%] max-w-[72%] items-center justify-center overflow-hidden md:min-w-[50%] md:max-w-[55%]"
         aria-hidden
       >
-        <div className="relative h-full w-full overflow-hidden">
+        <div className="hero-carousel-images-mask relative h-full w-full overflow-hidden">
           {HERO_CAROUSEL_IMAGES.map((img, idx) => (
             <motion.div
               key={`${img.src}-${idx}`}

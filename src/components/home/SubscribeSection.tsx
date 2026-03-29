@@ -32,6 +32,7 @@ export function SubscribeSection() {
     <section
       ref={ref}
       id="subscribe"
+      data-cursor-zone="dark"
       className="scroll-mt-20 bg-[#003594] py-16 md:py-20"
       aria-labelledby="subscribe-heading"
     >
