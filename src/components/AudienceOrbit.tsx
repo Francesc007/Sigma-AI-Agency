@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Car,
@@ -48,6 +48,9 @@ export const audienceData = [
   },
 ] as const;
 
+/** Avance automático del ítem activo (órbita + panel de texto); se reinicia al elegir manualmente */
+const AUTO_ADVANCE_MS = 6000;
+
 const ROTATION_TRANSITION = { duration: 0.5, ease: [0.4, 0, 0.2, 1] as const };
 const ACTIVE_TRANSITION = { duration: 0.4, ease: "easeOut" as const };
 const CARD_TRANSITION = { duration: 0.3, ease: "easeOut" as const };
@@ -88,10 +91,45 @@ function useOrbitLayout(activeIndex: number) {
 
 export function AudienceOrbit() {
   const [activeId, setActiveId] = useState<number>(audienceData[0].id);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
   const activeItem =
     audienceData.find((item) => item.id === activeId) ?? audienceData[0];
   const activeIndex = audienceData.findIndex((item) => item.id === activeId);
   const positions = useOrbitLayout(activeIndex);
+
+  const startAutoAdvance = useCallback(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActiveId((current) => {
+        const idx = audienceData.findIndex((item) => item.id === current);
+        const nextIdx = (idx + 1) % audienceData.length;
+        return audienceData[nextIdx].id;
+      });
+    }, AUTO_ADVANCE_MS);
+  }, []);
+
+  useEffect(() => {
+    startAutoAdvance();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [startAutoAdvance]);
+
+  /** Móvil: centrar el ícono activo en la fila horizontal al cambiar (manual o automático) */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!window.matchMedia("(max-width: 1023px)").matches) return;
+    const el = document.getElementById(`audience-icon-${activeId}`);
+    el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [activeId]);
+
+  const selectAudience = (id: number) => {
+    setActiveId(id);
+    startAutoAdvance();
+  };
 
   return (
     <div className="flex w-full flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-center lg:gap-12">
@@ -169,7 +207,7 @@ export function AudienceOrbit() {
                   )}
                   <motion.button
                     type="button"
-                    onClick={() => setActiveId(item.id)}
+                    onClick={() => selectAudience(item.id)}
                     className="relative flex size-[52px] items-center justify-center rounded-2xl border-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1d4ed8] focus-visible:ring-offset-2 transition-[box-shadow] duration-[250ms] ease-out cursor-pointer"
                     whileHover={{
                       backgroundColor: isActive ? "#1d4ed8" : "rgba(255,255,255,1)",
@@ -204,9 +242,10 @@ export function AudienceOrbit() {
             const isActive = activeId === item.id;
             return (
               <motion.button
+                id={`audience-icon-${item.id}`}
                 key={item.id}
                 type="button"
-                onClick={() => setActiveId(item.id)}
+                onClick={() => selectAudience(item.id)}
                 className="flex shrink-0 cursor-pointer items-center justify-center rounded-2xl border-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1d4ed8] focus-visible:ring-offset-2"
                 initial={false}
                 animate={{
