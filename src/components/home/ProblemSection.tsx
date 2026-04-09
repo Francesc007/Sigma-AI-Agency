@@ -96,14 +96,16 @@ export function ProblemSection() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="group relative mt-2 min-h-[220px] overflow-hidden rounded-2xl border border-[#869397]/20 shadow-xl sm:min-h-[260px] lg:mt-0 lg:h-full lg:min-h-0"
           >
-            <Image
-              src="/tech2.jpg"
-              alt="Servicios digitales y automatización web"
-              fill
-              className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
-              sizes="50vw"
-              priority={false}
-            />
+            <div className="mobile-image-life absolute inset-0">
+              <Image
+                src="/tech2.jpg"
+                alt="Servicios digitales y automatización web"
+                fill
+                className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                sizes="50vw"
+                priority={false}
+              />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#003594]/20 via-transparent to-transparent" aria-hidden />
           </motion.div>
         </div>

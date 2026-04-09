@@ -165,6 +165,26 @@ button:focus-visible,
   mask-position: center;
 }
 
+/* Solo móvil (<768px): movimiento suave en imágenes/video; ≥768px sin esta regla = sin animación */
+@media (max-width: 767px) {
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-image-life {
+      animation: mobile-image-life-breathe 7.5s ease-in-out infinite;
+      will-change: transform;
+    }
+  }
+}
+
+@keyframes mobile-image-life-breathe {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0) scale(1.022);
+  }
+}
+
 /* Hero: profundidad y movimiento */
 .hero-glow {
   background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(134, 147, 151, 0.25) 0%, transparent 50%),
@@ -247,10 +267,10 @@ button:focus-visible,
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 1px;
-  height: 1px;
-  margin-left: -3px;
-  margin-top: -3px;
+  width: 0.5px;
+  height: 0.5px;
+  margin-left: -1px;
+  margin-top: -1px;
   border-radius: 50%;
   background: transparent;
   pointer-events: none;
@@ -301,11 +321,11 @@ button:focus-visible,
   transform-origin: center center;
   background: radial-gradient(
     ellipse 78% 76% at 50% 42%,
-    rgba(0, 53, 148, 0.4) 0%,
-    rgba(184, 194, 198, 0.22) 48%,
-    transparent 74%
+    rgba(0, 53, 148, 0.48) 0%,
+    rgba(184, 194, 198, 0.28) 48%,
+    transparent 76%
   );
-  filter: blur(12px);
+  filter: blur(11px);
   animation: navbar-brand-halo-breathe 3.6s ease-in-out infinite;
 }
 
@@ -320,13 +340,13 @@ button:focus-visible,
   pointer-events: none;
   z-index: 1;
   border-radius: 50%;
-  opacity: 0.4;
+  opacity: 0.48;
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    rgba(255, 255, 255, 0.28) 72deg,
+    rgba(255, 255, 255, 0.34) 72deg,
     transparent 158deg,
-    rgba(0, 53, 148, 0.38) 228deg,
+    rgba(0, 53, 148, 0.44) 228deg,
     transparent 318deg
   );
   animation: navbar-brand-ring-spin 12s linear infinite;
@@ -337,7 +357,7 @@ button:focus-visible,
 @keyframes navbar-brand-halo-breathe {
   0%,
   100% {
-    opacity: 0.64;
+    opacity: 0.72;
     transform: scale(1);
   }
   50% {
@@ -359,12 +379,12 @@ button:focus-visible,
   }
 
   .navbar-brand-halo {
-    opacity: 0.74;
+    opacity: 0.82;
     transform: none;
   }
 
   .navbar-brand-ring {
-    opacity: 0.18;
+    opacity: 0.22;
     transform: none;
   }
 }

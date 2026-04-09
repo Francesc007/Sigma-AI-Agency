@@ -17,13 +17,15 @@ export function ForWhoSection() {
     >
       {/* Imagen de fondo: servicios (overflow aquí para no recortar íconos en móvil) */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <Image
-          src="/servicios.jpg"
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        <div className="mobile-image-life absolute inset-0">
+          <Image
+            src="/servicios.jpg"
+            alt=""
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        </div>
         <div
           className="absolute inset-0 bg-gradient-to-b from-white/75 via-[#F8FAFC]/88 to-white/75"
           aria-hidden

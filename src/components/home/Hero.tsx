@@ -1,33 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
-const HERO_CAROUSEL_IMAGES = [
-  // 1) Sigma AI (más cerca ~15%)
-  { src: "/sigma-ai.png", alt: "", scale: "scale-100" },
-  // 2) Vibe Coding
-  { src: "/Vibe Coding.jpg", alt: "", scale: "" },
-  // 3) Tech
-  { src: "/tech.jpg", alt: "", scale: "" },
-  // 4) Logo Azul (más lejos ~35%)
-  { src: "/Logo Azul.png", alt: "", scale: "scale-[0.50]" },
-];
-const HERO_CAROUSEL_INTERVAL_MS = 4000;
-const HERO_FADE_DURATION = 0.8;
+const HERO_VIDEO_SRC = "/SIGMA%20AI%20HERO1.mp4";
 
 export function Hero() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setActiveIndex((i) => (i + 1) % HERO_CAROUSEL_IMAGES.length);
-    }, HERO_CAROUSEL_INTERVAL_MS);
-    return () => clearInterval(id);
-  }, []);
-
   return (
     <section
       id="inicio"
@@ -39,33 +17,22 @@ export function Hero() {
       <div className="absolute inset-0 gradient-hero" aria-hidden />
       <div className="absolute inset-0 gradient-hero-overlay" aria-hidden />
 
-      {/* Carrusel cross-fade: imágenes apiladas, solo opacity animada */}
-      <div
-        className="absolute right-0 top-0 flex h-full min-w-[58%] max-w-[72%] items-center justify-center overflow-hidden md:min-w-[50%] md:max-w-[55%]"
-        aria-hidden
-      >
-        <div className="hero-carousel-images-mask relative h-full w-full overflow-hidden">
-          {HERO_CAROUSEL_IMAGES.map((img, idx) => (
-            <motion.div
-              key={`${img.src}-${idx}`}
-              className={`absolute inset-0 flex items-center justify-center ${img.scale}`}
-              initial={false}
-              animate={{ opacity: idx === activeIndex ? 1 : 0 }}
-              transition={{ duration: HERO_FADE_DURATION, ease: "easeInOut" }}
-              aria-hidden={idx !== activeIndex}
+      {/* Video a todo el ancho: mismo difuminado que el carrusel anterior */}
+      <div className="absolute inset-0 overflow-hidden" aria-hidden>
+        <div className="hero-carousel-images-mask relative h-full w-full">
+          <div className="mobile-image-life absolute inset-0 h-full w-full">
+            <video
+              className="absolute inset-0 h-full w-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-hidden
             >
-              <Image
-                src={img.src}
-                alt={img.alt || "sigma-ai.png"}
-                fill
-                className="object-contain object-center"
-                priority={idx === 0}
-                loading={idx === 0 ? "eager" : "lazy"}
-                quality={90}
-                sizes="(max-width: 768px) 100vw, 55vw"
-              />
-            </motion.div>
-          ))}
+              <source src={HERO_VIDEO_SRC} type="video/mp4" />
+            </video>
+          </div>
         </div>
       </div>
       <div

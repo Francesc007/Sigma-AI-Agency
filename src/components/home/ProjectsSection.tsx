@@ -89,7 +89,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
     <div
       className="relative w-full overflow-hidden bg-[#F5F5F5] h-[200px] sm:h-[240px] md:h-[280px]"
     >
-      <div className="relative h-full w-full overflow-hidden">
+      <div className="mobile-image-life relative h-full w-full overflow-hidden">
         {images.map((src, idx) => {
           const displaySrc = failedSrcs.has(src) ? imageFallback : src;
           return (

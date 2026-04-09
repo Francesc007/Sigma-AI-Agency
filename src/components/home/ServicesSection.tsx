@@ -114,14 +114,16 @@ export function ServicesSection() {
                   <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] sm:h-64">
                     <div className="absolute inset-4 sm:inset-5">
                       <div className="service-image-frame relative h-full w-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-[1.25]">
-                        <Image
-                          src={s.image}
-                          alt={s.imageAlt}
-                          fill
-                          className="object-contain object-center"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          priority={s.image.includes("Naga")}
-                        />
+                        <div className="mobile-image-life relative h-full w-full">
+                          <Image
+                            src={s.image}
+                            alt={s.imageAlt}
+                            fill
+                            className="object-contain object-center"
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            priority={s.image.includes("Naga")}
+                          />
+                        </div>
                       </div>
                     </div>
                     {/* Niebla muy sutil solo en el borde inferior */}

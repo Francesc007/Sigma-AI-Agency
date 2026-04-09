@@ -74,7 +74,7 @@ export function InsightsSection() {
           {INSIGHTS.map((post) => (
             <motion.article key={post.title} variants={item}>
               <Card className="h-full overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
-                <div className="relative aspect-[6/4] w-full overflow-hidden">
+                <div className="relative aspect-[6/4] w-full overflow-hidden mobile-image-life">
                   <Image
                     src={post.image}
                     alt=""
