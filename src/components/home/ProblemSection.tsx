@@ -94,7 +94,7 @@ export function ProblemSection() {
             initial={{ opacity: 0, x: 24 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="group relative hidden h-full overflow-hidden rounded-2xl border border-[#869397]/20 shadow-xl lg:block"
+            className="group relative mt-2 min-h-[220px] overflow-hidden rounded-2xl border border-[#869397]/20 shadow-xl sm:min-h-[260px] lg:mt-0 lg:h-full lg:min-h-0"
           >
             <Image
               src="/tech2.jpg"

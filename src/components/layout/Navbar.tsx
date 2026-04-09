@@ -139,24 +139,28 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="fixed inset-0 top-0 z-40 overflow-y-auto bg-white pt-20 lg:hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="absolute left-0 right-0 top-full z-40 px-4 pt-2 lg:hidden"
             aria-hidden={!mobileOpen}
           >
-            <nav className="flex flex-col gap-4 px-4 pb-8" aria-label="Menú móvil">
+            <nav
+              className="mx-auto flex max-w-md flex-col gap-3 rounded-2xl border border-[#869397]/25 bg-white/95 p-4 shadow-xl backdrop-blur-md"
+              aria-label="Menú móvil"
+            >
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={navHref(link.href, pathname)}
                   onClick={() => setMobileOpen(false)}
-                  className="text-lg font-medium text-[#003594]"
+                  className="rounded-lg px-2 py-2 text-lg font-medium text-[#003594] active:bg-[#003594]/5"
                 >
                   {link.label}
                 </Link>
               ))}
-              <Button variant="primary" className="w-full" asChild>
+              <Button variant="primary" className="mt-1 w-full" asChild>
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"

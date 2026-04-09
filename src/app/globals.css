@@ -232,42 +232,45 @@ button:focus-visible,
   will-change: transform;
 }
 
-/* Cursor personalizado: resplandor (solo cuando body tiene .cursor-glow-active, pointer: fine) */
-body.cursor-glow-active,
-body.cursor-glow-active a,
-body.cursor-glow-active button,
-body.cursor-glow-active input,
-body.cursor-glow-active textarea,
-body.cursor-glow-active label,
-body.cursor-glow-active [role="button"] {
-  cursor: none !important;
+/* Resplandor bajo el cursor (pointer: fine); cursor del sistema visible.
+ * AJUSTE TAMAÑO: .cursor-glow-lantern → width/height (ej. 50px) y margin -mitad para centrar.
+ * AJUSTE INTENSIDAD: solo box-shadow en .cursor-glow-zone--light / --dark (sin relleno central). */
+
+.cursor-glow-stack {
+  position: relative;
+  width: 1px;
+  height: 1px;
 }
 
-.cursor-glow-dot {
-  width: 11px;
-  height: 11px;
+/* Círculo invisible: el brillo es solo sombra difusa (sin “disco” central) */
+.cursor-glow-lantern {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 1px;
+  margin-left: -3px;
+  margin-top: -3px;
   border-radius: 50%;
-  transition:
-    background-color 0.22s ease,
-    box-shadow 0.22s ease;
+  background: transparent;
+  pointer-events: none;
+  transition: box-shadow 0.35s ease, opacity 0.35s ease;
 }
 
-/* Fondos claros: punta azul marca */
-.cursor-glow-dot--on-light {
-  background: #003594;
+/* Fondos claros */
+.cursor-glow-lantern.cursor-glow-zone--light {
   box-shadow:
-    0 0 0 1px rgba(0, 53, 148, 0.14),
-    0 0 12px 4px rgba(0, 53, 148, 0.24),
-    0 0 34px 10px rgba(0, 53, 148, 0.11);
+    0 0 22px 8px rgba(0, 53, 148, 0.75),
+    0 0 42px 18px rgba(0, 53, 148, 0.11),
+    0 0 64px 30px rgba(134, 147, 151, 0.08);
 }
 
-/* Fondos azules / oscuros ([data-cursor-zone="dark"]): punta blanca */
-.cursor-glow-dot--on-dark {
-  background: rgba(255, 255, 255, 0.98);
+/* Fondos oscuros (data-cursor-zone="dark") */
+.cursor-glow-lantern.cursor-glow-zone--dark {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.2),
-    0 0 14px 4px rgba(255, 255, 255, 0.34),
-    0 0 38px 11px rgba(255, 255, 255, 0.15);
+    0 0 24px 10px rgba(255, 255, 255, 0.75),
+    0 0 46px 20px rgba(255, 255, 255, 0.09),
+    0 0 68px 32px rgba(255, 255, 255, 0.06);
 }
 
 /* Navbar: halo detrás de la marca + anillo cónico (sin isolation: el blur + stacking ocultaba el logo) */

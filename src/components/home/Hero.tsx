@@ -123,12 +123,12 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-10 flex w-full max-w-md flex-col flex-wrap items-stretch gap-4 sm:max-w-none sm:flex-row sm:items-center"
           >
           <Button
             variant="primary"
             size="lg"
-            className="bg-[#b8c2c6] text-[#003594] shadow-lg hover:bg-[#9ca8ac] hover:text-[#003594] hover:shadow-xl transition-all"
+            className="w-full bg-[#b8c2c6] text-[#003594] shadow-lg hover:bg-[#9ca8ac] hover:text-[#003594] hover:shadow-xl transition-all sm:w-auto"
             asChild
           >
             <a href="#proyectos">Ver Proyectos</a>
@@ -136,7 +136,7 @@ export function Hero() {
           <Button
             variant="secondary"
             size="lg"
-            className="border-2 border-white/80 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:border-white"
+            className="w-full border-2 border-white/80 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:border-white sm:w-auto"
             asChild
           >
             <a href="#servicios">Soluciones</a>
