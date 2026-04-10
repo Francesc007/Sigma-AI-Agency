@@ -92,6 +92,7 @@ function useOrbitLayout(activeIndex: number) {
 export function AudienceOrbit() {
   const [activeId, setActiveId] = useState<number>(audienceData[0].id);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const mobileRowRef = useRef<HTMLDivElement>(null);
 
   const activeItem =
     audienceData.find((item) => item.id === activeId) ?? audienceData[0];
@@ -118,12 +119,17 @@ export function AudienceOrbit() {
     };
   }, [startAutoAdvance]);
 
-  /** Móvil: centrar el ícono activo en la fila horizontal al cambiar (manual o automático) */
+  /** Móvil: centrar el ícono en la fila horizontal sin usar scrollIntoView (evita que la página entera salte a esta sección). */
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.matchMedia("(max-width: 1023px)").matches) return;
+    const container = mobileRowRef.current;
     const el = document.getElementById(`audience-icon-${activeId}`);
-    el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    if (!container || !el) return;
+    const cr = container.getBoundingClientRect();
+    const er = el.getBoundingClientRect();
+    const delta = er.left + er.width / 2 - (cr.left + cr.width / 2);
+    container.scrollBy({ left: delta, behavior: "smooth" });
   }, [activeId]);
 
   const selectAudience = (id: number) => {
@@ -236,7 +242,10 @@ export function AudienceOrbit() {
         </div>
 
         {/* Mobile: más padding y altura para que el scale activo no se corte arriba ni a los lados */}
-        <div className="flex w-full min-w-0 gap-3 overflow-x-auto overflow-y-visible px-6 py-3 pb-2 [-webkit-overflow-scrolling:touch] scroll-pl-6 scroll-pr-6 sm:gap-4 sm:px-8 sm:scroll-pl-8 sm:scroll-pr-8 lg:hidden">
+        <div
+          ref={mobileRowRef}
+          className="flex w-full min-w-0 gap-3 overflow-x-auto overflow-y-visible px-6 py-3 pb-2 [-webkit-overflow-scrolling:touch] scroll-pl-6 scroll-pr-6 sm:gap-4 sm:px-8 sm:scroll-pl-8 sm:scroll-pr-8 lg:hidden"
+        >
           {audienceData.map((item) => {
             const Icon = ICON_MAP[item.icon];
             const isActive = activeId === item.id;
