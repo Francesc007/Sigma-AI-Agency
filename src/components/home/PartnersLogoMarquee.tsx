@@ -4,7 +4,7 @@ const LOGOS = [
   { src: "/Logo Face.png", alt: "Logo Face" },
   { src: "/Logo 1.png", alt: "Logo 1" },
   { src: "/Logo LPB.png", alt: "Logo LPB" },
-  { src: "/Logo tepexi.png", alt: "Logo tepexi" },
+  { src: "/Tepexi A-R.jpeg", alt: "Logo tepexi" },
 ] as const;
 
 function LogoRow({ suffix, ariaHidden }: { suffix: string; ariaHidden?: boolean }) {
