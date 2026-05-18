@@ -9,6 +9,7 @@ import {
   Rocket,
   type LucideIcon,
 } from "lucide-react";
+import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Car,
@@ -298,19 +299,23 @@ export function AudienceOrbit() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={CARD_TRANSITION}
-            className="w-full rounded-2xl bg-white/90 p-5 shadow-lg backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_12px_40px_-8px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]"
+            className="w-full"
           >
-            <h3 className="text-lg font-bold tracking-tight text-[#003594] md:text-xl">
-              {activeItem.title}
-            </h3>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ ...CARD_TRANSITION, delay: 0.06 }}
-              className="mt-3 text-sm leading-relaxed text-[#8695A3] md:text-base"
-            >
-              {activeItem.description}
-            </motion.p>
+            <MobileCardBorderSweep roundedClassName="rounded-2xl" className="w-full">
+              <div className="w-full rounded-2xl bg-white/90 p-5 shadow-lg backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_12px_40px_-8px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]">
+                <h3 className="text-lg font-bold tracking-tight text-[#003594] md:text-xl">
+                  {activeItem.title}
+                </h3>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ ...CARD_TRANSITION, delay: 0.06 }}
+                  className="mt-3 text-sm leading-relaxed text-[#8695A3] md:text-base"
+                >
+                  {activeItem.description}
+                </motion.p>
+              </div>
+            </MobileCardBorderSweep>
           </motion.div>
         </AnimatePresence>
       </div>

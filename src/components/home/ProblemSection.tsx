@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { Target, Zap } from "lucide-react";
+import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
 
 export function ProblemSection() {
   const ref = useRef<HTMLElement>(null);
@@ -42,6 +43,7 @@ export function ProblemSection() {
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch">
+        <MobileCardBorderSweep roundedClassName="rounded-2xl" className="h-full">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -51,7 +53,7 @@ export function ProblemSection() {
             boxShadow:
               "0 24px 48px -10px rgba(0,53,148,0.2), 0 0 0 1px rgba(0,53,148,0.1), 0 0 40px rgba(0,53,148,0.1)",
           }}
-          className="problem-card relative rounded-2xl border border-[#869397]/25 bg-white/90 p-6 shadow-lg shadow-[#003594]/5 backdrop-blur-sm transition-shadow duration-300 md:p-8 md:shadow-xl"
+          className="problem-card relative h-full rounded-2xl border border-[#869397]/25 bg-white/90 p-6 shadow-lg shadow-[#003594]/5 backdrop-blur-sm transition-shadow duration-300 md:p-8 md:shadow-xl"
         >
           <motion.div
             className="absolute -left-2 top-6 flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#003594] to-[#002a6b] text-white shadow-lg shadow-[#003594]/30 md:-left-3 md:size-10"
@@ -89,12 +91,14 @@ export function ProblemSection() {
             </p>
           </motion.div>
         </motion.div>
+        </MobileCardBorderSweep>
 
+          <MobileCardBorderSweep roundedClassName="rounded-2xl" className="h-full min-h-[220px] sm:min-h-[260px] lg:min-h-0">
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="group relative mt-2 min-h-[220px] overflow-hidden rounded-2xl border border-[#869397]/20 shadow-xl sm:min-h-[260px] lg:mt-0 lg:h-full lg:min-h-0"
+            className="group relative mt-2 h-full min-h-[220px] overflow-hidden rounded-2xl border border-[#869397]/20 shadow-xl sm:min-h-[260px] lg:mt-0 lg:h-full lg:min-h-0"
           >
             <div className="mobile-image-life absolute inset-0">
               <Image
@@ -108,6 +112,7 @@ export function ProblemSection() {
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#003594]/20 via-transparent to-transparent" aria-hidden />
           </motion.div>
+          </MobileCardBorderSweep>
         </div>
       </div>
     </section>

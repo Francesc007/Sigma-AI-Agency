@@ -9,14 +9,16 @@ import { ReadyToTalkSection } from "@/components/home/ReadyToTalkSection";
 
 export default function HomePage() {
   return (
-    <LandingRisingSparkles>
+    <>
       <Hero />
-      <ProblemSection />
-      <ServicesSection />
-      <ProjectsSection />
+      <LandingRisingSparkles>
+        <ProblemSection />
+        <ServicesSection />
+        <ProjectsSection />
+      </LandingRisingSparkles>
       <ForWhoSection />
       <PartnersLogoMarquee />
       <ReadyToTalkSection />
-    </LandingRisingSparkles>
+    </>
   );
 }

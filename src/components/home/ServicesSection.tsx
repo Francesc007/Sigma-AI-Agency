@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { MobileImageBorderSweep } from "@/components/home/MobileImageBorderSweep";
+import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
 
 const SERVICES = [
   {
@@ -110,11 +110,10 @@ export function ServicesSection() {
           {SERVICES.map((s) => (
             <motion.div key={s.id} id={s.id} className="scroll-mt-28" variants={cardItem}>
               <Link href={s.href} className="group block h-full">
-                <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_12px_42px_rgba(0,53,148,0.22),0_0_0_1px_rgba(0,53,148,0.16),0_0_36px_rgba(0,53,148,0.1)]">
-                  {/* Imagen más grande, se ve completa */}
-                  <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] sm:h-64">
-                    <div className="absolute inset-4 sm:inset-5">
-                      <MobileImageBorderSweep roundedClassName="rounded-2xl" className="h-full w-full">
+                <MobileCardBorderSweep roundedClassName="rounded-2xl" className="block h-full">
+                  <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_12px_42px_rgba(0,53,148,0.22),0_0_0_1px_rgba(0,53,148,0.16),0_0_36px_rgba(0,53,148,0.1)]">
+                    <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] sm:h-64">
+                      <div className="absolute inset-4 sm:inset-5">
                         <div className="service-image-frame relative h-full w-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-[1.25]">
                           <div className="mobile-image-life relative h-full w-full">
                             <Image
@@ -127,30 +126,27 @@ export function ServicesSection() {
                             />
                           </div>
                         </div>
-                      </MobileImageBorderSweep>
+                      </div>
+                      <div
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/30 to-transparent"
+                        aria-hidden
+                      />
                     </div>
-                    {/* Niebla muy sutil solo en el borde inferior */}
-                    <div
-                      className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/30 to-transparent"
-                      aria-hidden
-                    />
+                    <div className="relative p-6">
+                      <span className="inline-block border-l-4 border-[#003594] bg-[#003594]/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#003594]">
+                        {s.accent}
+                      </span>
+                      <h3 className="mt-3 text-xl font-semibold text-[#003594] group-hover:text-[#003594]">
+                        {s.title}
+                      </h3>
+                      <p className="mt-3 leading-relaxed text-[#8695A3]">{s.description}</p>
+                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#003594] transition-transform group-hover:translate-x-1">
+                        Saber más
+                        <ArrowRight className="size-4" aria-hidden />
+                      </span>
+                    </div>
                   </div>
-                  <div className="relative p-6">
-                    <span className="inline-block border-l-4 border-[#003594] bg-[#003594]/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#003594]">
-                      {s.accent}
-                    </span>
-                    <h3 className="mt-3 text-xl font-semibold text-[#003594] group-hover:text-[#003594]">
-                      {s.title}
-                    </h3>
-                    <p className="mt-3 leading-relaxed text-[#8695A3]">
-                      {s.description}
-                    </p>
-                    <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#003594] transition-transform group-hover:translate-x-1">
-                      Saber más
-                      <ArrowRight className="size-4" aria-hidden />
-                    </span>
-                  </div>
-                </div>
+                </MobileCardBorderSweep>
               </Link>
             </motion.div>
           ))}

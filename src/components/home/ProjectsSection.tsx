@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { MobileImageBorderSweep } from "@/components/home/MobileImageBorderSweep";
+import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
 
 const FADE_DURATION = 0.8;
 const CAROUSEL_INTERVAL_MS = 4000;
@@ -87,11 +87,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
   if (images.length === 0) return null;
 
   return (
-    <MobileImageBorderSweep
-      fuseShape="top-only"
-      roundedClassName="rounded-t-xl"
-      className="w-full overflow-hidden bg-[#F5F5F5] h-[200px] sm:h-[240px] md:h-[280px]"
-    >
+    <div className="relative w-full overflow-hidden bg-[#F5F5F5] h-[200px] sm:h-[240px] md:h-[280px]">
       <div className="mobile-image-life relative h-full w-full overflow-hidden">
         {images.map((src, idx) => {
           const displaySrc = failedSrcs.has(src) ? imageFallback : src;
@@ -125,7 +121,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
           );
         })}
       </div>
-    </MobileImageBorderSweep>
+    </div>
   );
 }
 
@@ -156,27 +152,27 @@ export function ProjectsSection() {
           className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 md:mt-12 md:grid-cols-2 md:gap-10"
         >
           {PROJECTS.map((p) => (
-            <motion.article
-              key={p.title}
-              variants={item}
-              className="card-proyectos overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_12px_38px_rgba(0,53,148,0.2),0_0_0_1px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]"
-            >
-              <ProjectImage
-                gallery={p.gallery ?? [p.image]}
-                imageFallback={p.imageFallback}
-                alt={p.title}
-              />
-              <div className="p-4 sm:p-6">
-                <h3 className="text-base font-semibold text-[#003594] sm:text-lg md:text-xl">{p.title}</h3>
-                <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{p.description}</p>
-                <a
-                  href="#ready-to-talk"
-                  className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
-                >
-                  Cotizar Proyecto
-                </a>
-              </div>
-            </motion.article>
+            <motion.div key={p.title} variants={item} className="h-full">
+              <MobileCardBorderSweep roundedClassName="rounded-xl" className="block h-full">
+                <motion.article className="card-proyectos h-full overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_12px_38px_rgba(0,53,148,0.2),0_0_0_1px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]">
+                  <ProjectImage
+                    gallery={p.gallery ?? [p.image]}
+                    imageFallback={p.imageFallback}
+                    alt={p.title}
+                  />
+                  <div className="p-4 sm:p-6">
+                    <h3 className="text-base font-semibold text-[#003594] sm:text-lg md:text-xl">{p.title}</h3>
+                    <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{p.description}</p>
+                    <a
+                      href="#ready-to-talk"
+                      className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
+                    >
+                      Cotizar Proyecto
+                    </a>
+                  </div>
+                </motion.article>
+              </MobileCardBorderSweep>
+            </motion.div>
           ))}
         </motion.div>
       </div>
