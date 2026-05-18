@@ -11,6 +11,7 @@ export function ForWhoSection() {
 
   return (
     <section
+      id="para-quien-es-esto"
       ref={ref}
       className="relative scroll-mt-20 py-20 md:py-28"
       aria-labelledby="forwho-heading"

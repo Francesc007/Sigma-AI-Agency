@@ -405,7 +405,90 @@ button:focus-visible,
   }
 }
 
+/* Estelas fugaces: caen en diagonal (arriba → abajo) dentro de la zona Hero → «Para quién» */
+@keyframes landing-meteor-fall {
+  0% {
+    top: -0.85cm;
+    left: var(--meteor-x0, 50%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.88;
+  }
+  88% {
+    opacity: 0.7;
+  }
+  100% {
+    top: calc(100% - 0.45cm);
+    left: var(--meteor-x1, 55%);
+    opacity: 0.12;
+  }
+}
+
+.landing-meteor-line {
+  animation-name: landing-meteor-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: top, left, opacity;
+  transform-origin: center 70%;
+}
+
+/* Móvil: haz fino que recorre el contorno de la imagen (sentido horario), una vez al entrar en vista */
+.mobile-image-border-sweep::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-sizing: border-box;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 316deg,
+    rgba(255, 255, 255, 0.95) 322deg,
+    #003594 328deg,
+    #c8ced2 334deg,
+    transparent 342deg 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.mobile-image-border-sweep--play::before {
+  animation: mobile-border-sweep-cw 2.45s linear forwards;
+}
+
+@keyframes mobile-border-sweep-cw {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .mobile-image-border-sweep--play::before {
+    animation: none;
+    opacity: 0;
+  }
+
+  .landing-meteor-line {
+    animation: none;
+    opacity: 0;
+  }
+
   .partners-marquee-track {
     animation: none;
     width: 100%;

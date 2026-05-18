@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
+import { MobileImageBorderSweep } from "@/components/home/MobileImageBorderSweep";
 
 const FADE_DURATION = 0.8;
 const CAROUSEL_INTERVAL_MS = 4000;
@@ -86,9 +87,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
   if (images.length === 0) return null;
 
   return (
-    <div
-      className="relative w-full overflow-hidden bg-[#F5F5F5] h-[200px] sm:h-[240px] md:h-[280px]"
-    >
+    <MobileImageBorderSweep roundedClassName="rounded-t-xl" className="w-full overflow-hidden bg-[#F5F5F5] h-[200px] sm:h-[240px] md:h-[280px]">
       <div className="mobile-image-life relative h-full w-full overflow-hidden">
         {images.map((src, idx) => {
           const displaySrc = failedSrcs.has(src) ? imageFallback : src;
@@ -122,7 +121,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
           );
         })}
       </div>
-    </div>
+    </MobileImageBorderSweep>
   );
 }
 
