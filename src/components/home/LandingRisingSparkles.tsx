@@ -1,8 +1,8 @@
 "use client";
 
-import { useLayoutEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
-/** Estelas verticales (caída recta); detrás del contenido del bloque envuelto. */
+/** Estelas verticales; mismas duraciones que antes (`durationSec`). */
 const METEOR_LINES: readonly {
   left: string;
   tone: "blue" | "silver";
@@ -24,26 +24,30 @@ type Props = {
 };
 
 /**
- * Capa de estelas entre el final del Hero y el inicio de «Para quién».
- * Debe envolver solo el bloque bajo el Hero (p. ej. Problema + Soluciones + Proyectos):
- * el `top` de la zona es 0 respecto a este contenedor.
+ * Estelas desde el final del Hero hasta el **pie** de «Para quién es esto?» (toda esa sección incluida).
  */
 export function LandingRisingSparkles({ children }: Props) {
-  const [zoneH, setZoneH] = useState<number | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [zone, setZone] = useState<{ top: number; height: number } | null>(null);
 
   useLayoutEffect(() => {
+    const root = rootRef.current;
     const hero = document.getElementById("inicio");
     const forWho = document.getElementById("para-quien-es-esto");
-    if (!hero || !forWho) return;
+    if (!root || !hero || !forWho) return;
 
     const update = () => {
-      const heroEnd = hero.offsetTop + hero.offsetHeight;
-      const forWhoTop = forWho.offsetTop;
-      setZoneH(Math.max(0, forWhoTop - heroEnd));
+      const rr = root.getBoundingClientRect();
+      const hr = hero.getBoundingClientRect();
+      const wr = forWho.getBoundingClientRect();
+      const topPx = hr.bottom - rr.top;
+      const heightPx = Math.max(0, wr.bottom - hr.bottom);
+      setZone({ top: topPx, height: heightPx });
     };
 
     update();
     const ro = new ResizeObserver(update);
+    ro.observe(root);
     ro.observe(hero);
     ro.observe(forWho);
     window.addEventListener("resize", update);
@@ -54,11 +58,12 @@ export function LandingRisingSparkles({ children }: Props) {
   }, []);
 
   return (
-    <div className="relative">
-      {zoneH !== null && zoneH > 0 ? (
+    <div ref={rootRef} className="relative">
+      <div className="relative z-[1]">{children}</div>
+      {zone !== null && zone.height > 0 ? (
         <div
-          className="landing-meteor-zone pointer-events-none absolute left-0 right-0 top-0 z-0"
-          style={{ height: `${zoneH}px` }}
+          className="landing-meteor-zone pointer-events-none absolute left-0 right-0 z-[5]"
+          style={{ top: `${zone.top}px`, height: `${zone.height}px` }}
           aria-hidden
         >
           {METEOR_LINES.map((line, i) => (
@@ -81,7 +86,6 @@ export function LandingRisingSparkles({ children }: Props) {
           ))}
         </div>
       ) : null}
-      <div className="relative z-[1]">{children}</div>
     </div>
   );
 }

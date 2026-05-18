@@ -439,10 +439,10 @@ button:focus-visible,
 }
 
 .mobile-fuse-path--play {
-  animation: mobile-fuse-travel-loop 5s linear infinite;
+  animation: mobile-fuse-travel-loop 6.5s linear infinite;
 }
 
-/* ~4s recorrido + ~1s pausa; bucle infinito */
+/* ~5.2s recorrido + ~1.3s pausa; bucle infinito */
 @keyframes mobile-fuse-travel-loop {
   0% {
     stroke-dashoffset: 0;

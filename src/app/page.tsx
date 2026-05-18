@@ -15,8 +15,8 @@ export default function HomePage() {
         <ProblemSection />
         <ServicesSection />
         <ProjectsSection />
+        <ForWhoSection />
       </LandingRisingSparkles>
-      <ForWhoSection />
       <PartnersLogoMarquee />
       <ReadyToTalkSection />
     </>

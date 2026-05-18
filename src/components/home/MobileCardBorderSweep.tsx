@@ -41,7 +41,7 @@ export function MobileCardBorderSweep({ children, roundedClassName, className = 
             height="180%"
             colorInterpolationFilters="sRGB"
           >
-            <feGaussianBlur in="SourceGraphic" stdDeviation="0.9" result="blur" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="0.45" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -53,7 +53,7 @@ export function MobileCardBorderSweep({ children, roundedClassName, className = 
           fill="none"
           pathLength={100}
           stroke={`url(#mobile-fuse-grad-${safeId})`}
-          strokeWidth={2}
+          strokeWidth={1.15}
           strokeLinecap="round"
           strokeLinejoin="round"
           vectorEffect="nonScalingStroke"
