@@ -14,11 +14,19 @@ export function NavbarBrand({ scrolled }: NavbarBrandProps) {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
 
+  const textClassName = cn(
+    "relative z-20 shrink-0 text-lg font-bold tracking-wide sm:text-xl md:text-2xl font-zantiqa",
+    "transition-colors duration-300",
+    scrolled ? "text-[#003594]" : "text-[#b8c2c6]",
+    !scrolled && "group-hover:text-white",
+    scrolled && "group-hover:text-[#001a4d]"
+  );
+
   return (
     <Link
       href="/#inicio"
       className={cn(
-        "group relative z-10 inline-flex shrink-0 outline-none",
+        "group relative z-10 inline-flex shrink-0 items-center gap-4 outline-none",
         "focus-visible:ring-2 focus-visible:ring-[#869397] focus-visible:ring-offset-2 rounded-xl"
       )}
       aria-label="Sigma AI Agency - Inicio"
@@ -31,53 +39,51 @@ export function NavbarBrand({ scrolled }: NavbarBrandProps) {
       }}
     >
       <motion.span
-        className="navbar-brand-wrap relative inline-flex"
+        className="inline-flex items-center gap-4"
         initial={reduceMotion ? false : { y: -10 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
-        <span className="navbar-brand-deco" aria-hidden>
-          <span className="navbar-brand-halo" />
-          <span className="navbar-brand-ring" />
+        {/* Halo/anillo solo detrás del icono (mismo alcance que antes) */}
+        <span className="navbar-brand-wrap relative inline-flex shrink-0">
+          <span className="navbar-brand-deco" aria-hidden>
+            <span className="navbar-brand-halo" />
+            <span className="navbar-brand-ring" />
+          </span>
+          <motion.span
+            className="relative z-20 inline-flex"
+            animate={
+              reduceMotion
+                ? {}
+                : {
+                    y: [0, -3, 0],
+                  }
+            }
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            whileHover={
+              reduceMotion
+                ? {}
+                : {
+                    scale: 1.04,
+                    transition: { type: "spring", stiffness: 400, damping: 22 },
+                  }
+            }
+            whileTap={{ scale: 0.97 }}
+          >
+            <Logo
+              size={70}
+              showText={false}
+              textSpacing="wide"
+              className="relative z-20 [&_img]:relative [&_img]:z-10 [&_img]:opacity-100"
+            />
+          </motion.span>
         </span>
-        <motion.span
-          className="relative z-20 inline-flex items-center"
-          animate={
-            reduceMotion
-              ? {}
-              : {
-                  y: [0, -3, 0],
-                }
-          }
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          whileHover={
-            reduceMotion
-              ? {}
-              : {
-                  scale: 1.04,
-                  transition: { type: "spring", stiffness: 400, damping: 22 },
-                }
-          }
-          whileTap={{ scale: 0.97 }}
-        >
-          <Logo
-            size={70}
-            showText={false}
-            textSpacing="wide"
-            useZantiqa
-            className="relative z-20 [&_img]:relative [&_img]:z-10 [&_img]:opacity-100"
-            textClassName={cn(
-              !scrolled ? "text-[#b8c2c6]" : undefined,
-              "transition-colors duration-300",
-              !scrolled && "group-hover:text-white",
-              scrolled && "group-hover:text-[#001a4d]"
-            )}
-          />
-        </motion.span>
+
+        <span className={textClassName}>SIGMA AI AGENCY</span>
       </motion.span>
     </Link>
   );

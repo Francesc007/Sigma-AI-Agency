@@ -22,26 +22,32 @@ export function ProblemSection() {
       />
       {/* Línea lateral izquierda: una sola, más gruesa */}
       <motion.div
-        className="absolute left-0 top-1/2 h-1 w-32 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#003594] via-[#003594]/60 to-transparent md:w-52 lg:w-64"
+        className="pointer-events-none absolute left-0 top-1/2 z-0 h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full md:w-52 lg:w-64"
         aria-hidden
         initial={{ scaleX: 0, opacity: 0.5 }}
         animate={inView ? { scaleX: 1, opacity: 1 } : {}}
         transition={{ duration: 0.8, ease: "easeOut" }}
         style={{ transformOrigin: "left center" }}
-      />
+      >
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#003594] via-[#003594]/60 to-transparent" />
+        <span className="section-side-line__shine" />
+      </motion.div>
       {/* Línea lateral derecha: una sola, más gruesa */}
       <motion.div
-        className="absolute right-0 top-1/2 h-1 w-32 -translate-y-1/2 rounded-full bg-gradient-to-l from-[#869397]/80 via-[#869397]/40 to-transparent md:w-52 lg:w-64"
+        className="pointer-events-none absolute right-0 top-1/2 z-0 h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full md:w-52 lg:w-64"
         aria-hidden
         initial={{ scaleX: 0, opacity: 0.5 }}
         animate={inView ? { scaleX: 1, opacity: 1 } : {}}
         transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
         style={{ transformOrigin: "right center" }}
-      />
+      >
+        <div className="absolute inset-0 rounded-full bg-gradient-to-l from-[#869397]/80 via-[#869397]/40 to-transparent" />
+        <span className="section-side-line__shine section-side-line__shine--delay" />
+      </motion.div>
 
       <div className="absolute bottom-0 right-0 h-32 w-32 rounded-full bg-[#003594]/5 blur-3xl" aria-hidden />
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-[1] mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch">
         <MobileCardBorderSweep roundedClassName="rounded-2xl" className="h-full">
         <motion.div

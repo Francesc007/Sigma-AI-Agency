@@ -247,6 +247,53 @@ button:focus-visible,
     0 0 0 1px rgba(134, 147, 151, 0.1);
 }
 
+/* Brillo que recorre en las líneas laterales (Problema / Servicios / Proyectos) */
+.section-side-line__shine {
+  position: absolute;
+  top: 50%;
+  left: -38%;
+  width: 38%;
+  height: 240%;
+  border-radius: 9999px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 32%,
+    rgba(255, 255, 255, 1) 48%,
+    rgba(210, 230, 255, 0.95) 52%,
+    rgba(255, 255, 255, 0.45) 62%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px 2px rgba(255, 255, 255, 0.55),
+    0 0 18px 4px rgba(0, 53, 148, 0.28);
+  mix-blend-mode: overlay;
+  animation: section-side-line-shine-travel 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.section-side-line__shine--delay {
+  animation-delay: 0.9s;
+}
+
+@keyframes section-side-line-shine-travel {
+  0% {
+    left: -38%;
+  }
+  100% {
+    left: 118%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-side-line__shine {
+    animation: none;
+    left: 42%;
+    opacity: 0.45;
+  }
+}
+
 /* Carrusel infinito: track con transición suave */
 .infinite-carousel [data-carousel-track] {
   will-change: transform;
@@ -405,33 +452,6 @@ button:focus-visible,
   }
 }
 
-/* Estelas: caída recta (arriba → abajo); `left` fijo en el span */
-@keyframes landing-meteor-fall {
-  0% {
-    top: -0.85cm;
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.88;
-  }
-  88% {
-    opacity: 0.7;
-  }
-  100% {
-    top: calc(100% - 0.45cm);
-    opacity: 0.12;
-  }
-}
-
-.landing-meteor-line {
-  animation-name: landing-meteor-fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-fill-mode: backwards;
-  will-change: top, opacity;
-  transform: translateX(-50%);
-}
-
 /* Móvil: “mecha” en el borde del marco (SVG stroke-dash), no relleno ni disco giratorio */
 .mobile-fuse-path {
   stroke-dasharray: 5.25 94.75;
@@ -465,11 +485,6 @@ button:focus-visible,
 
 @media (prefers-reduced-motion: reduce) {
   .mobile-fuse-path--play {
-    animation: none;
-    opacity: 0;
-  }
-
-  .landing-meteor-line {
     animation: none;
     opacity: 0;
   }

@@ -133,10 +133,32 @@ export function ProjectsSection() {
     <section
       ref={ref}
       id="proyectos"
-      className="scroll-mt-20 bg-[#F5F5F5] py-16 sm:py-20 md:py-28"
+      className="relative scroll-mt-20 overflow-hidden bg-[#F5F5F5] py-16 sm:py-20 md:py-28"
       aria-labelledby="projects-heading"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <motion.div
+        className="pointer-events-none absolute left-0 top-1/2 z-0 h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full md:w-52 lg:w-64"
+        aria-hidden
+        initial={{ scaleX: 0, opacity: 0.5 }}
+        animate={inView ? { scaleX: 1, opacity: 1 } : {}}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        style={{ transformOrigin: "left center" }}
+      >
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#003594] via-[#003594]/60 to-transparent" />
+        <span className="section-side-line__shine" />
+      </motion.div>
+      <motion.div
+        className="pointer-events-none absolute right-0 top-1/2 z-0 h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full md:w-52 lg:w-64"
+        aria-hidden
+        initial={{ scaleX: 0, opacity: 0.5 }}
+        animate={inView ? { scaleX: 1, opacity: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+        style={{ transformOrigin: "right center" }}
+      >
+        <div className="absolute inset-0 rounded-full bg-gradient-to-l from-[#869397]/80 via-[#869397]/40 to-transparent" />
+        <span className="section-side-line__shine section-side-line__shine--delay" />
+      </motion.div>
+      <div className="relative z-[1] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2
           id="projects-heading"
           initial={{ opacity: 0, y: 20 }}

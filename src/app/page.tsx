@@ -1,5 +1,4 @@
 import { Hero } from "@/components/home/Hero";
-import { LandingRisingSparkles } from "@/components/home/LandingRisingSparkles";
 import { ProblemSection } from "@/components/home/ProblemSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { ProjectsSection } from "@/components/home/ProjectsSection";
@@ -11,12 +10,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <LandingRisingSparkles>
-        <ProblemSection />
-        <ServicesSection />
-        <ProjectsSection />
-        <ForWhoSection />
-      </LandingRisingSparkles>
+      <ProblemSection />
+      <ServicesSection />
+      <ProjectsSection />
+      <ForWhoSection />
       <PartnersLogoMarquee />
       <ReadyToTalkSection />
     </>
