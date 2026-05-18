@@ -2,21 +2,20 @@
 
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
-/** Estelas verticales; mismas duraciones que antes (`durationSec`). */
+/** Siete estelas; `startDelaySec` evita que todas arranquen juntas en borde superior. */
 const METEOR_LINES: readonly {
   left: string;
   tone: "blue" | "silver";
   durationSec: number;
-  delaySec: number;
+  startDelaySec: number;
 }[] = [
-  { left: "6%", tone: "blue", durationSec: 22, delaySec: 0 },
-  { left: "20%", tone: "silver", durationSec: 24, delaySec: 2.1 },
-  { left: "34%", tone: "blue", durationSec: 21, delaySec: 0.9 },
-  { left: "48%", tone: "silver", durationSec: 23, delaySec: 3.4 },
-  { left: "62%", tone: "blue", durationSec: 25, delaySec: 1.5 },
-  { left: "74%", tone: "silver", durationSec: 20, delaySec: 4.2 },
-  { left: "84%", tone: "blue", durationSec: 26, delaySec: 2.8 },
-  { left: "92%", tone: "silver", durationSec: 23, delaySec: 5.5 },
+  { left: "7%", tone: "blue", durationSec: 22, startDelaySec: 0 },
+  { left: "21%", tone: "silver", durationSec: 24, startDelaySec: 2.7 },
+  { left: "35%", tone: "blue", durationSec: 21, startDelaySec: 5.4 },
+  { left: "49%", tone: "silver", durationSec: 23, startDelaySec: 8.1 },
+  { left: "63%", tone: "blue", durationSec: 25, startDelaySec: 10.8 },
+  { left: "77%", tone: "silver", durationSec: 20, startDelaySec: 13.5 },
+  { left: "91%", tone: "blue", durationSec: 23, startDelaySec: 16.2 },
 ];
 
 type Props = {
@@ -59,10 +58,9 @@ export function LandingRisingSparkles({ children }: Props) {
 
   return (
     <div ref={rootRef} className="relative">
-      <div className="relative z-[1]">{children}</div>
       {zone !== null && zone.height > 0 ? (
         <div
-          className="landing-meteor-zone pointer-events-none absolute left-0 right-0 z-[5]"
+          className="landing-meteor-zone pointer-events-none absolute left-0 right-0 z-0"
           style={{ top: `${zone.top}px`, height: `${zone.height}px` }}
           aria-hidden
         >
@@ -79,13 +77,14 @@ export function LandingRisingSparkles({ children }: Props) {
                 {
                   left: line.left,
                   animationDuration: `${line.durationSec}s`,
-                  animationDelay: `${line.delaySec}s`,
+                  animationDelay: `${line.startDelaySec}s`,
                 } as CSSProperties
               }
             />
           ))}
         </div>
       ) : null}
+      <div className="relative z-[1]">{children}</div>
     </div>
   );
 }

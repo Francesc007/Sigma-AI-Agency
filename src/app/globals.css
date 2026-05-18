@@ -427,6 +427,7 @@ button:focus-visible,
   animation-name: landing-meteor-fall;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  animation-fill-mode: backwards;
   will-change: top, opacity;
   transform: translateX(-50%);
 }
