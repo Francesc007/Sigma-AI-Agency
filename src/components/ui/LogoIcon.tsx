@@ -15,7 +15,7 @@ export function LogoIcon({
 }) {
   return (
     <Image
-      src="/Logo Azul.png"
+      src="/logo_azul.png"
       alt="Sigma AI Agency"
       width={size}
       height={size}

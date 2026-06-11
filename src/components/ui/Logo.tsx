@@ -5,7 +5,7 @@ import { LogoIcon } from "@/components/ui/LogoIcon";
 
 /**
  * Logo Sigma AI Agency.
- * Usa Logo Azul.png con colores originales en todas las ubicaciones.
+ * Usa logo_azul.png con colores originales en todas las ubicaciones.
  */
 export function Logo({
   size = 56,

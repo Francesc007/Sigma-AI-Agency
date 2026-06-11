@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,12 +10,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
+import { buildProjectInquiryMessage, openWhatsApp } from "@/lib/whatsapp";
 
 const schema = z.object({
-  name: z.string().min(2, "Nombre requerido"),
-  email: z.string().email("Email válido requerido"),
-  phone: z.string().min(10, "Teléfono válido"),
-  message: z.string().min(5, "Cuéntanos brevemente tu proyecto"),
+  name: z.string().trim().min(2, "Nombre requerido"),
+  email: z.string().trim().email("Email válido requerido"),
+  phone: z
+    .string()
+    .trim()
+    .refine((value) => value.replace(/\D/g, "").length >= 10, "Teléfono válido (mín. 10 dígitos)"),
+  message: z.string().trim().min(5, "Cuéntanos brevemente tu proyecto"),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -24,7 +27,6 @@ type FormValues = z.infer<typeof schema>;
 export function ReadyToTalkSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const {
     register,
@@ -36,20 +38,15 @@ export function ReadyToTalkSection() {
     defaultValues: { name: "", email: "", phone: "", message: "" },
   });
 
-  const onSubmit = async (data: FormValues) => {
-    setStatus("loading");
-    try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, source: "ready_to_talk" }),
-      });
-      if (!res.ok) throw new Error();
-      setStatus("success");
-      reset();
-    } catch {
-      setStatus("error");
-    }
+  const onInvalid = () => {
+    const firstError = document.querySelector<HTMLElement>("[aria-invalid='true']");
+    firstError?.focus();
+    firstError?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const onSubmit = (data: FormValues) => {
+    openWhatsApp(buildProjectInquiryMessage(data));
+    reset();
   };
 
   return (
@@ -100,102 +97,84 @@ export function ReadyToTalkSection() {
             Hablemos de tu proyecto
           </h2>
           <p className="mt-1 text-sm text-[#8695A3]">
-            Consultoría gratuita. Te respondemos a la brevedad.
+            Completa el formulario y continúa en WhatsApp para agendar tu consultoría.
           </p>
 
-          {status === "success" ? (
-            <p className="mt-4 text-center text-sm text-[#869397]" role="status">
-              Mensaje enviado. Te contactaremos pronto.
-            </p>
-          ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="mt-4 grid gap-3" noValidate>
-              <div>
-                <label htmlFor="rt-name" className="mb-0.5 block text-xs font-medium text-[#003594]">
-                  Nombre *
-                </label>
-                <Input
-                  id="rt-name"
-                  placeholder="Tu nombre"
-                  className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
-                  {...register("name")}
-                  aria-invalid={!!errors.name}
-                />
-                {errors.name && (
-                  <p className="mt-0.5 text-xs text-red-600" role="alert">
-                    {errors.name.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="rt-email" className="mb-0.5 block text-xs font-medium text-[#003594]">
-                  Correo *
-                </label>
-                <Input
-                  id="rt-email"
-                  type="email"
-                  placeholder="tu@email.com"
-                  className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
-                  {...register("email")}
-                  aria-invalid={!!errors.email}
-                />
-                {errors.email && (
-                  <p className="mt-0.5 text-xs text-red-600" role="alert">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="rt-phone" className="mb-0.5 block text-xs font-medium text-[#003594]">
-                  WhatsApp *
-                </label>
-                <Input
-                  id="rt-phone"
-                  type="tel"
-                  placeholder="+52 55 5459 0883"
-                  className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
-                  {...register("phone")}
-                  aria-invalid={!!errors.phone}
-                />
-                {errors.phone && (
-                  <p className="mt-0.5 text-xs text-red-600" role="alert">
-                    {errors.phone.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="rt-message" className="mb-0.5 block text-xs font-medium text-[#003594]">
-                  Proyecto *
-                </label>
-                <Textarea
-                  id="rt-message"
-                  placeholder="Breve descripción..."
-                  className="min-h-[72px] text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
-                  {...register("message")}
-                  aria-invalid={!!errors.message}
-                />
-                {errors.message && (
-                  <p className="mt-0.5 text-xs text-red-600" role="alert">
-                    {errors.message.message}
-                  </p>
-                )}
-              </div>
-              {status === "error" && (
-                <p className="text-xs text-red-600" role="alert">
-                  Error al enviar. Intenta de nuevo.
+          <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="mt-4 grid gap-3" noValidate>
+            <div>
+              <label htmlFor="rt-name" className="mb-0.5 block text-xs font-medium text-[#003594]">
+                Nombre *
+              </label>
+              <Input
+                id="rt-name"
+                placeholder="Tu nombre"
+                className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
+                {...register("name")}
+                aria-invalid={!!errors.name}
+              />
+              {errors.name && (
+                <p className="mt-0.5 text-xs text-red-600" role="alert">
+                  {errors.name.message}
                 </p>
               )}
-              <Button type="submit" disabled={status === "loading"} size="sm" className="mt-1 w-full">
-                {status === "loading" ? (
-                  <>
-                    <Loader2 className="size-3.5 animate-spin" aria-hidden />
-                    Enviar
-                  </>
-                ) : (
-                  "Enviar"
-                )}
-              </Button>
-            </form>
-          )}
+            </div>
+            <div>
+              <label htmlFor="rt-email" className="mb-0.5 block text-xs font-medium text-[#003594]">
+                Correo *
+              </label>
+              <Input
+                id="rt-email"
+                type="email"
+                placeholder="tu@email.com"
+                className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
+                {...register("email")}
+                aria-invalid={!!errors.email}
+              />
+              {errors.email && (
+                <p className="mt-0.5 text-xs text-red-600" role="alert">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="rt-phone" className="mb-0.5 block text-xs font-medium text-[#003594]">
+                WhatsApp *
+              </label>
+              <Input
+                id="rt-phone"
+                type="tel"
+                placeholder="+52 55 5459 0883"
+                className="h-9 text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
+                {...register("phone")}
+                aria-invalid={!!errors.phone}
+              />
+              {errors.phone && (
+                <p className="mt-0.5 text-xs text-red-600" role="alert">
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="rt-message" className="mb-0.5 block text-xs font-medium text-[#003594]">
+                Proyecto *
+              </label>
+              <Textarea
+                id="rt-message"
+                placeholder="Breve descripción..."
+                className="min-h-[72px] text-sm transition-all duration-200 focus:ring-2 focus:ring-[#869397] focus:ring-offset-1"
+                {...register("message")}
+                aria-invalid={!!errors.message}
+              />
+              {errors.message && (
+                <p className="mt-0.5 text-xs text-red-600" role="alert">
+                  {errors.message.message}
+                </p>
+              )}
+            </div>
+            <Button type="submit" size="sm" className="mt-1 w-full">
+              Continuar en WhatsApp
+            </Button>
+          </form>
         </motion.div>
         </MobileCardBorderSweep>
       </div>

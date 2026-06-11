@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
+import { MobileScrollStack } from "@/components/home/MobileScrollStack";
 
 const FADE_DURATION = 0.8;
 const CAROUSEL_INTERVAL_MS = 4000;
@@ -133,7 +134,7 @@ export function ProjectsSection() {
     <section
       ref={ref}
       id="proyectos"
-      className="relative scroll-mt-20 overflow-hidden bg-[#F5F5F5] py-16 sm:py-20 md:py-28"
+      className="relative scroll-mt-20 overflow-x-hidden bg-[#F5F5F5] py-16 sm:py-20 md:overflow-hidden md:py-28"
       aria-labelledby="projects-heading"
     >
       <motion.div
@@ -171,10 +172,14 @@ export function ProjectsSection() {
           variants={container}
           initial="hidden"
           animate={inView ? "show" : "hidden"}
-          className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 md:mt-12 md:grid-cols-2 md:gap-10"
         >
-          {PROJECTS.map((p) => (
-            <motion.div key={p.title} variants={item} className="h-full">
+          <MobileScrollStack
+            className="mt-8 sm:mt-10 md:mt-12"
+            desktopClassName="md:grid md:grid-cols-2 md:gap-10 sm:gap-8"
+            stickyTopBase={84}
+          >
+            {PROJECTS.map((p) => (
+              <motion.div key={p.title} variants={item} className="h-full">
               <MobileCardBorderSweep roundedClassName="rounded-xl" className="block h-full">
                 <motion.article className="card-proyectos h-full overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_12px_38px_rgba(0,53,148,0.2),0_0_0_1px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]">
                   <ProjectImage
@@ -196,6 +201,7 @@ export function ProjectsSection() {
               </MobileCardBorderSweep>
             </motion.div>
           ))}
+          </MobileScrollStack>
         </motion.div>
       </div>
     </section>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
+import { MobileScrollStack } from "@/components/home/MobileScrollStack";
 
 const SERVICES = [
   {
@@ -61,7 +62,7 @@ export function ServicesSection() {
     <section
       ref={ref}
       id="servicios"
-      className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
+      className="relative scroll-mt-20 overflow-x-hidden py-20 md:overflow-hidden md:py-28"
       aria-labelledby="services-heading"
     >
       <div
@@ -128,10 +129,13 @@ export function ServicesSection() {
           variants={container}
           initial="hidden"
           animate={inView ? "show" : "hidden"}
-          className="mt-14 grid gap-8 lg:grid-cols-3"
         >
-          {SERVICES.map((s) => (
-            <motion.div key={s.id} id={s.id} className="scroll-mt-28" variants={cardItem}>
+          <MobileScrollStack
+            className="mt-14"
+            desktopClassName="md:grid md:grid-cols-3 md:gap-8"
+          >
+            {SERVICES.map((s) => (
+              <motion.div key={s.id} id={s.id} className="scroll-mt-28" variants={cardItem}>
               <Link href={s.href} className="group block h-full">
                 <MobileCardBorderSweep roundedClassName="rounded-2xl" className="block h-full">
                   <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_12px_42px_rgba(0,53,148,0.22),0_0_0_1px_rgba(0,53,148,0.16),0_0_36px_rgba(0,53,148,0.1)]">
@@ -173,6 +177,7 @@ export function ServicesSection() {
               </Link>
             </motion.div>
           ))}
+          </MobileScrollStack>
         </motion.div>
       </div>
     </section>

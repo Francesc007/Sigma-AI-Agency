@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NavbarBrand } from "@/components/layout/NavbarBrand";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { buildWhatsAppUrl, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/whatsapp";
 
 const NAV_LINKS = [
   { href: "#servicios", label: "Soluciones" },
@@ -19,23 +20,19 @@ function navHref(href: string, pathname: string) {
   return href;
 }
 
-const WHATSAPP_NUMBER = "525554590883";
-const WHATSAPP_MESSAGE = "Hola, Sigma AI Agency. Me gustaría cotizar un proyecto.";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const WHATSAPP_URL = buildWhatsAppUrl(WHATSAPP_DEFAULT_MESSAGE);
 
 export function Navbar() {
   const pathname = usePathname();
   const forceSolid = pathname !== "/";
-  const [scrolled, setScrolled] = useState(forceSolid);
+  const [scrollPastThreshold, setScrollPastThreshold] = useState(false);
+  const scrolled = forceSolid || scrollPastThreshold;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    // En páginas internas (Términos/Privacidad), el navbar debe ser sólido desde arriba
-    if (forceSolid) {
-      setScrolled(true);
-      return;
-    }
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    if (forceSolid) return;
+    const onScroll = () => setScrollPastThreshold(window.scrollY > 50);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [forceSolid]);

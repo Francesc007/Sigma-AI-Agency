@@ -1,10 +1,11 @@
 import Image from "next/image";
 
 const LOGOS = [
-  { src: "/Logo Face.png", alt: "Logo Face" },
+  { src: "/frimac.png", alt: "frimac" },
   { src: "/Logo 1.png", alt: "Logo 1" },
   { src: "/Logo LPB.png", alt: "Logo LPB" },
-  { src: "/Tepexi A-R.jpeg", alt: "Logo tepexi" },
+  { src: "/tepexi.png", alt: "tepexi" },
+  { src: "/narvaez.png", alt: "Logo narvaez" },
 ] as const;
 
 function LogoRow({ suffix, ariaHidden }: { suffix: string; ariaHidden?: boolean }) {
@@ -16,7 +17,7 @@ function LogoRow({ suffix, ariaHidden }: { suffix: string; ariaHidden?: boolean 
       {LOGOS.map((logo) => (
         <div
           key={`${logo.src}-${suffix}`}
-          className="partners-marquee-item group relative flex h-[52px] w-[112px] shrink-0 items-center justify-center md:h-[60px] md:w-[132px]"
+          className="partners-marquee-item group relative flex h-[72px] w-[128px] shrink-0 items-center justify-center md:h-[84px] md:w-[148px]"
         >
           <div className="relative h-full w-full transition-[transform,filter] duration-500 ease-out group-hover:z-20 group-hover:scale-[1.14] group-hover:-translate-y-2 group-hover:drop-shadow-[0_12px_28px_rgba(0,53,148,0.22)]">
             <Image
@@ -40,7 +41,7 @@ function LogoRow({ suffix, ariaHidden }: { suffix: string; ariaHidden?: boolean 
 export function PartnersLogoMarquee() {
   return (
     <section
-      className="relative border-y border-[#869397]/12 bg-gradient-to-b from-[#F8FAFC] via-white to-[#F4F7FA] py-6 md:py-8"
+      className="relative border-y border-[#869397]/12 bg-gradient-to-b from-[#F8FAFC] via-white to-[#F4F7FA] py-5 md:py-6"
       aria-labelledby="partners-marquee-heading"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#003594]/10 to-transparent" aria-hidden />
@@ -55,7 +56,7 @@ export function PartnersLogoMarquee() {
         </h2>
       </div>
 
-      <div className="partners-marquee-clip relative mx-auto mt-5 max-w-3xl overflow-x-hidden overflow-y-visible px-2 py-2 md:mt-6 md:px-4">
+      <div className="partners-marquee-clip relative mx-auto mt-3 max-w-3xl overflow-x-hidden px-2 pb-2 pt-6 md:mt-4 md:px-4 md:pb-2 md:pt-8">
         <div className="partners-marquee-track flex w-max min-w-max">
           <LogoRow suffix="a" />
           <LogoRow suffix="b" ariaHidden />

@@ -1,8 +1,8 @@
 "use client";
 
-const WHATSAPP_NUMBER = "525554590883";
-const WHATSAPP_MESSAGE = "Hola, Sigma AI Agency. Me gustaría cotizar un proyecto.";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+import { buildWhatsAppUrl, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/whatsapp";
+
+const WHATSAPP_URL = buildWhatsAppUrl(WHATSAPP_DEFAULT_MESSAGE);
 
 export function WhatsAppFloating() {
   return (
@@ -10,13 +10,13 @@ export function WhatsAppFloating() {
       href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className="whatsapp-float fixed bottom-6 right-6 z-[100] flex size-14 items-center justify-center overflow-hidden rounded-full bg-[#869397] text-white shadow-lg shadow-[#869397]/40 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#869397] focus:ring-offset-2"
+      className="whatsapp-float fixed bottom-6 right-6 z-[100] flex size-[3.75rem] items-center justify-center overflow-hidden rounded-full bg-[#869397] text-white shadow-lg shadow-[#869397]/40 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#869397] focus:ring-offset-2 md:size-[4.25rem]"
       aria-label="Contactar por WhatsApp"
     >
       <span className="whatsapp-shine absolute inset-0" aria-hidden />
       <svg
         viewBox="0 0 24 24"
-        className="relative z-10 size-7"
+        className="relative z-10 size-[1.875rem] md:size-10"
         fill="currentColor"
         aria-hidden
       >

@@ -211,8 +211,8 @@ button:focus-visible,
 /* Logo versión blanca: forma con máscara (estable al recargar) */
 .logo-mask-light {
   background-color: white;
-  mask-image: url(/logo-azul.png);
-  -webkit-mask-image: url(/logo-azul.png);
+  mask-image: url(/logo_azul.png);
+  -webkit-mask-image: url(/logo_azul.png);
   mask-size: contain;
   -webkit-mask-size: contain;
   mask-repeat: no-repeat;
@@ -438,7 +438,7 @@ button:focus-visible,
 
 /* Carrusel de logos: dos grupos hermanos (shrink-0); -50% = un ciclo completo sin salto */
 .partners-marquee-track {
-  animation: partners-marquee-scroll 52s linear infinite;
+  animation: partners-marquee-scroll 38s linear infinite;
   backface-visibility: hidden;
   will-change: transform;
 }

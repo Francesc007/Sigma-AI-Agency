@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { buildProjectInquiryMessage, openWhatsApp } from "@/lib/whatsapp";
 
 const demoSchema = z.object({
   name: z.string().min(2, "Nombre requerido"),
@@ -19,40 +18,21 @@ const demoSchema = z.object({
 type DemoFormValues = z.infer<typeof demoSchema>;
 
 export function DemoForm({ onSuccess }: { onSuccess?: () => void }) {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<DemoFormValues>({
     resolver: zodResolver(demoSchema),
     defaultValues: { name: "", email: "", phone: "", message: "" },
   });
 
-  const onSubmit = async (data: DemoFormValues) => {
-    setStatus("loading");
-    try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, source: "demo_modal" }),
-      });
-      if (!res.ok) throw new Error("Error al enviar");
-      setStatus("success");
-      onSuccess?.();
-    } catch {
-      setStatus("error");
-    }
+  const onSubmit = (data: DemoFormValues) => {
+    openWhatsApp(buildProjectInquiryMessage(data));
+    reset();
+    onSuccess?.();
   };
-
-  if (status === "success") {
-    return (
-      <p className="py-4 text-center text-[#869397]" role="status">
-        ¡Listo! Te contactaremos pronto para agendar tu consultoría.
-      </p>
-    );
-  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4" noValidate>
@@ -119,20 +99,8 @@ export function DemoForm({ onSuccess }: { onSuccess?: () => void }) {
           {...register("message")}
         />
       </div>
-      {status === "error" && (
-        <p className="text-sm text-red-600" role="alert">
-          No pudimos enviar. Intenta de nuevo o llámanos.
-        </p>
-      )}
-      <Button type="submit" disabled={status === "loading"} className="w-full">
-        {status === "loading" ? (
-          <>
-            <Loader2 className="size-4 animate-spin" aria-hidden />
-            Enviando…
-          </>
-        ) : (
-          "Enviar"
-        )}
+      <Button type="submit" className="w-full">
+        Continuar en WhatsApp
       </Button>
     </form>
   );

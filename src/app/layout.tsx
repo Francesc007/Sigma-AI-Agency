@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og.png",
+        url: "/sigma-ai.png",
         width: 1200,
         height: 630,
         alt: "Sigma AI Agency - Automatización con IA",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
   robots: "index, follow",
   icons: {
-    icon: "/logo-azul.png",
+    icon: "/logo_azul.png",
   },
 };
 

@@ -22,7 +22,8 @@ export function CursorGlow() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.matchMedia("(pointer: fine)").matches) return;
-    setEnabled(true);
+
+    const enableId = requestAnimationFrame(() => setEnabled(true));
 
     const tick = () => {
       posRef.current.x += (targetRef.current.x - posRef.current.x) * LERP;
@@ -45,6 +46,7 @@ export function CursorGlow() {
     window.addEventListener("mousemove", onMove, { passive: true });
 
     return () => {
+      cancelAnimationFrame(enableId);
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("mousemove", onMove);
     };
