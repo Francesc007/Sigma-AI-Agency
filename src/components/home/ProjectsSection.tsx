@@ -159,7 +159,7 @@ export function ProjectsSection() {
     <section
       ref={ref}
       id="proyectos"
-      className="relative scroll-mt-20 overflow-x-clip bg-[#F5F5F5] py-16 sm:py-20 lg:overflow-hidden lg:py-28"
+      className="relative scroll-mt-20 overflow-visible bg-[#F5F5F5] py-16 sm:py-20 lg:overflow-hidden lg:py-28"
       aria-labelledby="projects-heading"
     >
       <motion.div
@@ -195,7 +195,7 @@ export function ProjectsSection() {
           Proyectos reales, resultados concretos
         </motion.h2>
 
-        <StackingCards className="mt-8 sm:mt-10 lg:hidden" overlapVh={34}>
+        <StackingCards className="mt-8 sm:mt-10 lg:hidden" endSpacerVh={24}>
           {PROJECTS.map((project) => (
             <div key={project.title} className="h-full">
               <ProjectCard project={project} />

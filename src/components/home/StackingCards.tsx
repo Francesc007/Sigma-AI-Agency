@@ -11,10 +11,10 @@ import { cn } from "@/lib/utils";
 
 /** Altura aproximada del navbar fijo + respiro */
 const NAVBAR_TOP = 88;
-/** Desfase visible entre cartas apiladas (borde superior) */
-const STACK_OFFSET = 12;
 /** Altura de track por tarjeta para que el sticky se desarrolle */
-const CARD_TRACK_VH = 78;
+const CARD_TRACK_VH = 90;
+/** Solape entre tracks para que las tarjetas realmente se apilen */
+const TRACK_OVERLAP_VH = 22;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -34,7 +34,7 @@ function StackingCard({
   children,
 }: StackingCardProps) {
   const isLast = index === total - 1;
-  const stickyTop = NAVBAR_TOP + index * STACK_OFFSET;
+  const stickyTop = NAVBAR_TOP;
   const zIndex = index + 1;
 
   const scale = useTransform(scrollYProgress, (progress) => {
@@ -77,8 +77,8 @@ function StackingCard({
 type StackingCardsProps = {
   children: ReactNode;
   className?: string;
-  /** vh de solapamiento entre cartas (scroll track) */
-  overlapVh?: number;
+  /** vh extra al final para que la última carta salga suave */
+  endSpacerVh?: number;
 };
 
 /**
@@ -88,7 +88,7 @@ type StackingCardsProps = {
 export function StackingCards({
   children,
   className,
-  overlapVh = 42,
+  endSpacerVh = 28,
 }: StackingCardsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const items = Children.toArray(children);
@@ -107,7 +107,13 @@ export function StackingCards({
       className={cn("relative w-full", className)}
     >
       {items.map((child, index) => (
-        <div key={index} className={cn(index > 0 && "mt-4")} style={{ minHeight: `${CARD_TRACK_VH}vh` }}>
+        <div
+          key={index}
+          style={{
+            minHeight: `${CARD_TRACK_VH}vh`,
+            marginTop: index === 0 ? 0 : `-${TRACK_OVERLAP_VH}vh`,
+          }}
+        >
           <StackingCard
             index={index}
             total={count}
@@ -117,7 +123,7 @@ export function StackingCards({
           </StackingCard>
         </div>
       ))}
-      <div style={{ height: `${overlapVh}vh` }} aria-hidden />
+      <div style={{ height: `${endSpacerVh}vh` }} aria-hidden />
     </div>
   );
 }

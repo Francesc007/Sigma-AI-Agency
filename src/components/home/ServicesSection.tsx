@@ -106,7 +106,7 @@ export function ServicesSection() {
     <section
       ref={ref}
       id="servicios"
-      className="relative scroll-mt-20 overflow-x-clip py-20 lg:overflow-hidden lg:py-28"
+      className="relative scroll-mt-20 overflow-visible py-20 lg:overflow-hidden lg:py-28"
       aria-labelledby="services-heading"
     >
       <div
@@ -168,7 +168,7 @@ export function ServicesSection() {
           </p>
         </motion.div>
 
-        <StackingCards className="mt-10 lg:hidden" overlapVh={38}>
+        <StackingCards className="mt-10 lg:hidden" endSpacerVh={24}>
           {SERVICES.map((service) => (
             <div key={service.id} id={service.id} className="scroll-mt-28">
               <ServiceCard service={service} />
