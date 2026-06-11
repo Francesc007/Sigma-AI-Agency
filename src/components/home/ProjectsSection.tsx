@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
-import { MobileScrollStack } from "@/components/home/MobileScrollStack";
+import { StackingCards } from "@/components/home/StackingCards";
 
 const FADE_DURATION = 0.8;
 const CAROUSEL_INTERVAL_MS = 4000;
@@ -20,33 +20,32 @@ type Project = {
 const PROJECTS: Project[] = [
   {
     title: "Mercedes Benz – Concesionaria: Sistema de Gestión de unidades y Leads",
-    description: "Landing de alto impacto integrada a un dashboard dinámico. Actualización de stock en tiempo real y gestión de reseñas de clientes para prueba social y conversión de ventas.",
+    description:
+      "Landing de alto impacto integrada a un dashboard dinámico. Actualización de stock en tiempo real y gestión de reseñas de clientes para prueba social y conversión de ventas.",
     image: "/Meche3.png",
     imageFallback: "/Mercedes Benz.png",
     gallery: ["/Meche3.png", "/Meche2.png", "/Meche1.png", "/Meche.png"],
   },
   {
     title: "Módulo de Gestión Inmobiliaria (Concept Demo)",
-    description: "Prototipo funcional de catálogo dinámico para desarrollos residenciales y comerciales.",
+    description:
+      "Prototipo funcional de catálogo dinámico para desarrollos residenciales y comerciales.",
     image: "/Real Estate.png",
     imageFallback: "/R E 1.png",
     gallery: ["/Real Estate.png", "/R E 1.png", "/R E.png", "/RE1.png"],
   },
   {
     title: "Grupo Frimac: Infraestructura Digital Corporativa",
-    description: "Desarrollo de plataforma robusta para la presentación de proyectos de ingeniería y captación de licitaciones. Enfoque en autoridad visual y confianza técnica.",
+    description:
+      "Desarrollo de plataforma robusta para la presentación de proyectos de ingeniería y captación de licitaciones. Enfoque en autoridad visual y confianza técnica.",
     image: "/Frimac 11.png",
     imageFallback: "/Frimac.png",
-    gallery: [
-      "/Frimac 11.png",
-      "/Frimac1.png",
-      "/Frimac3.png",
-      "/Frimac4.png",
-    ],
+    gallery: ["/Frimac 11.png", "/Frimac1.png", "/Frimac3.png", "/Frimac4.png"],
   },
   {
     title: "Grupo Nagasapi: Plataforma de Merchandising y Promocionales Corporativos",
-    description: "Sitio optimizado para la exhibición de catálogos promocionales industriales. Estructura diseñada para facilitar la solicitud de cotizaciones por volumen.",
+    description:
+      "Sitio optimizado para la exhibición de catálogos promocionales industriales. Estructura diseñada para facilitar la solicitud de cotizaciones por volumen.",
     image: "/Naga1.png",
     imageFallback: "/Mock nagasapi.png",
     gallery: ["/Naga1.png", "/Naga2.png", "/Naga3.png", "/Naga4.png"],
@@ -88,7 +87,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
   if (images.length === 0) return null;
 
   return (
-    <div className="relative w-full overflow-hidden bg-[#F5F5F5] h-[200px] sm:h-[240px] md:h-[280px]">
+    <div className="relative h-[200px] w-full overflow-hidden bg-[#F5F5F5] sm:h-[240px] lg:h-[280px]">
       <div className="mobile-image-life relative h-full w-full overflow-hidden">
         {images.map((src, idx) => {
           const displaySrc = failedSrcs.has(src) ? imageFallback : src;
@@ -107,7 +106,7 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
                 alt={`${alt} - imagen ${idx + 1}`}
                 fill
                 className="object-contain"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 quality={85}
                 loading="lazy"
                 onError={() =>
@@ -126,6 +125,32 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
   );
 }
 
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <MobileCardBorderSweep roundedClassName="rounded-xl" className="block h-full">
+      <article className="card-proyectos h-full overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_12px_38px_rgba(0,53,148,0.2),0_0_0_1px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]">
+        <ProjectImage
+          gallery={project.gallery ?? [project.image]}
+          imageFallback={project.imageFallback}
+          alt={project.title}
+        />
+        <div className="p-4 sm:p-6">
+          <h3 className="text-base font-semibold text-[#003594] sm:text-lg lg:text-xl">
+            {project.title}
+          </h3>
+          <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{project.description}</p>
+          <a
+            href="#ready-to-talk"
+            className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
+          >
+            Cotizar Proyecto
+          </a>
+        </div>
+      </article>
+    </MobileCardBorderSweep>
+  );
+}
+
 export function ProjectsSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -134,11 +159,11 @@ export function ProjectsSection() {
     <section
       ref={ref}
       id="proyectos"
-      className="relative scroll-mt-20 overflow-x-hidden bg-[#F5F5F5] py-16 sm:py-20 md:overflow-hidden md:py-28"
+      className="relative scroll-mt-20 overflow-x-clip bg-[#F5F5F5] py-16 sm:py-20 lg:overflow-hidden lg:py-28"
       aria-labelledby="projects-heading"
     >
       <motion.div
-        className="pointer-events-none absolute left-0 top-1/2 z-0 h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full md:w-52 lg:w-64"
+        className="pointer-events-none absolute left-0 top-1/2 z-0 hidden h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full lg:block lg:w-52 xl:w-64"
         aria-hidden
         initial={{ scaleX: 0, opacity: 0.5 }}
         animate={inView ? { scaleX: 1, opacity: 1 } : {}}
@@ -149,7 +174,7 @@ export function ProjectsSection() {
         <span className="section-side-line__shine" />
       </motion.div>
       <motion.div
-        className="pointer-events-none absolute right-0 top-1/2 z-0 h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full md:w-52 lg:w-64"
+        className="pointer-events-none absolute right-0 top-1/2 z-0 hidden h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full lg:block lg:w-52 xl:w-64"
         aria-hidden
         initial={{ scaleX: 0, opacity: 0.5 }}
         animate={inView ? { scaleX: 1, opacity: 1 } : {}}
@@ -159,49 +184,36 @@ export function ProjectsSection() {
         <div className="absolute inset-0 rounded-full bg-gradient-to-l from-[#869397]/80 via-[#869397]/40 to-transparent" />
         <span className="section-side-line__shine section-side-line__shine--delay" />
       </motion.div>
+
       <div className="relative z-[1] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2
           id="projects-heading"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center text-2xl font-bold text-[#003594] sm:text-3xl md:text-4xl"
+          className="text-center text-2xl font-bold text-[#003594] sm:text-3xl lg:text-4xl"
         >
           Proyectos reales, resultados concretos
         </motion.h2>
+
+        <StackingCards className="mt-8 sm:mt-10 lg:hidden" overlapVh={34}>
+          {PROJECTS.map((project) => (
+            <div key={project.title} className="h-full">
+              <ProjectCard project={project} />
+            </div>
+          ))}
+        </StackingCards>
+
         <motion.div
           variants={container}
           initial="hidden"
           animate={inView ? "show" : "hidden"}
+          className="mt-8 hidden gap-6 sm:mt-10 sm:gap-8 lg:mt-12 lg:grid lg:grid-cols-2 lg:gap-10"
         >
-          <MobileScrollStack
-            className="mt-8 sm:mt-10 md:mt-12"
-            desktopClassName="md:grid md:grid-cols-2 md:gap-10 sm:gap-8"
-            stickyTopBase={84}
-          >
-            {PROJECTS.map((p) => (
-              <motion.div key={p.title} variants={item} className="h-full">
-              <MobileCardBorderSweep roundedClassName="rounded-xl" className="block h-full">
-                <motion.article className="card-proyectos h-full overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_12px_38px_rgba(0,53,148,0.2),0_0_0_1px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]">
-                  <ProjectImage
-                    gallery={p.gallery ?? [p.image]}
-                    imageFallback={p.imageFallback}
-                    alt={p.title}
-                  />
-                  <div className="p-4 sm:p-6">
-                    <h3 className="text-base font-semibold text-[#003594] sm:text-lg md:text-xl">{p.title}</h3>
-                    <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{p.description}</p>
-                    <a
-                      href="#ready-to-talk"
-                      className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
-                    >
-                      Cotizar Proyecto
-                    </a>
-                  </div>
-                </motion.article>
-              </MobileCardBorderSweep>
+          {PROJECTS.map((project) => (
+            <motion.div key={project.title} variants={item} className="h-full">
+              <ProjectCard project={project} />
             </motion.div>
           ))}
-          </MobileScrollStack>
         </motion.div>
       </div>
     </section>

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
-import { MobileScrollStack } from "@/components/home/MobileScrollStack";
+import { StackingCards } from "@/components/home/StackingCards";
 
 const SERVICES = [
   {
@@ -23,7 +23,7 @@ const SERVICES = [
     id: "plataformas",
     title: "Plataformas Web Corporativas",
     description:
-      "Ecosistemas digitales que centralizan la identidad de tu marca, organizan tu catálogo y proyectan solidez. Arquitectura escalable, panel de autogestión e infraestructura lista para CRMs.",
+      "Ecosistemos digitales que centralizan la identidad de tu marca, organizan tu catálogo y proyectan solidez. Arquitectura escalable, panel de autogestión e infraestructura lista para CRMs.",
     href: "#ready-to-talk",
     accent: "Marca",
     image: "/Frimac1.png",
@@ -54,6 +54,50 @@ const cardItem = {
   show: { opacity: 1, y: 0 },
 };
 
+type Service = (typeof SERVICES)[number];
+
+function ServiceCard({ service }: { service: Service }) {
+  return (
+    <Link href={service.href} className="group block h-full">
+      <MobileCardBorderSweep roundedClassName="rounded-2xl" className="block h-full">
+        <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_12px_42px_rgba(0,53,148,0.22),0_0_0_1px_rgba(0,53,148,0.16),0_0_36px_rgba(0,53,148,0.1)]">
+          <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] sm:h-64">
+            <div className="absolute inset-4 sm:inset-5">
+              <div className="service-image-frame relative h-full w-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-[1.25] max-lg:group-hover:translate-y-0 max-lg:group-hover:scale-100">
+                <div className="mobile-image-life relative h-full w-full">
+                  <Image
+                    src={service.image}
+                    alt={service.imageAlt}
+                    fill
+                    className="object-contain object-center"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    priority={service.image.includes("Naga")}
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/30 to-transparent"
+              aria-hidden
+            />
+          </div>
+          <div className="relative p-6">
+            <span className="inline-block border-l-4 border-[#003594] bg-[#003594]/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#003594]">
+              {service.accent}
+            </span>
+            <h3 className="mt-3 text-xl font-semibold text-[#003594]">{service.title}</h3>
+            <p className="mt-3 leading-relaxed text-[#8695A3]">{service.description}</p>
+            <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#003594] transition-transform group-hover:translate-x-1">
+              Saber más
+              <ArrowRight className="size-4" aria-hidden />
+            </span>
+          </div>
+        </div>
+      </MobileCardBorderSweep>
+    </Link>
+  );
+}
+
 export function ServicesSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -62,7 +106,7 @@ export function ServicesSection() {
     <section
       ref={ref}
       id="servicios"
-      className="relative scroll-mt-20 overflow-x-hidden py-20 md:overflow-hidden md:py-28"
+      className="relative scroll-mt-20 overflow-x-clip py-20 lg:overflow-hidden lg:py-28"
       aria-labelledby="services-heading"
     >
       <div
@@ -81,9 +125,8 @@ export function ServicesSection() {
         className="absolute -bottom-20 -left-20 size-64 rounded-full bg-[#003594]/5 blur-3xl"
         aria-hidden
       />
-      {/* Línea lateral izquierda (misma referencia que «Tener una página…») */}
       <motion.div
-        className="pointer-events-none absolute left-0 top-1/2 z-0 h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full md:w-52 lg:w-64"
+        className="pointer-events-none absolute left-0 top-1/2 z-0 hidden h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full lg:block lg:w-52 xl:w-64"
         aria-hidden
         initial={{ scaleX: 0, opacity: 0.5 }}
         animate={inView ? { scaleX: 1, opacity: 1 } : {}}
@@ -94,7 +137,7 @@ export function ServicesSection() {
         <span className="section-side-line__shine" />
       </motion.div>
       <motion.div
-        className="pointer-events-none absolute right-0 top-1/2 z-0 h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full md:w-52 lg:w-64"
+        className="pointer-events-none absolute right-0 top-1/2 z-0 hidden h-3.5 w-32 -translate-y-1/2 overflow-hidden rounded-full lg:block lg:w-52 xl:w-64"
         aria-hidden
         initial={{ scaleX: 0, opacity: 0.5 }}
         animate={inView ? { scaleX: 1, opacity: 1 } : {}}
@@ -125,59 +168,25 @@ export function ServicesSection() {
           </p>
         </motion.div>
 
+        <StackingCards className="mt-10 lg:hidden" overlapVh={38}>
+          {SERVICES.map((service) => (
+            <div key={service.id} id={service.id} className="scroll-mt-28">
+              <ServiceCard service={service} />
+            </div>
+          ))}
+        </StackingCards>
+
         <motion.div
           variants={container}
           initial="hidden"
           animate={inView ? "show" : "hidden"}
+          className="mt-14 hidden gap-8 lg:grid lg:grid-cols-3"
         >
-          <MobileScrollStack
-            className="mt-14"
-            desktopClassName="md:grid md:grid-cols-3 md:gap-8"
-          >
-            {SERVICES.map((s) => (
-              <motion.div key={s.id} id={s.id} className="scroll-mt-28" variants={cardItem}>
-              <Link href={s.href} className="group block h-full">
-                <MobileCardBorderSweep roundedClassName="rounded-2xl" className="block h-full">
-                  <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_12px_42px_rgba(0,53,148,0.22),0_0_0_1px_rgba(0,53,148,0.16),0_0_36px_rgba(0,53,148,0.1)]">
-                    <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] sm:h-64">
-                      <div className="absolute inset-4 sm:inset-5">
-                        <div className="service-image-frame relative h-full w-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-[1.25]">
-                          <div className="mobile-image-life relative h-full w-full">
-                            <Image
-                              src={s.image}
-                              alt={s.imageAlt}
-                              fill
-                              className="object-contain object-center"
-                              sizes="(max-width: 768px) 100vw, 33vw"
-                              priority={s.image.includes("Naga")}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/30 to-transparent"
-                        aria-hidden
-                      />
-                    </div>
-                    <div className="relative p-6">
-                      <span className="inline-block border-l-4 border-[#003594] bg-[#003594]/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#003594]">
-                        {s.accent}
-                      </span>
-                      <h3 className="mt-3 text-xl font-semibold text-[#003594] group-hover:text-[#003594]">
-                        {s.title}
-                      </h3>
-                      <p className="mt-3 leading-relaxed text-[#8695A3]">{s.description}</p>
-                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#003594] transition-transform group-hover:translate-x-1">
-                        Saber más
-                        <ArrowRight className="size-4" aria-hidden />
-                      </span>
-                    </div>
-                  </div>
-                </MobileCardBorderSweep>
-              </Link>
+          {SERVICES.map((service) => (
+            <motion.div key={service.id} id={service.id} className="scroll-mt-28" variants={cardItem}>
+              <ServiceCard service={service} />
             </motion.div>
           ))}
-          </MobileScrollStack>
         </motion.div>
       </div>
     </section>
