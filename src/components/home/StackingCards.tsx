@@ -14,7 +14,7 @@ const NAVBAR_TOP = 88;
 /** Altura de track por tarjeta para que el sticky se desarrolle */
 const CARD_TRACK_VH = 90;
 /** Solape entre tracks para que las tarjetas realmente se apilen */
-const TRACK_OVERLAP_VH = 22;
+const TRACK_OVERLAP_VH = 34;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
