@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils";
 const NAVBAR_TOP = 88;
 /** Desfase visible entre cartas apiladas (borde superior) */
 const STACK_OFFSET = 12;
-/** Scroll extra al final del track */
-const END_SPACER_VH = 18;
+/** Altura de track por tarjeta para que el sticky se desarrolle */
+const CARD_TRACK_VH = 78;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -104,20 +104,10 @@ export function StackingCards({
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-full pb-[18vh]", className)}
-      style={{
-        minHeight: `calc(${count * overlapVh}vh + ${END_SPACER_VH}vh)`,
-      }}
+      className={cn("relative w-full", className)}
     >
       {items.map((child, index) => (
-        <div
-          key={index}
-          style={
-            index < count - 1
-              ? { marginBottom: `-${overlapVh}vh` }
-              : undefined
-          }
-        >
+        <div key={index} className={cn(index > 0 && "mt-4")} style={{ minHeight: `${CARD_TRACK_VH}vh` }}>
           <StackingCard
             index={index}
             total={count}
@@ -127,6 +117,7 @@ export function StackingCards({
           </StackingCard>
         </div>
       ))}
+      <div style={{ height: `${overlapVh}vh` }} aria-hidden />
     </div>
   );
 }
