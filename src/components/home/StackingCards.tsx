@@ -9,15 +9,18 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-/** Altura aproximada del navbar fijo + respiro */
-const NAVBAR_TOP = 88;
-/** Altura de track por tarjeta para que el sticky se desarrolle */
-const CARD_TRACK_VH = 90;
-/** Solape entre tracks para que las tarjetas realmente se apilen */
-const TRACK_OVERLAP_VH = 55;
+/** Altura de track por tarjeta — scroll mientras la anterior queda anclada */
+const DEFAULT_CARD_TRACK_VH = 100;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
+}
+
+function stickyTopForIndex(index: number) {
+  if (index === 0) {
+    return "calc(var(--navbar-height) + var(--stack-first-gap, 12px))";
+  }
+  return `calc(var(--navbar-height) + var(--stack-first-gap, 12px) + ${index} * var(--stack-offset, 8px))`;
 }
 
 type StackingCardProps = {
@@ -34,7 +37,6 @@ function StackingCard({
   children,
 }: StackingCardProps) {
   const isLast = index === total - 1;
-  const stickyTop = NAVBAR_TOP;
   const zIndex = index + 1;
 
   const scale = useTransform(scrollYProgress, (progress) => {
@@ -43,9 +45,9 @@ function StackingCard({
     for (let j = index + 1; j < total; j++) {
       const threshold = j / total;
       const t = clamp((progress - threshold) / (1 / total), 0, 1);
-      value -= t * 0.035;
+      value -= t * 0.045;
     }
-    return Math.max(value, 0.9);
+    return Math.max(value, 0.88);
   });
 
   const opacity = useTransform(scrollYProgress, (progress) => {
@@ -54,16 +56,13 @@ function StackingCard({
     for (let j = index + 1; j < total; j++) {
       const threshold = j / total;
       const t = clamp((progress - threshold) / (1 / total), 0, 1);
-      value -= t * 0.07;
+      value -= t * 0.14;
     }
-    return Math.max(value, 0.82);
+    return Math.max(value, 0.75);
   });
 
   return (
-    <div
-      className="sticky w-full"
-      style={{ top: stickyTop, zIndex }}
-    >
+    <div className="sticky w-full" style={{ top: stickyTopForIndex(index), zIndex }}>
       <motion.div
         style={{ scale, opacity }}
         className="origin-top will-change-[transform,opacity]"
@@ -79,16 +78,20 @@ type StackingCardsProps = {
   className?: string;
   /** vh extra al final para que la última carta salga suave */
   endSpacerVh?: number;
+  /** Altura de scroll por carta (vh) — más alto = más tiempo anclada antes del traslape */
+  cardTrackVh?: number;
 };
 
 /**
  * Efecto cartas apiladas (estilo Mercado Pago) en móvil/tablet.
+ * Ancla 1.ª carta en: navbar + --stack-first-gap (ver globals.css).
  * Desktop: usar grid aparte (lg+).
  */
 export function StackingCards({
   children,
   className,
   endSpacerVh = 28,
+  cardTrackVh = DEFAULT_CARD_TRACK_VH,
 }: StackingCardsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const items = Children.toArray(children);
@@ -102,18 +105,9 @@ export function StackingCards({
   if (count === 0) return null;
 
   return (
-    <div
-      ref={containerRef}
-      className={cn("relative w-full", className)}
-    >
+    <div ref={containerRef} className={cn("relative w-full", className)}>
       {items.map((child, index) => (
-        <div
-          key={index}
-          style={{
-            minHeight: `${CARD_TRACK_VH}vh`,
-            marginTop: index === 0 ? 0 : `-${TRACK_OVERLAP_VH}vh`,
-          }}
-        >
+        <div key={index} style={{ minHeight: `${cardTrackVh}vh` }}>
           <StackingCard
             index={index}
             total={count}

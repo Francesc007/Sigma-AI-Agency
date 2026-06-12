@@ -168,7 +168,7 @@ export function ServicesSection() {
           </p>
         </motion.div>
 
-        <StackingCards className="mt-10 lg:hidden" endSpacerVh={24}>
+        <StackingCards className="mt-10 lg:hidden" endSpacerVh={24} cardTrackVh={100}>
           {SERVICES.map((service) => (
             <div key={service.id} id={service.id} className="scroll-mt-28">
               <ServiceCard service={service} />

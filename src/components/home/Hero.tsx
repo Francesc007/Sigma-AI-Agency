@@ -10,7 +10,7 @@ export function Hero() {
     <section
       id="inicio"
       data-cursor-zone="dark"
-      className="relative flex min-h-[100vh] flex-col items-start justify-center overflow-hidden px-4 pt-24 pb-16 text-white scroll-mt-0"
+      className="relative flex min-h-[100svh] w-full max-w-full flex-col items-start justify-center overflow-hidden px-4 pt-24 pb-16 text-white scroll-mt-0"
       aria-label="Presentación principal"
     >
       {/* Base gradient */}
@@ -65,7 +65,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative z-20 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-20 w-full max-w-7xl">
         <div className="max-w-2xl text-left">
           <motion.h1
             initial={{ opacity: 0, y: 28 }}

@@ -30,12 +30,28 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("navbar-scrolled", scrolled);
+    return () => root.classList.remove("navbar-scrolled");
+  }, [scrolled]);
+
+  useEffect(() => {
     if (forceSolid) return;
     const onScroll = () => setScrollPastThreshold(window.scrollY > 50);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [forceSolid]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    window.scrollTo({ left: 0, top: window.scrollY });
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [mobileOpen]);
 
   return (
     <motion.header
@@ -48,16 +64,16 @@ export function Navbar() {
       }}
       transition={{ duration: 0.3 }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 w-full max-w-[100vw] transition-all duration-300",
         scrolled ? "py-2" : "py-4"
       )}
       role="banner"
       data-cursor-zone={!scrolled && pathname === "/" ? "dark" : undefined}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 max-lg:min-w-0">
         <NavbarBrand scrolled={scrolled} />
 
-        <div className="hidden items-center gap-6 sm:flex lg:gap-8">
+        <div className="hidden items-center gap-6 lg:flex lg:gap-8">
           <nav
             className="hidden items-center gap-6 lg:flex lg:gap-8"
             aria-label="Navegación principal"
@@ -101,13 +117,14 @@ export function Navbar() {
         <button
           type="button"
           className={cn(
-            "relative z-10 flex size-10 flex-col items-center justify-center gap-1.5 rounded-lg lg:hidden",
+            "relative z-[60] flex size-10 shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border shadow-md lg:hidden",
             scrolled
-              ? "border border-[#869397] bg-white"
-              : "border border-white/80 bg-white/10"
+              ? "border-[#869397] bg-white"
+              : "border-white/90 bg-[#003594]"
           )}
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={mobileOpen}
         >
           <span
             className={cn(
@@ -135,40 +152,54 @@ export function Navbar() {
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="absolute left-0 right-0 top-full z-40 px-4 pt-2 lg:hidden"
-            aria-hidden={!mobileOpen}
-          >
-            <nav
-              className="mx-auto flex max-w-md flex-col gap-3 rounded-2xl border border-[#869397]/25 bg-white/95 p-4 shadow-xl backdrop-blur-md"
-              aria-label="Menú móvil"
+          <>
+            <motion.button
+              key="mobile-menu-backdrop"
+              type="button"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[55] bg-[#041E42]/40 lg:hidden"
+              aria-label="Cerrar menú"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.div
+              key="mobile-menu-panel"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="fixed left-0 right-0 z-[60] w-full max-w-[100vw] px-4 pt-2 lg:hidden"
+              style={{ top: "var(--navbar-height)" }}
             >
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={navHref(link.href, pathname)}
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-lg px-2 py-2 text-lg font-medium text-[#003594] active:bg-[#003594]/5"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Button variant="primary" className="mt-1 w-full" asChild>
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Cotizar Proyecto
-                </a>
-              </Button>
-            </nav>
-          </motion.div>
+              <nav
+                className="mx-auto flex w-full max-w-md flex-col gap-3 rounded-2xl border border-[#869397]/25 bg-white p-4 shadow-xl"
+                aria-label="Menú móvil"
+              >
+                {NAV_LINKS.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={navHref(link.href, pathname)}
+                    onClick={() => setMobileOpen(false)}
+                    className="rounded-lg px-3 py-2.5 text-lg font-medium text-[#003594] active:bg-[#003594]/5"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Button variant="primary" className="mt-1 w-full" asChild>
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Cotizar Proyecto
+                  </a>
+                </Button>
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.header>
