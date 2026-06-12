@@ -9,18 +9,13 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-/** Altura de track por tarjeta — scroll mientras la anterior queda anclada */
-const DEFAULT_CARD_TRACK_VH = 100;
+/** Reducción de escala de la carta de atrás por cada carta que la cubre (1.0 → 0.98) */
+const SCALE_STEP = 0.02;
+/** Reducción de opacidad de la carta de atrás por cada carta que la cubre (1.0 → 0.9) */
+const OPACITY_STEP = 0.1;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
-}
-
-function stickyTopForIndex(index: number) {
-  if (index === 0) {
-    return "calc(var(--navbar-height) + var(--stack-first-gap, 12px))";
-  }
-  return `calc(var(--navbar-height) + var(--stack-first-gap, 12px) + ${index} * var(--stack-offset, 8px))`;
 }
 
 type StackingCardProps = {
@@ -36,33 +31,38 @@ function StackingCard({
   scrollYProgress,
   children,
 }: StackingCardProps) {
-  const isLast = index === total - 1;
+  /* z-index incremental: cada carta nueva se superpone a la anterior */
   const zIndex = index + 1;
 
+  /* Top progresivo: navbar + gap + (index * desfase).
+     Carta 1 → 100px, carta 2 → 108px, carta 3 → 116px…
+     El borde superior de las cartas anteriores queda siempre visible. */
+  const stickyTop = `calc(var(--navbar-height, 88px) + var(--stack-first-gap, 12px) + ${index} * var(--stack-offset, 8px))`;
+
+  /* La carta j cubre a esta mientras progress recorre [(j-1)/total, j/total] */
   const scale = useTransform(scrollYProgress, (progress) => {
-    if (isLast) return 1;
     let value = 1;
     for (let j = index + 1; j < total; j++) {
-      const threshold = j / total;
-      const t = clamp((progress - threshold) / (1 / total), 0, 1);
-      value -= t * 0.045;
+      const t = clamp((progress - (j - 1) / total) / (1 / total), 0, 1);
+      value -= t * SCALE_STEP;
     }
-    return Math.max(value, 0.88);
+    return value;
   });
 
   const opacity = useTransform(scrollYProgress, (progress) => {
-    if (isLast) return 1;
     let value = 1;
     for (let j = index + 1; j < total; j++) {
-      const threshold = j / total;
-      const t = clamp((progress - threshold) / (1 / total), 0, 1);
-      value -= t * 0.14;
+      const t = clamp((progress - (j - 1) / total) / (1 / total), 0, 1);
+      value -= t * OPACITY_STEP;
     }
-    return Math.max(value, 0.75);
+    return value;
   });
 
   return (
-    <div className="sticky w-full" style={{ top: stickyTopForIndex(index), zIndex }}>
+    <div
+      className={cn("sticky w-full", index > 0 && "mt-4")}
+      style={{ top: stickyTop, zIndex }}
+    >
       <motion.div
         style={{ scale, opacity }}
         className="origin-top will-change-[transform,opacity]"
@@ -76,22 +76,28 @@ function StackingCard({
 type StackingCardsProps = {
   children: ReactNode;
   className?: string;
-  /** vh extra al final para que la última carta salga suave */
+  /** vh extra al final: tiempo con el mazo completo antes de soltar la sección */
   endSpacerVh?: number;
-  /** Altura de scroll por carta (vh) — más alto = más tiempo anclada antes del traslape */
-  cardTrackVh?: number;
 };
 
 /**
- * Efecto cartas apiladas (estilo Mercado Pago) en móvil/tablet.
- * Ancla 1.ª carta en: navbar + --stack-first-gap (ver globals.css).
- * Desktop: usar grid aparte (lg+).
+ * Mazo de cartas apiladas (estilo Mercado Pago) para móvil/tablet.
+ *
+ * Arquitectura:
+ * - El contenedor actúa como track de scroll (~1 viewport por carta gracias a
+ *   la altura natural de las cartas + endSpacer → ≥200vh con 3 cartas).
+ * - Cada carta es sticky con top progresivo (navbar + index * desfase) y
+ *   z-index incremental: comienza en su posición original del flujo, sube,
+ *   se fija, y la siguiente la cubre casi por completo.
+ * - Al fijarse la última, el endSpacer da una pausa y la sección continúa.
+ *
+ * Requiere que ningún ancestro cree un scroll container
+ * (usar overflow-x: clip, nunca hidden — ver globals.css).
  */
 export function StackingCards({
   children,
   className,
   endSpacerVh = 28,
-  cardTrackVh = DEFAULT_CARD_TRACK_VH,
 }: StackingCardsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const items = Children.toArray(children);
@@ -107,15 +113,14 @@ export function StackingCards({
   return (
     <div ref={containerRef} className={cn("relative w-full", className)}>
       {items.map((child, index) => (
-        <div key={index} style={{ minHeight: `${cardTrackVh}vh` }}>
-          <StackingCard
-            index={index}
-            total={count}
-            scrollYProgress={scrollYProgress}
-          >
-            {child}
-          </StackingCard>
-        </div>
+        <StackingCard
+          key={index}
+          index={index}
+          total={count}
+          scrollYProgress={scrollYProgress}
+        >
+          {child}
+        </StackingCard>
       ))}
       <div style={{ height: `${endSpacerVh}vh` }} aria-hidden />
     </div>

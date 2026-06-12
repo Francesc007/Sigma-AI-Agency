@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { MobileCardBorderSweep } from "@/components/home/MobileCardBorderSweep";
 import { StackingCards } from "@/components/home/StackingCards";
 
 const FADE_DURATION = 0.8;
@@ -127,27 +126,25 @@ function ProjectImage({ gallery, imageFallback, alt }: ProjectImageProps) {
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <MobileCardBorderSweep roundedClassName="rounded-xl" className="block h-full">
-      <article className="card-proyectos h-full overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_12px_38px_rgba(0,53,148,0.2),0_0_0_1px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]">
-        <ProjectImage
-          gallery={project.gallery ?? [project.image]}
-          imageFallback={project.imageFallback}
-          alt={project.title}
-        />
-        <div className="p-4 sm:p-6">
-          <h3 className="text-base font-semibold text-[#003594] sm:text-lg lg:text-xl">
-            {project.title}
-          </h3>
-          <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{project.description}</p>
-          <a
-            href="#ready-to-talk"
-            className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
-          >
-            Cotizar Proyecto
-          </a>
-        </div>
-      </article>
-    </MobileCardBorderSweep>
+    <article className="card-proyectos block h-full overflow-hidden rounded-xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.12)] transition-all duration-300 hover:border-[#003594] hover:shadow-[0_12px_38px_rgba(0,53,148,0.2),0_0_0_1px_rgba(0,53,148,0.16),0_0_32px_rgba(0,53,148,0.1)]">
+      <ProjectImage
+        gallery={project.gallery ?? [project.image]}
+        imageFallback={project.imageFallback}
+        alt={project.title}
+      />
+      <div className="p-4 sm:p-6">
+        <h3 className="text-base font-semibold text-[#003594] sm:text-lg lg:text-xl">
+          {project.title}
+        </h3>
+        <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{project.description}</p>
+        <a
+          href="#ready-to-talk"
+          className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
+        >
+          Cotizar Proyecto
+        </a>
+      </div>
+    </article>
   );
 }
 

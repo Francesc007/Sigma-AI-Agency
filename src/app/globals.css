@@ -17,7 +17,7 @@
   /** Espacio entre navbar y 1.ª carta al hacer sticky (posición ancla) */
   --stack-first-gap: 12px;
   /** Desfase visible entre cartas apiladas — bajo = casi tapa la anterior */
-  --stack-offset: 8px;
+  --stack-offset: 20px;
 }
 
 html.navbar-scrolled {
@@ -36,14 +36,16 @@ html.navbar-scrolled {
 }
 
 @media (max-width: 1023px) {
+  /* clip (no hidden): recorta el desbordamiento horizontal SIN crear un
+     scroll container, así position:sticky de las cartas apiladas funciona */
   html,
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100%;
   }
 
   #main-content {
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100%;
   }
 }
@@ -477,33 +479,25 @@ button:focus-visible,
   }
 }
 
-/* Móvil: “mecha” en el borde del marco (SVG stroke-dash), no relleno ni disco giratorio */
+/* Cometa en borde de tarjeta — trazo largo, fino, recorrido lento y continuo.
+   Fase +22: el hueco (ocultamiento) llega a sup. izq., no a inf. izq. */
 .mobile-fuse-path {
-  stroke-dasharray: 5.25 94.75;
-  stroke-dashoffset: 0;
+  stroke-dasharray: 7 93;
+  stroke-dashoffset: 22;
   opacity: 0;
 }
 
 .mobile-fuse-path--play {
-  animation: mobile-fuse-travel-loop 6.5s linear infinite;
+  animation: mobile-fuse-travel-loop 10s linear infinite;
 }
 
-/* ~5.2s recorrido + ~1.3s pausa; bucle infinito */
 @keyframes mobile-fuse-travel-loop {
-  0% {
-    stroke-dashoffset: 0;
+  from {
+    stroke-dashoffset: 22;
     opacity: 1;
   }
-  80% {
-    stroke-dashoffset: -100;
-    opacity: 1;
-  }
-  99.99% {
-    stroke-dashoffset: -100;
-    opacity: 1;
-  }
-  100% {
-    stroke-dashoffset: 0;
+  to {
+    stroke-dashoffset: -78;
     opacity: 1;
   }
 }

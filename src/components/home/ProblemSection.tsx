@@ -99,7 +99,7 @@ export function ProblemSection() {
         </motion.div>
         </MobileCardBorderSweep>
 
-          <MobileCardBorderSweep roundedClassName="rounded-2xl" className="h-full min-h-[220px] sm:min-h-[260px] lg:min-h-0">
+          <MobileCardBorderSweep roundedClassName="rounded-2xl" className="h-full min-h-[220px] sm:min-h-[260px] lg:min-h-0" tone="light">
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
