@@ -24,7 +24,7 @@ const SERVICES = [
     description:
       "Herramientas que calculan variables complejas al instante, permitiendo cotizar en minutos, no en días.",
     icon: Zap,
-    image: "/Cotizador1.png",
+    image: "/7.png",
     imageAlt: "Vista de plataforma corporativa Grupo Frimac",
   },
   {
