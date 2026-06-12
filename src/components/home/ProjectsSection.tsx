@@ -4,6 +4,9 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { StackingCards } from "@/components/home/StackingCards";
+import { buildWhatsAppUrl, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/whatsapp";
+
+const WHATSAPP_URL = buildWhatsAppUrl(WHATSAPP_DEFAULT_MESSAGE);
 
 const FADE_DURATION = 0.8;
 const CAROUSEL_INTERVAL_MS = 4000;
@@ -138,7 +141,9 @@ function ProjectCard({ project }: { project: Project }) {
         </h3>
         <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{project.description}</p>
         <a
-          href="#para-quien-es-esto"
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
         >
           Cotizar Proyecto

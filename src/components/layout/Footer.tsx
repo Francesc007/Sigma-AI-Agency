@@ -69,7 +69,15 @@ export function Footer() {
               >
                 <MessageCircle className="size-4" aria-hidden />
               </a>
-              <span className="ml-0.5 font-bold tabular-nums">+52 55 5459 0883</span>
+              <span className="ml-0.5 font-bold tabular-nums">
+                <a
+                  href="tel:+525554590883"
+                  className="transition hover:text-white hover:underline"
+                  aria-label="Llamar: +52 55 5459 0883"
+                >
+                  +52 55 5459 0883
+                </a>
+              </span>
             </p>
             <a
               href="mailto:contacto@sigmaaiagency.com"
