@@ -1,44 +1,42 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { BarChart3, Cog, Zap, type LucideIcon } from "lucide-react";
 import { StackingCards } from "@/components/home/StackingCards";
+
+const MICRO_COPY = "Sistemas a medida para PyMEs de alto valor";
 
 const SERVICES = [
   {
-    id: "landings",
-    title: "Landing Pages de Alta Conversión",
+    id: "automatizacion",
+    title: "Automatización Operativa",
     description:
-      "Interfaces de aterrizaje rápidas y optimizadas para transformar visitantes en prospectos calificados. Ideal para concesionarias de gama alta, desarrollos inmobiliarios en preventa y servicios B2B.",
-    href: "#para-quien-es-esto",
-    accent: "Conversión",
-    image: "/Naga 3.png",
-    imageAlt: "Landing page con catálogo y productos Naga",
+      "Sistemas inteligentes para levantamientos, inventarios y gestión de activos que eliminan el error humano y aceleran tu operación.",
+    icon: Cog,
+    image: "/concesionaria1.png",
+    imageAlt: "Dashboard y sistema de datos construido con Sanity",
   },
   {
-    id: "plataformas",
-    title: "Plataformas Web Corporativas",
+    id: "cotizacion",
+    title: "Cotización Dinámica",
     description:
-      "Ecosistemos digitales que centralizan la identidad de tu marca, organizan tu catálogo y proyectan solidez. Arquitectura escalable, panel de autogestión e infraestructura lista para CRMs.",
-    href: "#para-quien-es-esto",
-    accent: "Marca",
-    image: "/Frimac1.png",
+      "Herramientas que calculan variables complejas al instante, permitiendo cotizar en minutos, no en días.",
+    icon: Zap,
+    image: "/Cotizador1.png",
     imageAlt: "Vista de plataforma corporativa Grupo Frimac",
   },
   {
-    id: "sistemas",
-    title: "Desarrollo de Sistemas y Dashboards Personalizados",
+    id: "landings",
+    title: "Landing Pages de Conversión",
     description:
-      "Gestión de inventarios en tiempo real, dashboards (Sanity), automatización de flujos de datos y arquitectura independiente. Tú tienes el dominio total de tu información.",
-    href: "#para-quien-es-esto",
-    accent: "Control",
-    image: "/Sanity1.png",
-    imageAlt: "Dashboard y sistema de datos construido con Sanity",
+      "Sitios de alto rendimiento optimizados para captar prospectos calificados e integrarlos directamente a tu CRM o base de datos.",
+    icon: BarChart3,
+    image: "/landing5.png",
+    imageAlt: "Landing page con catálogo y productos Naga",
   },
-];
+] as const;
 
 const container = {
   hidden: { opacity: 0 },
@@ -56,42 +54,40 @@ const cardItem = {
 type Service = (typeof SERVICES)[number];
 
 function ServiceCard({ service }: { service: Service }) {
+  const Icon = service.icon as LucideIcon;
+
   return (
-    <Link href={service.href} className="group block h-full">
-        <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 hover:border-[#003594] hover:shadow-[0_12px_42px_rgba(0,53,148,0.22),0_0_0_1px_rgba(0,53,148,0.16),0_0_36px_rgba(0,53,148,0.1)]">
-          <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] sm:h-64">
-            <div className="absolute inset-4 sm:inset-5">
-              <div className="service-image-frame relative h-full w-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-[1.25] max-lg:group-hover:translate-y-0 max-lg:group-hover:scale-100">
-                <div className="mobile-image-life relative h-full w-full">
-                  <Image
-                    src={service.image}
-                    alt={service.imageAlt}
-                    fill
-                    className="object-contain object-center"
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    priority={service.image.includes("Naga")}
-                  />
-                </div>
+    <article className="group block h-full cursor-default">
+      <div className="card-soluciones relative z-0 h-full overflow-visible rounded-2xl border border-[#869397]/40 bg-white shadow-[0_4px_20px_rgba(0,53,148,0.08),0_0_0_1px_rgba(134,147,151,0.1)] transition-all duration-300 group-hover:z-30 group-hover:border-[#003594]/45 group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-[#003594]/[0.04] group-hover:shadow-[0_12px_42px_rgba(0,53,148,0.22),0_0_0_1px_rgba(0,53,148,0.14),0_0_40px_rgba(0,53,148,0.12)]">
+        <div className="group relative flex h-56 w-full items-center justify-center overflow-visible bg-[#F0F2F5] transition-colors duration-300 group-hover:bg-[#EEF2F8] sm:h-64">
+          <div className="absolute inset-4 sm:inset-5">
+            <div className="service-image-frame relative h-full w-full overflow-hidden rounded-2xl border border-[#869397]/25 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-[1.25] max-lg:group-hover:translate-y-0 max-lg:group-hover:scale-100">
+              <div className="mobile-image-life relative h-full w-full">
+                <Image
+                  src={service.image}
+                  alt={service.imageAlt}
+                  fill
+                  className="object-contain object-center"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  priority={service.id === "landings"}
+                />
               </div>
             </div>
-            <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/30 to-transparent"
-              aria-hidden
-            />
           </div>
-          <div className="relative p-6">
-            <span className="inline-block border-l-4 border-[#003594] bg-[#003594]/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#003594]">
-              {service.accent}
-            </span>
-            <h3 className="mt-3 text-xl font-semibold text-[#003594]">{service.title}</h3>
-            <p className="mt-3 leading-relaxed text-[#8695A3]">{service.description}</p>
-            <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#003594] transition-transform group-hover:translate-x-1">
-              Saber más
-              <ArrowRight className="size-4" aria-hidden />
-            </span>
-          </div>
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/30 to-transparent"
+            aria-hidden
+          />
         </div>
-    </Link>
+        <div className="relative p-6">
+          <div className="flex size-10 items-center justify-center rounded-xl border border-[#003594]/15 bg-[#003594]/5 text-[#003594] transition-colors duration-300 group-hover:border-[#003594]/30 group-hover:bg-[#003594]/10 group-hover:shadow-[0_0_20px_rgba(0,53,148,0.12)]">
+            <Icon className="size-5" strokeWidth={1.75} aria-hidden />
+          </div>
+          <h3 className="mt-3 text-xl font-semibold text-[#003594]">{service.title}</h3>
+          <p className="mt-3 leading-relaxed text-[#8695A3]">{service.description}</p>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -158,10 +154,10 @@ export function ServicesSection() {
             id="services-heading"
             className="mt-4 text-3xl font-bold tracking-tight text-[#003594] md:text-4xl lg:text-5xl"
           >
-            Soluciones digitales enfocadas en resultados
+            Soluciones digitales enfocadas en resultados operativos
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-[#8695A3]">
-            Diseñamos y desarrollamos lo que tu sector de alto valor necesita: landings, plataformas y sistemas a medida.
+          Diseñamos y desarrollamos la tecnología que tu sector necesita: sistemas de automatización a medida, herramientas de gestión profesional y landings de alto impacto.
           </p>
         </motion.div>
 
@@ -185,6 +181,17 @@ export function ServicesSection() {
             </motion.div>
           ))}
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2, duration: 0.4 }}
+          className="mt-8 text-center lg:mt-10"
+        >
+          <span className="inline-block rounded-full border-[0.5px] border-[#003594]/35 bg-[#F4F7FA] px-3.5 py-1 text-xs font-medium text-[#869397]">
+            {MICRO_COPY}
+          </span>
+        </motion.p>
       </div>
     </section>
   );

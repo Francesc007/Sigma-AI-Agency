@@ -18,36 +18,36 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    title: "Mercedes Benz – Concesionaria: Sistema de Gestión de unidades y Leads",
+    title: "Concesionarias: Sistema de Gestión de unidades y Leads",
     description:
-      "Landing de alto impacto integrada a un dashboard dinámico. Actualización de stock en tiempo real y gestión de reseñas de clientes para prueba social y conversión de ventas.",
+      "Dashboard dinámico integrado a una landing de alto impacto. Actualización de stock en tiempo real y gestión de reseñas de clientes para prueba social y conversión de ventas.",
     image: "/Meche3.png",
     imageFallback: "/Mercedes Benz.png",
-    gallery: ["/Meche3.png", "/Meche2.png", "/Meche1.png", "/Meche.png"],
+    gallery: ["/concesionaria.png", "/concesionaria2.png", "/concesionaria3.png", "/concesionaria4.png"],
   },
   {
-    title: "Módulo de Gestión Inmobiliaria (Concept Demo)",
+    title: "Gestión y Supervisión Inteligente de Campo",
     description:
-      "Prototipo funcional de catálogo dinámico para desarrollos residenciales y comerciales.",
+      "Digitalizamos el levantamiento y control de riesgos operativos en tiempo real mediante sistemas de registro, auditorías y bitácoras secuenciales. Solución escalable a sectores como construcción, seguridad e higiene y servicios de mantenimiento.",
     image: "/Real Estate.png",
     imageFallback: "/R E 1.png",
-    gallery: ["/Real Estate.png", "/R E 1.png", "/R E.png", "/RE1.png"],
+    gallery: ["/6.png", "/5.png", "/2.png", "/1.png"],
   },
   {
-    title: "Grupo Frimac: Infraestructura Digital Corporativa",
+    title: "Motores de Cotización Dinámica",
     description:
-      "Desarrollo de plataforma robusta para la presentación de proyectos de ingeniería y captación de licitaciones. Enfoque en autoridad visual y confianza técnica.",
+      "Transformamos y personalizamos tus variables de precio, productos y logística en un motor de cotización inteligente. Agiliza la respuesta comercial, reduce errores de cálculo y permite a tu equipo de ventas emitir propuestas profesionales.",
     image: "/Frimac 11.png",
     imageFallback: "/Frimac.png",
-    gallery: ["/Frimac 11.png", "/Frimac1.png", "/Frimac3.png", "/Frimac4.png"],
+    gallery: ["/4.png", "/3.png", "/7.png", "/8.png"],
   },
   {
-    title: "Grupo Nagasapi: Plataforma de Merchandising y Promocionales Corporativos",
+    title: "Landing Pages de Conversión y Captación",
     description:
-      "Sitio optimizado para la exhibición de catálogos promocionales industriales. Estructura diseñada para facilitar la solicitud de cotizaciones por volumen.",
+      "Desarrollamos ecosistemas digitales que transforman la gestión de sectores estratégicos. Cada proyecto está diseñado para centralizar tu operación, captar prospectos calificados y escalar tu capacidad de respuesta en tiempo real.",
     image: "/Naga1.png",
     imageFallback: "/Mock nagasapi.png",
-    gallery: ["/Naga1.png", "/Naga2.png", "/Naga3.png", "/Naga4.png"],
+    gallery: ["/landing.png", "/landing1.png", "/landing2.png", "/landing3.png"],
   },
 ];
 
@@ -183,14 +183,21 @@ export function ProjectsSection() {
       </motion.div>
 
       <div className="relative z-[1] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.h2
-          id="projects-heading"
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center text-2xl font-bold text-[#003594] sm:text-3xl lg:text-4xl"
+          className="text-center"
         >
-          Proyectos reales, resultados concretos
-        </motion.h2>
+          <h2
+            id="projects-heading"
+            className="text-2xl font-bold text-[#003594] sm:text-3xl lg:text-4xl"
+          >
+            Portafolio de Proyectos: Casos de Éxito Operativo
+          </h2>
+          <p className="mx-auto mt-5 max-w-2xl text-base text-[#8695A3] sm:text-lg">
+            Sistemas digitales que transforman la gestión de sectores estratégicos y eliminan el error humano en procesos críticos.
+          </p>
+        </motion.div>
 
         <StackingCards className="mt-8 sm:mt-10 lg:hidden" endSpacerVh={24}>
           {PROJECTS.map((project) => (
