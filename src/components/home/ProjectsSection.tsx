@@ -138,7 +138,7 @@ function ProjectCard({ project }: { project: Project }) {
         </h3>
         <p className="mt-2 text-sm text-[#8695A3] sm:text-base">{project.description}</p>
         <a
-          href="#ready-to-talk"
+          href="#para-quien-es-esto"
           className="btn-cotizar mt-4 inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-all"
         >
           Cotizar Proyecto

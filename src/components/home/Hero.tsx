@@ -73,8 +73,8 @@ export function Hero() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-4xl font-bold tracking-tight drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl"
           >
-            Sistemas Web y Automatización
-            <span className="mt-2 block text-[#b8c2c6]">para Sectores de Alto Valor</span>
+            Sistemas de Automatización y
+            <span className="mt-2 block text-[#b8c2c6]">Gestión de Procesos</span>
           </motion.h1>
 
           <motion.p
@@ -83,7 +83,7 @@ export function Hero() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="mt-6 max-w-xl text-lg text-white/95 sm:text-xl md:text-2xl leading-relaxed"
           >
-            Creamos herramientas a medida para optimizar catálogos, gestionar activos y captar clientes calificados sin perder tiempo en procesos manuales.
+           Transformamos tus tareas manuales en herramientas digitales eficientes. Especialistas en optimizar flujos de trabajo para sectores de alto valor como: constructoras, agencias y logística.
           </motion.p>
 
           <motion.div
@@ -106,7 +106,7 @@ export function Hero() {
             className="w-full border-2 border-white/80 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:border-white sm:w-auto"
             asChild
           >
-            <a href="#servicios">Soluciones</a>
+            <a href="#servicios">Ver Procesos Automatizados</a>
           </Button>
           </motion.div>
         </div>

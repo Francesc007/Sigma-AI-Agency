@@ -13,7 +13,7 @@ const SERVICES = [
     title: "Landing Pages de Alta Conversión",
     description:
       "Interfaces de aterrizaje rápidas y optimizadas para transformar visitantes en prospectos calificados. Ideal para concesionarias de gama alta, desarrollos inmobiliarios en preventa y servicios B2B.",
-    href: "#ready-to-talk",
+    href: "#para-quien-es-esto",
     accent: "Conversión",
     image: "/Naga 3.png",
     imageAlt: "Landing page con catálogo y productos Naga",
@@ -23,7 +23,7 @@ const SERVICES = [
     title: "Plataformas Web Corporativas",
     description:
       "Ecosistemos digitales que centralizan la identidad de tu marca, organizan tu catálogo y proyectan solidez. Arquitectura escalable, panel de autogestión e infraestructura lista para CRMs.",
-    href: "#ready-to-talk",
+    href: "#para-quien-es-esto",
     accent: "Marca",
     image: "/Frimac1.png",
     imageAlt: "Vista de plataforma corporativa Grupo Frimac",
@@ -33,7 +33,7 @@ const SERVICES = [
     title: "Desarrollo de Sistemas y Dashboards Personalizados",
     description:
       "Gestión de inventarios en tiempo real, dashboards (Sanity), automatización de flujos de datos y arquitectura independiente. Tú tienes el dominio total de tu información.",
-    href: "#ready-to-talk",
+    href: "#para-quien-es-esto",
     accent: "Control",
     image: "/Sanity1.png",
     imageAlt: "Dashboard y sistema de datos construido con Sanity",

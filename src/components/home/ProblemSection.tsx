@@ -74,7 +74,7 @@ export function ProblemSection() {
             id="problem-heading"
             className="pr-8 text-xl font-bold tracking-tight text-[#003594] md:pr-10 md:text-2xl lg:text-3xl"
           >
-            Tener una página web ya no es suficiente
+            Los procesos manuales están frenando tu crecimiento
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -82,8 +82,8 @@ export function ProblemSection() {
             transition={{ delay: 0.15, duration: 0.4 }}
             className="mt-4 text-base leading-relaxed text-[#8695A3] md:text-lg"
           >
-            En sectores como{" "}
-            <strong className="text-[#003594]">Real Estate y Automotriz</strong>, la mayoría de los sitios funcionan como catálogos estáticos: no capturan datos ni automatizan el seguimiento comercial. El resultado es inventario desactualizado y prospectos que pierden interés por la falta de respuesta oportuna.
+            La mayoría de las empresas en sectores de alto valor como la {" "}
+            <strong className="text-[#003594]"> Construcción, Agencias y Logística,</strong> dependen de hojas de cálculo desconectadas, llamadas constantes y levantamientos manuales. Esto no solo es lento; es una fuga directa de capital que genera errores de comunicación y clientes desatendidos.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, x: -12 }}

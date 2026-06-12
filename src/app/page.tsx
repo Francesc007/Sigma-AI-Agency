@@ -4,7 +4,6 @@ import { ServicesSection } from "@/components/home/ServicesSection";
 import { ProjectsSection } from "@/components/home/ProjectsSection";
 import { ForWhoSection } from "@/components/home/ForWhoSection";
 import { PartnersLogoMarquee } from "@/components/home/PartnersLogoMarquee";
-import { ReadyToTalkSection } from "@/components/home/ReadyToTalkSection";
 
 export default function HomePage() {
   return (
@@ -15,7 +14,6 @@ export default function HomePage() {
       <ProjectsSection />
       <ForWhoSection />
       <PartnersLogoMarquee />
-      <ReadyToTalkSection />
     </>
   );
 }

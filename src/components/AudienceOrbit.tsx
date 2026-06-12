@@ -21,36 +21,36 @@ const ICON_MAP: Record<string, LucideIcon> = {
 export const audienceData = [
   {
     id: 1,
-    title: "Automotriz & Inmobiliario",
+    title: "Automotriz & Real Estate",
     icon: "Car",
     description:
-      "Concesionarias y Real Estate que buscan automatizar su inventario.",
+      "Concesionarias y Real Estate que requieren dashboards de gestión en tiempo real para mantener el control total sobre sus activos e inventarios.",
   },
   {
     id: 2,
-    title: "B2B",
+    title: "B2B & Catálogos Digitales",
     icon: "Briefcase",
     description:
-      "Empresas B2B que necesitan catálogos digitales de alta conversión.",
+      "Empresas B2B que necesitan transformar su inventario o catálogo en una herramienta de conversión activa, no solo en una vitrina estática.",
   },
   {
     id: 3,
-    title: "Servicios",
+    title: "Operaciones & Servicios",
     icon: "FileText",
     description:
-      "Negocios de servicios que requieren presencia profesional y robusta.",
+      "Compañias con procesos de alta demanda que requieren digitalizar su atención para eliminar errores humanos y tiempos de espera.",
   },
   {
     id: 4,
-    title: "Escalamiento",
+    title: "Arquitectura de Escalamiento",
     icon: "Rocket",
     description:
-      "Emprendedores escalando hacia soluciones personalizadas (No-Code/IA).",
+      "Negocios en fase de crecimiento que necesitan abandonar las hojas de cálculo para adoptar ecosistemas digitales robustos y escalables.",
   },
 ] as const;
 
 /** Avance automático del ítem activo (órbita + panel de texto); se reinicia al elegir manualmente */
-const AUTO_ADVANCE_MS = 6000;
+const AUTO_ADVANCE_MS = 8000;
 
 const ROTATION_TRANSITION = { duration: 0.5, ease: [0.4, 0, 0.2, 1] as const };
 const ACTIVE_TRANSITION = { duration: 0.4, ease: "easeOut" as const };

@@ -15,11 +15,14 @@ Todas las secciones activas se importan en [`src/app/page.tsx`](../../src/app/pa
 2. `ProblemSection`
 3. `ServicesSection` — `#servicios`
 4. `ProjectsSection` — `#proyectos`
-5. `ForWhoSection` — `#para-quien-es-esto`
-6. `PartnersLogoMarquee`
-7. `ReadyToTalkSection` — formulario (nombre, email, WhatsApp, proyecto) que abre WhatsApp con los datos; botón **Continuar en WhatsApp**
+5. `ForWhoSection` — `#para-quien-es-esto` (sin imagen de fondo)
+6. `PartnersLogoMarquee` — carrusel de logos, encima del footer
 
 Footer global en [`layout.tsx`](../../src/app/layout.tsx) con `#contacto`.
+
+## Legacy (no montados)
+
+- `ReadyToTalkSection` — formulario WhatsApp (retirado de la homepage)
 
 ## Navbar y acciones
 

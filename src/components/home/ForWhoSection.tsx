@@ -13,22 +13,34 @@ export function ForWhoSection() {
     <section
       id="para-quien-es-esto"
       ref={ref}
-      className="relative scroll-mt-20 py-20 md:py-28"
+      data-cursor-zone="dark"
+      className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
       aria-labelledby="forwho-heading"
     >
-      {/* Imagen de fondo: servicios (overflow aquí para no recortar íconos en móvil) */}
-      <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="mobile-image-life absolute inset-0">
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute inset-0"
+          animate={{ scale: [1, 1.06, 1] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          aria-hidden
+        >
           <Image
-            src="/servicios.jpg"
+            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
             alt=""
             fill
             className="object-cover object-center"
             sizes="100vw"
           />
-        </div>
+        </motion.div>
         <div
-          className="absolute inset-0 bg-gradient-to-b from-white/75 via-[#F8FAFC]/88 to-white/75"
+          className="absolute inset-0 bg-gradient-to-br from-[#003594]/65 via-[#003594]/55 to-[#041E42]/60"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%)`,
+          }}
           aria-hidden
         />
       </div>
@@ -37,7 +49,7 @@ export function ForWhoSection() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -48,12 +60,12 @@ export function ForWhoSection() {
           </span>
           <h2
             id="forwho-heading"
-            className="mt-4 text-3xl font-bold tracking-tight text-[#003594] md:text-4xl lg:text-5xl"
+            className="mt-4 text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl"
           >
             ¿Para quién es esto?
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg font-medium text-[#8695A3] md:text-xl">
-            Nuestros servicios están pensados para empresas que buscan atraer más clientes, optimizar su operación y contar con soluciones web que realmente aporten valor.
+            Nuestros servicios están diseñados para organizaciones que buscan atraer más clientes, optimizar su operación y contar con soluciones que realmente aporten valor para seguir creciendo.
           </p>
         </motion.div>
 
